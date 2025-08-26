@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Universal Site Loader</title>
+  <script>
+    // ======= НАСТРОЙКИ САЙТОВ =======
+    const sites = [
+      { url: "https://site1.com", start: "07:00", end: "15:00", opened: false },
+      { url: "https://site2.com", start: "09:00", end: "18:00", opened: false },
+      { url: "https://site3.com", start: "12:00", end: "20:00", opened: false }
+      // добавляй столько сайтов, сколько нужно
+    ];
+
+    // ======= ФУНКЦИИ =======
+    function toMinutes(hhmm) {
+      let [h, m] = hhmm.split(":").map(Number);
+      return h * 60 + m;
+    }
+
+    function checkSchedule() {
+      let now = new Date();
+      let currentMinutes = now.getHours() * 60 + now.getMinutes();
+
+      sites.forEach(site => {
+        let startMinutes = toMinutes(site.start);
+        let endMinutes = toMinutes(site.end);
+
+        // если текущее время в интервале и сайт еще не открыт
+        if (currentMinutes >= startMinutes && currentMinutes <= endMinutes && !site.opened) {
+          window.open(site.url, "_blank");
+          site.opened = true;
+          console.log(`Открыт сайт: ${site.url} в ${now.toTimeString().slice(0,5)}`);
+        }
+      });
+    }
+
+    // ======= ЗАПУСК =======
+    window.onload = checkSchedule;
+    setInterval(checkSchedule, 60 * 1000); // проверка каждую минуту
+  </script>
+</head>
+<body>
+  <h2>Автоматический запуск сайтов</h2>
+  <p>Сайты будут открываться по расписанию в указанном интервале. Это окно можно свернуть.</p>
+</body>
+</html>
