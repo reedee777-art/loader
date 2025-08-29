@@ -12,7 +12,27 @@
 
 (function() {
     'use strict';
+    // Текущая версия скрипта
+    const currentVersion = '1.4';
 
+    try {
+        // Скачиваем мета-файл с GitHub Pages
+        const res = await fetch('https://reedee777-art.github.io/loader/script.meta1.js', {cache: "no-store"});
+        const text = await res.text();
+
+        // Ищем строку с @version
+        const match = text.match(/@version\s+([0-9.]+)/);
+        if (match) {
+            const latestVersion = match[1];
+            if (latestVersion !== currentVersion) {
+                console.log(`Найдена новая версия скрипта: ${latestVersion}, перезагрузка страницы...`);
+                // Перезагрузка страницы, чтобы Violentmonkey подтянул обновление
+                location.reload();
+            }
+        }
+    } catch (e) {
+        console.warn('Не удалось проверить обновления скрипта:', e);
+    }
     const links = [
         "https://claimclicks.com/eth/?r=cifer",
         "https://claimclicks.com/doge/?r=cifer",
