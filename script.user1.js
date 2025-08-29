@@ -10,7 +10,7 @@
 // @grant        none
 // ==/UserScript==
 
-(function() {
+(async function() {
     'use strict';
     // Текущая версия скрипта
     const currentVersion = '1.4';
@@ -26,13 +26,14 @@
             const latestVersion = match[1];
             if (latestVersion !== currentVersion) {
                 console.log(`Найдена новая версия скрипта: ${latestVersion}, перезагрузка страницы...`);
-                // Перезагрузка страницы, чтобы Violentmonkey подтянул обновление
                 location.reload();
             }
         }
     } catch (e) {
         console.warn('Не удалось проверить обновления скрипта:', e);
     }
+
+    // ======= Основной код автоперехода =======
     const links = [
         "https://claimclicks.com/eth/?r=cifer",
         "https://claimclicks.com/doge/?r=cifer",
@@ -44,7 +45,7 @@
         "https://claimclicks.com/sol/?r=cifer",
         "https://claimclicks.com/ton/?r=cifer",
         "https://claimclicks.com/ada/?r=cifer",
-		"https://claimclicks.com/xrp/?r=cifer",
+        "https://claimclicks.com/xrp/?r=cifer",
         "https://claimclicks.com/xlm/?r=cifer",
         "https://claimclicks.com/matic/?r=cifer",
         "https://claimclicks.com/zec/?r=cifer",
@@ -61,18 +62,14 @@
     }
 
     function shouldSkip() {
-        // 1) ожидание
         if (document.body.innerText.includes("You have to wait")) return true;
 
-        // 2) 0 daily claims left
         let zeroClaims = document.querySelector("th.list-center");
         if (zeroClaims && zeroClaims.innerText.trim().startsWith("0 daily claims left")) return true;
 
-        // 3) Anti-Bot (модалка)
         let antibotMsg = document.querySelector(".modal .alert.alert-info");
         if (antibotMsg && antibotMsg.innerText.includes("Anti-Bot links are in cool-down")) return true;
 
-        // 4) Недостаточно средств
         let noFunds = document.querySelector(".alert.alert-danger");
         if (noFunds && noFunds.innerText.includes("does not have sufficient funds")) return true;
 
@@ -86,10 +83,8 @@
         }
     }
 
-    // Проверка сразу после загрузки
     setTimeout(checkAndSkip, 2000);
 
-    // Наблюдатель за динамическими изменениями (например, модалки)
     const observer = new MutationObserver(() => {
         checkAndSkip();
     });
