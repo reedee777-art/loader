@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         ClaimClicks Auto Skip (full conditions + 5s delay)
 // @namespace    http://tampermonkey.net/
-// @version      1.5
+// @version      1.6
 // @description  Автопереход по списку с задержкой 5 секунд перед запуском
 // @author       You
 // @match        https://claimclicks.com/*
@@ -13,7 +13,7 @@
 (async function() {
     'use strict';
     // Текущая версия скрипта
-    const currentVersion = '1.5';
+    const currentVersion = '1.6';
 
     try {
         // Скачиваем мета-файл с GitHub Pages
@@ -40,17 +40,17 @@
             "https://claimclicks.com/eth/?r=cifer",
             "https://claimclicks.com/doge/?r=cifer",
             "https://claimclicks.com/ltc/?r=cifer",
-            "https://claimclicks.com/dgb/?r=cifer",
-            "https://claimclicks.com/dash/?r=cifer",
-            "https://claimclicks.com/trx/?r=cifer",
-            "https://claimclicks.com/bnb/?r=cifer",
-            "https://claimclicks.com/sol/?r=cifer",
-            "https://claimclicks.com/ton/?r=cifer",
-            "https://claimclicks.com/ada/?r=cifer",
-            "https://claimclicks.com/xrp/?r=cifer",
-            "https://claimclicks.com/xlm/?r=cifer",
-            "https://claimclicks.com/matic/?r=cifer",
-            "https://claimclicks.com/zec/?r=cifer",
+           // "https://claimclicks.com/dgb/?r=cifer",
+           // "https://claimclicks.com/dash/?r=cifer",
+          //  "https://claimclicks.com/trx/?r=cifer",
+           // "https://claimclicks.com/bnb/?r=cifer",
+          //  "https://claimclicks.com/sol/?r=cifer",
+          //  "https://claimclicks.com/ton/?r=cifer",
+          //  "https://claimclicks.com/ada/?r=cifer",
+          //  "https://claimclicks.com/xrp/?r=cifer",
+          //  "https://claimclicks.com/xlm/?r=cifer",
+          //  "https://claimclicks.com/matic/?r=cifer",
+          //  "https://claimclicks.com/zec/?r=cifer",
             "https://acryptominer.io/user/faucet"
         ];
 
@@ -96,4 +96,5 @@
         observer.observe(document.body, { childList: true, subtree: true });
     }, 5000); // <-- Задержка 5 секунд
 })();
+
 
