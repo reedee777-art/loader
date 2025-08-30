@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         ClaimClicks Auto Skip (full conditions)
 // @namespace    http://tampermonkey.net/
-// @version      1.4
+// @version      1.5
 // @description  Автопереход по списку
 // @author       You
 // @match        https://claimclicks.com/*
@@ -49,7 +49,7 @@
         "https://claimclicks.com/xlm/?r=cifer",
         "https://claimclicks.com/matic/?r=cifer",
         "https://claimclicks.com/zec/?r=cifer",
-        "https://coinvault.top/?r=291"
+        "https://acryptominer.io/user/faucet"
     ];
 
     function getNextLink() {
@@ -92,3 +92,4 @@
     observer.observe(document.body, { childList: true, subtree: true });
 
 })();
+
