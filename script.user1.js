@@ -13,7 +13,7 @@
 (async function() {
     'use strict';
     // Текущая версия скрипта
-    const currentVersion = '1.4';
+    const currentVersion = '1.5';
 
     try {
         // Скачиваем мета-файл с GitHub Pages
@@ -96,3 +96,4 @@
         observer.observe(document.body, { childList: true, subtree: true });
     }, 5000); // <-- Задержка 5 секунд
 })();
+
