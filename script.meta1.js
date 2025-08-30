@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         ClaimClicks Auto Skip (full conditions)
 // @namespace    http://tampermonkey.net/
-// @version      1.4
+// @version      1.5
 // @description  Автопереход по списку
 // @author       You
 // @match        https://claimclicks.com/*
@@ -9,3 +9,4 @@
 // @downloadURL  https://reedee777-art.github.io/loader/script.user1.js
 // @grant        none
 // ==/UserScript==
+
