@@ -12,26 +12,7 @@
 
 (async function() {
     'use strict';
-    // Текущая версия скрипта
-    const currentVersion = '1.6';
 
-    try {
-        // Скачиваем мета-файл с GitHub Pages
-        const res = await fetch('https://reedee777-art.github.io/loader/script.meta1.js', {cache: "no-store"});
-        const text = await res.text();
-
-        // Ищем строку с @version
-        const match = text.match(/@version\s+([0-9.]+)/);
-        if (match) {
-            const latestVersion = match[1];
-            if (latestVersion !== currentVersion) {
-                console.log(`Найдена новая версия скрипта: ${latestVersion}, перезагрузка страницы...`);
-                location.reload();
-            }
-        }
-    } catch (e) {
-        console.warn('Не удалось проверить обновления скрипта:', e);
-    }
 
     // Добавляем паузу 5 секунд перед запуском основного кода
     setTimeout(() => {
@@ -96,5 +77,6 @@
         observer.observe(document.body, { childList: true, subtree: true });
     }, 5000); // <-- Задержка 5 секунд
 })();
+
 
 
