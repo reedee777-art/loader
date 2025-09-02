@@ -20,7 +20,7 @@
         const links = [
             "https://claimclicks.com/eth/?r=cifer",
             "https://claimclicks.com/doge/?r=cifer",
-            "https://claimclicks.com/ltc/?r=cifer",
+            "https://claimclicks.com/ltc/?r=cifer"
            // "https://claimclicks.com/dgb/?r=cifer",
            // "https://claimclicks.com/dash/?r=cifer",
           //  "https://claimclicks.com/trx/?r=cifer",
@@ -32,7 +32,7 @@
           //  "https://claimclicks.com/xlm/?r=cifer",
           //  "https://claimclicks.com/matic/?r=cifer",
           //  "https://claimclicks.com/zec/?r=cifer",
-            "https://acryptominer.io/user/faucet"
+           //  "https://acryptominer.io/user/faucet"
         ];
 
         function getNextLink() {
@@ -77,6 +77,7 @@
         observer.observe(document.body, { childList: true, subtree: true });
     }, 5000); // <-- Задержка 5 секунд
 })();
+
 
 
 
