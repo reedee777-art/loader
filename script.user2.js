@@ -13,7 +13,7 @@
 
     // List of faucet URLs to cycle through
     const faucetUrls = [
-         'https://acryptominer.io/user/faucet',
+       //  'https://acryptominer.io/user/faucet',
 		        'https://cryptofaucet.one/faucet',
         'https://claimclicks.com/doge/?r=cifer'
     ];
@@ -51,4 +51,5 @@
             clearInterval(countdown);
         }
     }, 1000);
+
 })();
