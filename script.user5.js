@@ -4,7 +4,7 @@
 // @version      0.1
 // @description  Нажимает первые три активные Claim-кнопки один раз
 // @author       You
-// @match        https://claimclicks.com/*
+// @match        https://claimclicks.com/ltc/*
 // @grant        none
 // ==/UserScript==
 
@@ -28,3 +28,4 @@
     // Запускаем через 2 сек после загрузки страницы
     setTimeout(clickButtons, 2000);
 })();
+
