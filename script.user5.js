@@ -1,31 +1,42 @@
 // ==UserScript==
-// @name         Auto Claim 3 Buttons
+// @name         Auto Claim 3 Buttons + Error Redirect
 // @namespace    http://tampermonkey.net/
-// @version      0.1
-// @description  Нажимает первые три активные Claim-кнопки один раз
+// @version      0.2
+// @description  Нажимает первые три активные Claim-кнопки, если ошибка — переход на claimclicks.com/ltc
 // @author       You
-// @match        https://claimclicks.com/ltc/*
+// @match        *://*/*
 // @grant        none
 // ==/UserScript==
 
 (function () {
     'use strict';
 
+    function checkError() {
+        let errorDiv = document.querySelector("div.alert.alert-danger");
+        if (errorDiv && errorDiv.innerText.includes("The bonus could not be sent")) {
+            console.log("Ошибка бонуса! Переход на /ltc");
+            window.location.href = "https://claimclicks.com/ltc";
+        }
+    }
+
     function clickButtons() {
-        // Собираем все кнопки Claim
+        checkError(); // проверка перед кликами
+
         let buttons = Array.from(document.querySelectorAll("button.btn.btn-success"))
             .filter(btn => btn.innerText.includes("Claim") && !btn.disabled);
 
-        // Нажимаем только первые три
         buttons.slice(0, 3).forEach((btn, i) => {
             setTimeout(() => {
+                checkError(); // проверка перед каждым кликом
                 btn.click();
                 console.log("Нажата кнопка:", btn.innerText);
-            }, i * 1500); // маленькая задержка между кликами
+            }, i * 1500);
         });
     }
 
-    // Запускаем через 2 сек после загрузки страницы
+    // Проверка на ошибку каждые 2 сек
+    setInterval(checkError, 2000);
+
+    // Запуск через 2 сек
     setTimeout(clickButtons, 2000);
 })();
-
