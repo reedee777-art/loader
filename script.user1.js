@@ -24,9 +24,9 @@
            // "https://claimclicks.com/dgb/?r=cifer",
            // "https://claimclicks.com/dash/?r=cifer",
           //  "https://claimclicks.com/trx/?r=cifer",
-           // "https://claimclicks.com/bnb/?r=cifer",
-          //  "https://claimclicks.com/sol/?r=cifer",
-          //  "https://claimclicks.com/ton/?r=cifer",
+            "https://claimclicks.com/bnb/?r=cifer",
+            "https://claimclicks.com/sol/?r=cifer",
+            "https://claimclicks.com/ton/?r=cifer",
           //  "https://claimclicks.com/ada/?r=cifer",
           //  "https://claimclicks.com/xrp/?r=cifer",
           //  "https://claimclicks.com/xlm/?r=cifer",
@@ -77,6 +77,7 @@
         observer.observe(document.body, { childList: true, subtree: true });
     }, 5000); // <-- Задержка 5 секунд
 })();
+
 
 
 
