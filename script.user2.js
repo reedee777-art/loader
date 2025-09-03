@@ -1,38 +1,47 @@
 // ==UserScript==
 // @name         Faucet Auto-Switcher323
 // @namespace    http://tampermonkey.net/
-// @version      1.0
-// @description  Automatically switches between faucet sites every 2 minutes
+// @version      1.1
+// @description  Automatically switches between faucet sites every 2 minutes (site-filtered)
 // @author       You
-// @match        https://cryptofaucet.one/*
-// @match        https://claimclicks.com/*
+// @match        *://*/*
 // @grant        none
 // ==/UserScript==
 
 (function() {
     'use strict';
 
-    // List of faucet URLs to cycle through
+    // Разрешённые сайты
+    const allowedHosts = [
+        'cryptofaucet.one',
+        'claimclicks.com'
+    ];
+
+    // Проверка текущего сайта
+    if (!allowedHosts.some(host => window.location.hostname.includes(host))) {
+        return; // не запускаем скрипт
+    }
+
+    // Список faucet URL для цикла
     const faucetUrls = [
-       //  'https://acryptominer.io/user/faucet',
-		        'https://cryptofaucet.one/faucet',
+        'https://cryptofaucet.one/faucet',
         'https://claimclicks.com/doge/?r=cifer'
     ];
 
-    // Function to get the next URL in the cycle
+    // Получаем следующий URL в цикле
     function getNextUrl(currentUrl) {
         const currentIndex = faucetUrls.indexOf(currentUrl);
         const nextIndex = (currentIndex + 1) % faucetUrls.length;
         return faucetUrls[nextIndex];
     }
 
-    // Switch to the next site after 2 minutes (120000 milliseconds)
+    // Переключаемся на следующий сайт через 55 секунд
     setTimeout(() => {
         const nextUrl = getNextUrl(window.location.href);
         window.location.href = nextUrl;
     }, 55000);
 
-    // Display a countdown timer on the page
+    // Отображаем таймер обратного отсчёта
     const timerElement = document.createElement('div');
     timerElement.style.position = 'fixed';
     timerElement.style.bottom = '10px';
@@ -54,4 +63,3 @@
     }, 1000);
 
 })();
-
