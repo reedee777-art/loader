@@ -1,8 +1,8 @@
 // ==UserScript==
-// @name         Strong Random Fingerprint (toDataURL + WebGL only)
+// @name         Fingerprint Spoofer (safe with IconCaptcha Solver)
 // @namespace    http://tampermonkey.net/
-// @version      3.0
-// @description  Рандом только в Canvas.toDataURL и WebGL fingerprint (не ломает getImageData)
+// @version      3.1
+// @description  Спуфер отпечатка через Canvas.toDataURL + WebGL, не мешает капча-скриптам
 // @match        *://*/*
 // @run-at       document-start
 // ==/UserScript==
@@ -10,32 +10,34 @@
 (function() {
     'use strict';
 
-    // ---- Canvas spoof (только toDataURL) ----
+    // ---- Canvas spoof (только toDataURL, но безопасно) ----
     const origToDataURL = HTMLCanvasElement.prototype.toDataURL;
     HTMLCanvasElement.prototype.toDataURL = function(...args) {
+        const err = new Error().stack || "";
+        // Если вызов идёт из solver (ищем "jimp" или "solver" в стеке) → возвращаем чистый результат
+        if (/jimp|min\.js|solver/i.test(err)) {
+            return origToDataURL.apply(this, args);
+        }
         let data = origToDataURL.apply(this, args);
-        // Добавляем случайный "шум" в base64 (без изменения самой картинки)
+        // Добавляем шум только для внешних fingerprint-сборщиков
         return data.replace(/.{30}/, "$&" + Math.random().toString(36).substring(2, 8));
     };
 
     // ---- WebGL spoof ----
-    const origGetParameter = WebGLRenderingContext.prototype.getParameter;
-    WebGLRenderingContext.prototype.getParameter = function(parameter) {
-        if (parameter === this.RENDERER || parameter === this.VENDOR) {
-            return origGetParameter.apply(this, [parameter]) + "_mod" + Math.floor(Math.random() * 1000);
-        }
-        return origGetParameter.apply(this, [parameter]);
+    const patchGL = (proto) => {
+        if (!proto) return;
+        const origGetParameter = proto.getParameter;
+        proto.getParameter = function(parameter) {
+            if (parameter === this.RENDERER || parameter === this.VENDOR) {
+                return origGetParameter.apply(this, [parameter]) + "_mod" + Math.floor(Math.random() * 1000);
+            }
+            return origGetParameter.apply(this, [parameter]);
+        };
     };
 
-    // ---- WebGL2 spoof ---- (если поддерживается)
+    patchGL(WebGLRenderingContext.prototype);
     if (window.WebGL2RenderingContext) {
-        const origGetParameter2 = WebGL2RenderingContext.prototype.getParameter;
-        WebGL2RenderingContext.prototype.getParameter = function(parameter) {
-            if (parameter === this.RENDERER || parameter === this.VENDOR) {
-                return origGetParameter2.apply(this, [parameter]) + "_mod" + Math.floor(Math.random() * 1000);
-            }
-            return origGetParameter2.apply(this, [parameter]);
-        };
+        patchGL(WebGL2RenderingContext.prototype);
     }
 
 })();
