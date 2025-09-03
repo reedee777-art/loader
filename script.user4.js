@@ -1,8 +1,8 @@
 // ==UserScript==
-// @name         Strong Random Fingerprint (Canvas/WebGL)
+// @name         Strong Random Fingerprint (toDataURL + WebGL only)
 // @namespace    http://tampermonkey.net/
-// @version      2.0
-// @description  Добавляет сильный рандом в Canvas/WebGL fingerprint
+// @version      3.0
+// @description  Рандом только в Canvas.toDataURL и WebGL fingerprint (не ломает getImageData)
 // @match        *://*/*
 // @run-at       document-start
 // ==/UserScript==
@@ -10,52 +10,32 @@
 (function() {
     'use strict';
 
-    // 🔹 Функция для генерации небольшого случайного числа
-    function randDelta() {
-        return (Math.random() - 0.5) * 4; // от -2 до +2
-    }
-
-    // ---- Canvas spoof ----
-    const getContext = HTMLCanvasElement.prototype.getContext;
-    HTMLCanvasElement.prototype.getContext = function(type, attrs) {
-        const ctx = getContext.apply(this, [type, attrs]);
-        if (ctx && (type === "2d" || type === "webgl" || type === "webgl2")) {
-
-            // Подмена getImageData
-            if (ctx.getImageData) {
-                const origGetImageData = ctx.getImageData;
-                ctx.getImageData = function(x, y, w, h) {
-                    const imageData = origGetImageData.apply(this, [x, y, w, h]);
-                    for (let i = 0; i < imageData.data.length; i += 4) {
-                        imageData.data[i]   = Math.min(255, imageData.data[i]   + randDelta()); // R
-                        imageData.data[i+1] = Math.min(255, imageData.data[i+1] + randDelta()); // G
-                        imageData.data[i+2] = Math.min(255, imageData.data[i+2] + randDelta()); // B
-                    }
-                    return imageData;
-                };
-            }
-
-            // Подмена toDataURL
-            if (ctx.canvas && ctx.canvas.toDataURL) {
-                const origToDataURL = ctx.canvas.toDataURL;
-                ctx.canvas.toDataURL = function(...args) {
-                    let data = origToDataURL.apply(this, args);
-                    // добавляем "шум" в base64
-                    return data.replace(/.{10}/, "$&" + Math.random().toString(36).substring(2, 6));
-                };
-            }
-        }
-        return ctx;
+    // ---- Canvas spoof (только toDataURL) ----
+    const origToDataURL = HTMLCanvasElement.prototype.toDataURL;
+    HTMLCanvasElement.prototype.toDataURL = function(...args) {
+        let data = origToDataURL.apply(this, args);
+        // Добавляем случайный "шум" в base64 (без изменения самой картинки)
+        return data.replace(/.{30}/, "$&" + Math.random().toString(36).substring(2, 8));
     };
 
     // ---- WebGL spoof ----
-    const getParameter = WebGLRenderingContext.prototype.getParameter;
+    const origGetParameter = WebGLRenderingContext.prototype.getParameter;
     WebGLRenderingContext.prototype.getParameter = function(parameter) {
-        // GPU fingerprint
         if (parameter === this.RENDERER || parameter === this.VENDOR) {
-            return getParameter.apply(this, [parameter]) + "_mod" + Math.floor(Math.random() * 1000);
+            return origGetParameter.apply(this, [parameter]) + "_mod" + Math.floor(Math.random() * 1000);
         }
-        return getParameter.apply(this, [parameter]);
+        return origGetParameter.apply(this, [parameter]);
     };
+
+    // ---- WebGL2 spoof ---- (если поддерживается)
+    if (window.WebGL2RenderingContext) {
+        const origGetParameter2 = WebGL2RenderingContext.prototype.getParameter;
+        WebGL2RenderingContext.prototype.getParameter = function(parameter) {
+            if (parameter === this.RENDERER || parameter === this.VENDOR) {
+                return origGetParameter2.apply(this, [parameter]) + "_mod" + Math.floor(Math.random() * 1000);
+            }
+            return origGetParameter2.apply(this, [parameter]);
+        };
+    }
 
 })();
