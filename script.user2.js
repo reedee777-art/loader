@@ -4,7 +4,8 @@
 // @version      1.0
 // @description  Automatically switches between faucet sites every 2 minutes
 // @author       You
-// @match        https://*/*
+// @match        https://cryptofaucet.one/*
+// @match        https://claimclicks.com/*
 // @grant        none
 // ==/UserScript==
 
@@ -53,3 +54,4 @@
     }, 1000);
 
 })();
+
