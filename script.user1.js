@@ -18,8 +18,8 @@
     setTimeout(() => {
         // ======= Основной код автоперехода =======
         const links = [
+             "https://claimclicks.com/doge/?r=cifer",
             "https://claimclicks.com/eth/?r=cifer",
-            "https://claimclicks.com/doge/?r=cifer",
             "https://claimclicks.com/ltc/?r=cifer",
             "https://claimclicks.com/dgb/?r=cifer",
             "https://claimclicks.com/dash/?r=cifer",
@@ -77,6 +77,7 @@
         observer.observe(document.body, { childList: true, subtree: true });
     }, 5000); // <-- Задержка 5 секунд
 })();
+
 
 
 
