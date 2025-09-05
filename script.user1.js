@@ -30,8 +30,8 @@
             "https://claimclicks.com/ada/?r=cifer",
             "https://claimclicks.com/xrp/?r=cifer",
             "https://claimclicks.com/xlm/?r=cifer",
-            "https://claimclicks.com/matic/?r=cifer",
-            "https://cryptofaucet.one/faucet"
+            "https://claimclicks.com/matic/?r=cifer"
+            //"https://cryptofaucet.one/faucet"
            //  "https://acryptominer.io/user/faucet"
         ];
 
@@ -77,6 +77,7 @@
         observer.observe(document.body, { childList: true, subtree: true });
     }, 5000); // <-- Задержка 5 секунд
 })();
+
 
 
 
