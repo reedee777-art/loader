@@ -24,7 +24,8 @@
 
     // Список faucet URL для цикла
     const faucetUrls = [
-        'https://cryptofaucet.one/faucet'
+        'https://cryptofaucet.one/faucet',
+        'https://claimclicks.com/doge/?r=cifer'
     ];
 
     // Получаем следующий URL в цикле
@@ -38,7 +39,7 @@
     setTimeout(() => {
         const nextUrl = getNextUrl(window.location.href);
         window.location.href = nextUrl;
-    }, 55000);
+    }, 65000);
 
     // Отображаем таймер обратного отсчёта
     const timerElement = document.createElement('div');
@@ -62,4 +63,5 @@
     }, 1000);
 
 })();
+
 
