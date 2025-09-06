@@ -24,8 +24,8 @@
 
     // Список faucet URL для цикла
     const faucetUrls = [
-        'https://cryptofaucet.one/faucet',
-        'https://claimclicks.com/doge/?r=cifer'
+        'https://cryptofaucet.one/faucet'
+        //'https://claimclicks.com/doge/?r=cifer'
     ];
 
     // Получаем следующий URL в цикле
@@ -63,5 +63,6 @@
     }, 1000);
 
 })();
+
 
 
