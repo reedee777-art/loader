@@ -45,7 +45,7 @@
         }
 
         function shouldSkip() {
-            if (document.body.innerText.includes("You have to wait")) return false;
+           // if (document.body.innerText.includes("You have to wait")) return false;
 
             let zeroClaims = document.querySelector("th.list-center");
             if (zeroClaims && zeroClaims.innerText.trim().startsWith("0 daily claims left")) return true;
@@ -77,6 +77,7 @@
         observer.observe(document.body, { childList: true, subtree: true });
     }, 5000); // <-- Задержка 5 секунд
 })();
+
 
 
 
