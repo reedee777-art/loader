@@ -39,7 +39,7 @@
     setTimeout(() => {
         const nextUrl = getNextUrl(window.location.href);
         window.location.href = nextUrl;
-    }, 185000);
+    }, 55000);
 
     // Отображаем таймер обратного отсчёта
     const timerElement = document.createElement('div');
@@ -63,6 +63,7 @@
     }, 1000);
 
 })();
+
 
 
 
