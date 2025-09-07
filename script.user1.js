@@ -1,8 +1,8 @@
 // ==UserScript==
-// @name         ClaimClicks Auto Skip (full conditions + 5s delay)
+// @name         ClaimClicks Auto Skip (full conditions + 5s delay + wait redirect)
 // @namespace    http://tampermonkey.net/
-// @version      1.6
-// @description  Автопереход по списку с задержкой 5 секунд перед запуском
+// @version      1.7
+// @description  Автопереход по списку с задержкой 5 секунд + отдельный редирект при "You have to wait"
 // @author       You
 // @match        https://claimclicks.com/*
 // @updateURL    https://reedee777-art.github.io/loader/script.meta1.js
@@ -13,12 +13,11 @@
 (async function() {
     'use strict';
 
-
-    // Добавляем паузу 5 секунд перед запуском основного кода
+    // Добавляем паузу 5 секунд перед запуском
     setTimeout(() => {
-        // ======= Основной код автоперехода =======
+        // ======= Список ссылок =======
         const links = [
-             "https://claimclicks.com/doge/?r=cifer",
+            "https://claimclicks.com/doge/?r=cifer",
             "https://claimclicks.com/eth/?r=cifer",
             "https://claimclicks.com/ltc/?r=cifer",
             "https://claimclicks.com/dgb/?r=cifer",
@@ -31,9 +30,9 @@
             "https://claimclicks.com/xrp/?r=cifer",
             "https://claimclicks.com/xlm/?r=cifer",
             "https://claimclicks.com/matic/?r=cifer"
-            //"https://cryptofaucet.one/faucet"
-           //  "https://acryptominer.io/user/faucet"
         ];
+
+        const waitRedirect = "https://cryptofaucet.one/faucet";
 
         function getNextLink() {
             let current = window.location.href.split("?")[0];
@@ -44,29 +43,38 @@
             return links[idx + 1];
         }
 
-        function shouldSkip() {
-            if (document.body.innerText.includes("You have to wait")) return true;
+        function checkAndSkip() {
+            // Если "You have to wait" → сразу уходим на cryptofaucet.one
+            if (document.body.innerText.includes("You have to wait")) {
+                console.log("⏩ Redirect (wait case) → cryptofaucet.one");
+                window.location.href = waitRedirect;
+                return;
+            }
 
+            // Если другие условия — идём по списку
             let zeroClaims = document.querySelector("th.list-center");
-            if (zeroClaims && zeroClaims.innerText.trim().startsWith("0 daily claims left")) return true;
+            if (zeroClaims && zeroClaims.innerText.trim().startsWith("0 daily claims left")) {
+                console.log("⏩ Skip (0 claims) → next link");
+                window.location.href = getNextLink();
+                return;
+            }
 
             let antibotMsg = document.querySelector(".modal .alert.alert-info");
-            if (antibotMsg && antibotMsg.innerText.includes("Anti-Bot links are in cool-down")) return true;
+            if (antibotMsg && antibotMsg.innerText.includes("Anti-Bot links are in cool-down")) {
+                console.log("⏩ Skip (antibot) → next link");
+                window.location.href = getNextLink();
+                return;
+            }
 
             let noFunds = document.querySelector(".alert.alert-danger");
-            if (noFunds && noFunds.innerText.includes("does not have sufficient funds")) return true;
-
-            return false;
-        }
-
-        function checkAndSkip() {
-            if (shouldSkip()) {
-                console.log("⏩ Skip: going next...");
+            if (noFunds && noFunds.innerText.includes("does not have sufficient funds")) {
+                console.log("⏩ Skip (no funds) → next link");
                 window.location.href = getNextLink();
+                return;
             }
         }
 
-        // Первичная проверка через 4 сек
+        // Первичная проверка через 2 сек
         setTimeout(checkAndSkip, 2000);
 
         // Следим за изменениями на странице
@@ -75,18 +83,5 @@
         });
 
         observer.observe(document.body, { childList: true, subtree: true });
-    }, 5000); // <-- Задержка 5 секунд
+    }, 5000); // задержка 5 секунд
 })();
-
-
-
-
-
-
-
-
-
-
-
-
-
