@@ -24,7 +24,7 @@
 
     // Список faucet URL для цикла
     const faucetUrls = [
-        'https://cryptofaucet.one/faucet'
+        'https://cryptofaucet.one/faucet',
         'https://coinymate.com/faucet'
     ];
 
@@ -63,6 +63,7 @@
     }, 1000);
 
 })();
+
 
 
 
