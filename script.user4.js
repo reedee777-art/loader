@@ -1,8 +1,8 @@
 // ==UserScript==
-// @name         Fingerprint Spoofer (safe with IconCaptcha Solver)
+// @name         Fingerprint Spoofer (safe with IconCaptcha Solver & Feyorra Captcha555)
 // @namespace    http://tampermonkey.net/
-// @version      3.1
-// @description  Спуфер отпечатка через Canvas.toDataURL + WebGL, не мешает капча-скриптам
+// @version      3.2
+// @description  Спуфер Canvas/WebGL, не мешает капчам и Tesseract
 // @match        *://*/*
 // @run-at       document-start
 // ==/UserScript==
@@ -10,16 +10,21 @@
 (function() {
     'use strict';
 
-    // ---- Canvas spoof (только toDataURL, но безопасно) ----
+    // ---- Canvas spoof (безопасно для solver'ов и Tesseract) ----
     const origToDataURL = HTMLCanvasElement.prototype.toDataURL;
     HTMLCanvasElement.prototype.toDataURL = function(...args) {
-        const err = new Error().stack || "";
-        // Если вызов идёт из solver (ищем "jimp" или "solver" в стеке) → возвращаем чистый результат
-        if (/jimp|min\.js|solver/i.test(err)) {
+        const stack = (new Error()).stack || "";
+        // Если вызов идёт из solver или из tesseract → возвращаем оригинал
+        // (проверяем наличие ключевых слов в стеке вызовов)
+        if (
+            /jimp|min\.js|solver|tesseract|captcha/i.test(stack) ||
+            this.dataset?.noSpoof === "true" // можно отключить вручную через атрибут
+        ) {
             return origToDataURL.apply(this, args);
         }
+
         let data = origToDataURL.apply(this, args);
-        // Добавляем шум только для внешних fingerprint-сборщиков
+        // Лёгкий шум, который ломает fingerprint, но не ломает реальную графику
         return data.replace(/.{30}/, "$&" + Math.random().toString(36).substring(2, 8));
     };
 
