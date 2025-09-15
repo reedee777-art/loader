@@ -14,7 +14,7 @@
     // Разрешённые сайты
     const allowedHosts = [
         'cryptofaucet.one',
-        'coinymate.com'
+        'claimtrx.com'
     ];
 
     // Проверка текущего сайта
@@ -24,7 +24,8 @@
 
     // Список faucet URL для цикла
     const faucetUrls = [
-        'https://cryptofaucet.one/faucet'
+        'https://cryptofaucet.one/faucet',
+        'https://claimtrx.com/faucet'
     ];
 
     // Получаем следующий URL в цикле
@@ -62,6 +63,7 @@
     }, 1000);
 
 })();
+
 
 
 
