@@ -32,7 +32,7 @@
             "https://claimclicks.com/matic/?r=cifer"
         ];
 
-       // const waitRedirect = "https://cryptofaucet.one/faucet";
+        const waitRedirect = "https://cryptofaucet.one/faucet";
 
         function getNextLink() {
             let current = window.location.href.split("?")[0];
@@ -43,13 +43,13 @@
             return links[idx + 1];
         }
 
-       // function checkAndSkip() {
-            // Если "You have to wait" → сразу уходим на cryptofaucet.one
-          //  if (document.body.innerText.includes("You have to wait")) {
-           //     console.log("⏩ Redirect (wait case) → cryptofaucet.one");
-          //      window.location.href = waitRedirect;
-          //      return;
-          //  }
+        function checkAndSkip() {
+             Если "You have to wait" → сразу уходим на cryptofaucet.one
+            if (document.body.innerText.includes("You have to wait")) {
+                console.log("⏩ Redirect (wait case) → cryptofaucet.one");
+                window.location.href = waitRedirect;
+                return;
+            }
 
     // Новое условие: проверяем <h4 class="alert-heading">0 daily claims left.</h4>
     let zeroClaimsDiv = document.querySelector(".alert.alert-light .alert-heading");
@@ -93,5 +93,6 @@
         observer.observe(document.body, { childList: true, subtree: true });
     }, 5000); // задержка 5 секунд
 })();
+
 
 
