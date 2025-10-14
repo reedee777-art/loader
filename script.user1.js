@@ -51,13 +51,21 @@
                 return;
             }
 
-            // Если другие условия — идём по списку
-            let zeroClaims = document.querySelector("th.list-center");
-            if (zeroClaims && zeroClaims.innerText.trim().startsWith("0 daily claims left")) {
-                console.log("⏩ Skip (0 claims) → next link");
-                window.location.href = getNextLink();
-                return;
-            }
+    // Новое условие: проверяем <h4 class="alert-heading">0 daily claims left.</h4>
+    let zeroClaimsDiv = document.querySelector(".alert.alert-light .alert-heading");
+    if (zeroClaimsDiv && zeroClaimsDiv.innerText.trim().startsWith("0 daily claims left")) {
+        console.log("⏩ Skip (0 claims) → next link");
+        window.location.href = getNextLink();
+        return;
+    }
+
+    // Старое условие (на случай других страниц)
+    let zeroClaims = document.querySelector("th.list-center");
+    if (zeroClaims && zeroClaims.innerText.trim().startsWith("0 daily claims left")) {
+        console.log("⏩ Skip (0 claims, old format) → next link");
+        window.location.href = getNextLink();
+        return;
+    }
 
             let antibotMsg = document.querySelector(".modal .alert.alert-info");
             if (antibotMsg && antibotMsg.innerText.includes("Anti-Bot links are in cool-down")) {
@@ -85,3 +93,4 @@
         observer.observe(document.body, { childList: true, subtree: true });
     }, 5000); // задержка 5 секунд
 })();
+
