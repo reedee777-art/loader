@@ -38,7 +38,7 @@
     setTimeout(() => {
         const nextUrl = getNextUrl(window.location.href);
         window.location.href = nextUrl;
-    }, 55000);
+    }, 95000);
 
     // Отображаем таймер обратного отсчёта
     const timerElement = document.createElement('div');
@@ -52,7 +52,7 @@
     timerElement.style.zIndex = '9999';
     document.body.appendChild(timerElement);
 
-    let timeLeft = 60;
+    let timeLeft = 90;
     const countdown = setInterval(() => {
         timeLeft--;
         timerElement.textContent = `Next site in: ${timeLeft} seconds`;
@@ -62,6 +62,7 @@
     }, 1000);
 
 })();
+
 
 
 
