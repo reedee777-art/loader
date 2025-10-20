@@ -27,7 +27,7 @@
         { host: "usdpick.io",      url: "https://usdpick.io?ref=Zke-pNqHCX" },
         { host: "freetron.in",     url: "https://freetron.in?ref=sxzlwFniQI" },
         { host: "freetron.in",     url: "https://freexrp.in?ref=Hi0GL7pmLX" },
-        { host: "freetron.in",     url: "https://claimclicks.com/trx/?r=cifer" },
+        { host: "freetron.in",     url: "https://claimclicks.com/bnb/?r=cifer" },
         { host: "about:blank",    url: "about:blank" }
     ];
 
@@ -88,4 +88,5 @@
     }, 27000);
 
 })();
+
 
