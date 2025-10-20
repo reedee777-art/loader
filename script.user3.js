@@ -26,6 +26,8 @@
         { host: "freesui.in",      url: "https://freesui.in?ref=3L0hAGf6Ds" },
         { host: "usdpick.io",      url: "https://usdpick.io?ref=Zke-pNqHCX" },
         { host: "freetron.in",     url: "https://freetron.in?ref=sxzlwFniQI" },
+        { host: "freetron.in",     url: "https://freexrp.in?ref=Hi0GL7pmLX" },
+        { host: "freetron.in",     url: "https://claimclicks.com/trx/?r=cifer" },
         { host: "about:blank",    url: "about:blank" }
     ];
 
@@ -86,3 +88,4 @@
     }, 27000);
 
 })();
+
