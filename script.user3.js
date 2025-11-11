@@ -12,13 +12,7 @@
 
     const sites = [
         { host: "tronpick.io",     url: "https://tronpick.io/?ref=fciferglas" },
-        { host: "litepick.io",     url: "https://litepick.io/?ref=ciferglas" },
-        { host: "dogepick.io",     url: "https://dogepick.io/?ref=ciferglas" },
-        { host: "solpick.io",      url: "https://solpick.io/?ref=ciferglas" },
-        { host: "bnbpick.io",      url: "https://bnbpick.io/?ref=fciferglas" },
-        { host: "polpick.io",      url: "https://polpick.io/?ref=ciferglas" },
-        { host: "tonpick.game",    url: "https://tonpick.game/?ref=ciferglas" },
-        { host: "suipick.io",      url: "https://suipick.io/?ref=ciferglas" },
+        { host: "suipick.io",      url: "https://freebch.in?ref=LDOFtc6e9t" },
         { host: "freetoncoin.in",  url: "https://freetoncoin.in?ref=FpM0dhWedm" },
         { host: "freebnb.in",      url: "https://freebnb.in?ref=LNiF2XkcEh" },
         { host: "freetrump.in",    url: "https://freetrump.in?ref=8TAiduDwVZ" },
@@ -26,7 +20,7 @@
         { host: "freesui.in",      url: "https://freesui.in?ref=3L0hAGf6Ds" },
         { host: "usdpick.io",      url: "https://usdpick.io?ref=Zke-pNqHCX" },
         { host: "freetron.in",     url: "https://freetron.in?ref=sxzlwFniQI" },
-       // { host: "freetron.in",     url: "https://freexrp.in?ref=Hi0GL7pmLX" },
+        { host: "freetron.in",     url: "https://freexrp.in?ref=Hi0GL7pmLX" },
         { host: "claimclicks.com",     url: "https://claimclicks.com/bnb/?r=cifer" },
         { host: "about:blank",    url: "about:blank" }
     ];
@@ -88,6 +82,7 @@
     }, 27000);
 
 })();
+
 
 
 
