@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         ClaimClicks Auto Skip (full conditions + 5s delay + wait redirect)
 // @namespace    http://tampermonkey.net/
-// @version      1.8
+// @version      1.9
 // @description  Автопереход по списку с задержкой 5 секунд + отдельный редирект при "You have to wait"
 // @author       You
 // @match        https://claimclicks.com/*
@@ -51,17 +51,17 @@
                 return;
             }
 
-            // Исправленное условие для "0 daily claims left"
+            // Точная проверка для "0 daily claims left"
             let zeroClaimsHeading = document.querySelector("h4.alert-heading");
-            if (zeroClaimsHeading && zeroClaimsHeading.innerText.includes("0 daily claims left")) {
+            if (zeroClaimsHeading && zeroClaimsHeading.innerText.trim() === "0 daily claims left.") {
                 console.log("⏩ Skip (0 claims) → next link");
                 window.location.href = getNextLink();
                 return;
             }
 
-            // Альтернативная проверка по тексту на странице
-            if (document.body.innerText.includes("0 daily claims left")) {
-                console.log("⏩ Skip (0 claims - text match) → next link");
+            // Альтернативная точная проверка по тексту
+            if (document.body.innerText.includes("0 daily claims left.")) {
+                console.log("⏩ Skip (0 claims - exact text match) → next link");
                 window.location.href = getNextLink();
                 return;
             }
