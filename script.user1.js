@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         ClaimClicks Auto Skip (full conditions + 5s delay + wait redirect)
 // @namespace    http://tampermonkey.net/
-// @version      1.7
+// @version      1.8
 // @description  Автопереход по списку с задержкой 5 секунд + отдельный редирект при "You have to wait"
 // @author       You
 // @match        https://claimclicks.com/*
@@ -44,28 +44,27 @@
         }
 
         function checkAndSkip() {
-             Если "You have to wait" → сразу уходим на cryptofaucet.one
+            // Если "You have to wait" → сразу уходим на cryptofaucet.one
             if (document.body.innerText.includes("You have to wait")) {
                 console.log("⏩ Redirect (wait case) → cryptofaucet.one");
                 window.location.href = waitRedirect;
                 return;
             }
 
-    // Новое условие: проверяем <h4 class="alert-heading">0 daily claims left.</h4>
-    let zeroClaimsDiv = document.querySelector(".alert.alert-light .alert-heading");
-    if (zeroClaimsDiv && zeroClaimsDiv.innerText.trim().startsWith("0 daily claims left")) {
-        console.log("⏩ Skip (0 claims) → next link");
-        window.location.href = getNextLink();
-        return;
-    }
+            // Исправленное условие для "0 daily claims left"
+            let zeroClaimsHeading = document.querySelector("h4.alert-heading");
+            if (zeroClaimsHeading && zeroClaimsHeading.innerText.includes("0 daily claims left")) {
+                console.log("⏩ Skip (0 claims) → next link");
+                window.location.href = getNextLink();
+                return;
+            }
 
-    // Старое условие (на случай других страниц)
-    let zeroClaims = document.querySelector("th.list-center");
-    if (zeroClaims && zeroClaims.innerText.trim().startsWith("0 daily claims left")) {
-        console.log("⏩ Skip (0 claims, old format) → next link");
-        window.location.href = getNextLink();
-        return;
-    }
+            // Альтернативная проверка по тексту на странице
+            if (document.body.innerText.includes("0 daily claims left")) {
+                console.log("⏩ Skip (0 claims - text match) → next link");
+                window.location.href = getNextLink();
+                return;
+            }
 
             let antibotMsg = document.querySelector(".modal .alert.alert-info");
             if (antibotMsg && antibotMsg.innerText.includes("Anti-Bot links are in cool-down")) {
@@ -93,6 +92,3 @@
         observer.observe(document.body, { childList: true, subtree: true });
     }, 5000); // задержка 5 секунд
 })();
-
-
-
