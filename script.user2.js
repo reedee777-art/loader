@@ -24,7 +24,8 @@
 
     // Список faucet URL для цикла
     const faucetUrls = [
-        'https://cryptofaucet.one/faucet'
+         'https://claimtrx.com/faucet'
+        //  'https://cryptofaucet.one/faucet'
     ];
 
     // Получаем следующий URL в цикле
@@ -62,6 +63,7 @@
     }, 1000);
 
 })();
+
 
 
 
