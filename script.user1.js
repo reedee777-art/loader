@@ -59,12 +59,6 @@
                 return;
             }
 
-            // Альтернативная точная проверка по тексту
-            if (document.body.innerText.includes("0 daily claims left.")) {
-                console.log("⏩ Skip (0 claims - exact text match) → next link");
-                window.location.href = getNextLink();
-                return;
-            }
 
             let antibotMsg = document.querySelector(".modal .alert.alert-info");
             if (antibotMsg && antibotMsg.innerText.includes("Anti-Bot links are in cool-down")) {
@@ -92,4 +86,5 @@
         observer.observe(document.body, { childList: true, subtree: true });
     }, 5000); // задержка 5 секунд
 })();
+
 
