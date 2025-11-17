@@ -32,7 +32,7 @@
             "https://claimclicks.com/matic/?r=cifer"
         ];
 
-        const waitRedirect = "https://claimtrx.com/faucet";
+         //const waitRedirect = "https://claimtrx.com/faucet";
 
         function getNextLink() {
             let current = window.location.href.split("?")[0];
@@ -86,5 +86,6 @@
         observer.observe(document.body, { childList: true, subtree: true });
     }, 5000); // задержка 5 секунд
 })();
+
 
 
