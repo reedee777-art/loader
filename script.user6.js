@@ -28,8 +28,8 @@
 
 // Enter your Puter credentials below if you would like to use your username and password
 // Use this if your IP is detected as non-residential
-const username = "";
-const password = "";
+const username = "YOUR_PUTER_USER_NAME";
+const password = "YOUR_PUTER_PASSWORD";
 
 // Display the Status of the solver at the top of the page
 const DISPLAY_STATUS = true;
@@ -38,6 +38,7 @@ const DISPLAY_STATUS = true;
 // Set to true if the solver does not start when the image is visible.
 // This is usually not required, but in some cases, it may result from other scripts or extensions.
 const DISABLE_VISIBILITY_CHECKS = false;
+
 
 
 
