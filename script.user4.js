@@ -50,21 +50,8 @@
         }, Promise.resolve());
     }
 
-    // Основной observer для динамического контента (включая внутри iframe, но скрипт работает в главном или iframe контексте)
-    const observer = new MutationObserver((mutations) => {
-        const currentUrl = window.location.href;
 
-        if (currentUrl.includes('claimtrx.com')) {
-            clickGoButton();
-        }
 
-        if (currentUrl.includes('offers.monlix.com')) {
-            clickWatchAds();
-        }
-    });
-
-    // Наблюдаем за всем body
-    observer.observe(document.body, { childList: true, subtree: true, attributes: true });
 
     // Запуск сразу при загрузке (на случай если элементы уже есть)
     setTimeout(() => {
@@ -77,3 +64,4 @@
         }
     }, 2000); // Задержка 2 секунды для полной загрузки контента в iframe
 })();
+
