@@ -11,7 +11,7 @@
     'use strict';
 
     const sites = [
-        { host: "tronpick.io",     url: "https://tronpick.io/?ref=fciferglas" },
+        //{ host: "tronpick.io",     url: "https://tronpick.io/?ref=fciferglas" },
         { host: "freebch.in",      url: "https://freebch.in?ref=LDOFtc6e9t" },
         { host: "freetoncoin.in",  url: "https://freetoncoin.in?ref=FpM0dhWedm" },
         { host: "freebnb.in",      url: "https://freebnb.in?ref=LNiF2XkcEh" },
@@ -83,6 +83,7 @@
     }, 27000);
 
 })();
+
 
 
 
