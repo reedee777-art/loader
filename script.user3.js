@@ -22,8 +22,8 @@
         { host: "freearb.in",      url: "https://freearb.in?ref=RcNvjM16bY" },
         { host: "freetron.in",     url: "https://freetron.in?ref=sxzlwFniQI" },
         { host: "freexrp.in",     url: "https://freexrp.in?ref=Hi0GL7pmLX" },
-         { host: "claimcoin.in",     url: "https://claimcoin.in/faucet" }
-        //{ host: "about:blank",    url: "about:blank" }
+        // { host: "claimcoin.in",     url: "https://claimcoin.in/faucet" }
+        { host: "about:blank",    url: "about:blank" }
     ];
 
     const hostname = location.hostname.replace(/^www\./, '');
@@ -83,6 +83,7 @@
     }, 27000);
 
 })();
+
 
 
 
