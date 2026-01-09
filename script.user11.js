@@ -1,39 +1,46 @@
 // ==UserScript==
-// @name         Auto Claim FaucetPay Buttons (2 buttons)
+// @name         Auto-redirect faucet dashboards
 // @namespace    http://tampermonkey.net/
-// @version      1.1
-// @description  Через 25 секунд кликает на кнопки "Email Payment FaucetPay" (salvarjogo и salvarjogo1)
-// @author       Grok
-// @match        https://earnbnb.softpog.com.br/*
-// @match        https://trontrontron.softpog.com.br/*
+// @version      1.0
+// @description  Перенаправление с dashboard на faucet через 2 секунды
+// @author       Your Name
+// @match        https://earnsolana.xyz/dashboard
+// @match        https://freeltc.fun/dashboard
+// @match        https://cryptofuture.co.in/dashboard
 // @grant        none
-// @run-at       document-end
+// @run-at       document-start
 // ==/UserScript==
 
 (function() {
     'use strict';
 
-    setTimeout(() => {
-        // Первая кнопка
-        const button1 = document.querySelector('#salvarjogo');
-        if (button1) {
-            console.log('Кнопка #salvarjogo найдена, кликаем...');
-            button1.click();
-        } else {
-            console.log('Кнопка #salvarjogo не найдена.');
-        }
+    // Функция для выполнения перенаправления через 2 секунды
+    function redirectAfterDelay() {
+        setTimeout(function() {
+            const currentUrl = window.location.href;
 
-        // Вторая кнопка
-        const button2 = document.querySelector('#salvarjogo1');
-        if (button2) {
-            console.log('Кнопка #salvarjogo1 найдена, кликаем...');
-            button2.click();
-        } else {
-            console.log('Кнопка #salvarjogo1 не найдена.');
-        }
+            // Правила перенаправления
+            const redirectRules = {
+                'https://earnsolana.xyz/dashboard': 'https://earnsolana.xyz/faucet/currency/sol',
+                'https://freeltc.fun/dashboard': 'https://freeltc.fun/faucet/currency/ltc',
+                'https://cryptofuture.co.in/dashboard': 'https://cryptofuture.co.in/faucet/currency/LTC'
+            };
 
-        if (!button1 && !button2) {
-            console.log('Ни одна из целевых кнопок не найдена на странице.');
-        }
-    }, 35000); // 25 секунд
+            // Найти подходящее правило для текущего URL
+            for (const [from, to] of Object.entries(redirectRules)) {
+                if (currentUrl.startsWith(from)) {
+                    window.location.href = to;
+                    return;
+                }
+            }
+        }, 2000); // 2000 миллисекунд = 2 секунды
+    }
+
+    // Запускаем перенаправление при загрузке страницы
+    window.addEventListener('load', redirectAfterDelay);
+    
+    // Также запускаем для случаев, когда страница уже загружена
+    if (document.readyState === 'complete' || document.readyState === 'interactive') {
+        redirectAfterDelay();
+    }
 })();
