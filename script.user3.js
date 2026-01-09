@@ -14,16 +14,16 @@
         //{ host: "tronpick.io",     url: "https://tronpick.io/?ref=fciferglas" },
         { host: "freebch.in",      url: "https://freebch.in?ref=LDOFtc6e9t" },
         { host: "freetoncoin.in",  url: "https://freetoncoin.in?ref=FpM0dhWedm" },
-        { host: "freebnb.in",      url: "https://freebnb.in?ref=LNiF2XkcEh" },
+       // { host: "freebnb.in",      url: "https://freebnb.in?ref=LNiF2XkcEh" },
         { host: "freetrump.in",    url: "https://freetrump.in?ref=8TAiduDwVZ" },
         { host: "usdpick.io",      url: "https://usdpick.io?ref=Zke-pNqHCX" },
         { host: "freeshib.in",     url: "https://freeshib.in?ref=kSICNRj1dt" },
         { host: "freesui.in",      url: "https://freesui.in?ref=3L0hAGf6Ds" },
         { host: "freearb.in",      url: "https://freearb.in?ref=RcNvjM16bY" },
         { host: "freetron.in",     url: "https://freetron.in?ref=sxzlwFniQI" },
-        { host: "freexrp.in",     url: "https://freexrp.in?ref=Hi0GL7pmLX" },
-        // { host: "claimcoin.in",     url: "https://claimcoin.in/faucet" }
-        { host: "about:blank",    url: "about:blank" }
+       // { host: "freexrp.in",     url: "https://freexrp.in?ref=Hi0GL7pmLX" },
+         { host: "claimcoin.in",     url: "https://claimcoin.in/faucet" }
+       // { host: "about:blank",    url: "about:blank" }
     ];
 
     const hostname = location.hostname.replace(/^www\./, '');
@@ -83,6 +83,7 @@
     }, 27000);
 
 })();
+
 
 
 
