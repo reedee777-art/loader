@@ -14,6 +14,7 @@
     // Разрешённые сайты
     const allowedHosts = [
         'feyorra.top',
+        'cryptofuture.co.in',
         'faucetpayz.com',
         'claimtrx.com'
     ];
@@ -26,6 +27,7 @@
     // Список faucet URL для цикла
     const faucetUrls = [
          //'https://claimtrx.com/faucet',
+         'https://cryptofuture.co.in/faucet/currency/LTC',
         'https://faucetpayz.com/faucet'
           //'https://feyorra.top/faucet'
         //  'https://cryptofaucet.one/faucet'
@@ -66,6 +68,7 @@
     }, 1000);
 
 })();
+
 
 
 
