@@ -5,7 +5,6 @@
 // @description  Automatically redirect to LTC faucet after 3 seconds
 // @author       Your Name
 // @match        https://eaglefaucet.in/dashboard
-// @match        https://eaglefaucet.in/faucet
 // @grant        none
 // ==/UserScript==
 
@@ -23,3 +22,4 @@
         window.location.href = redirectUrl;
     }, delay);
 })();
+
