@@ -21,7 +21,7 @@
         { host: "freesui.in",      url: "https://freesui.in?ref=3L0hAGf6Ds" },
         { host: "freearb.in",      url: "https://freearb.in?ref=RcNvjM16bY" },
         { host: "freetron.in",     url: "https://freetron.in?ref=sxzlwFniQI" },
-        { host: "https://freebtcco.in/",     url: "https://freebtcco.in/" },
+        { host: "freebtcco.in",     url: "https://freebtcco.in/" },
          { host: "claimcoin.in",     url: "https://claimcoin.in/faucet" }
        // { host: "about:blank",    url: "about:blank" }
     ];
@@ -83,6 +83,7 @@
     }, 27000);
 
 })();
+
 
 
 
