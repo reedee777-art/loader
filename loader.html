@@ -6,7 +6,7 @@
   <script>
     // ======= НАСТРОЙКИ САЙТОВ =======
     const sites = [
-      { url: "https://earncryptowrs.in/?r=130", start: "00:00", end: "01:00", opened: false },
+     { url: "https://earncryptowrs.in/?r=130", start: "00:00", end: "01:00", opened: false },
        //  { url: "https://linksfly.link/app/links?currency=LTC", start: "01:00", end: "02:00", opened: false },
         { url: "https://earncryptowrs.in/app/links?currency=ETH", start: "01:00", end: "02:00", opened: false },
        { url: "https://linksfly.link/?r=3582", start: "00:00", end: "01:00", opened: false },
@@ -59,9 +59,20 @@
       return h * 60 + m;
     }
 
+    // Функция для открытия сайта с задержкой
+    function openSiteWithDelay(url, delayMs) {
+      setTimeout(() => {
+        window.open(url, "_blank");
+        console.log(`Открыт сайт: ${url} в ${new Date().toTimeString().slice(0,5)}`);
+      }, delayMs);
+    }
+
     function checkSchedule() {
       let now = new Date();
       let currentMinutes = now.getHours() * 60 + now.getMinutes();
+      
+      // Счетчик для задержки
+      let delayCounter = 0;
 
       sites.forEach(site => {
         let startMinutes = toMinutes(site.start);
@@ -69,11 +80,16 @@
 
         // если текущее время в интервале и сайт еще не открыт
         if (currentMinutes >= startMinutes && currentMinutes <= endMinutes && !site.opened) {
-          window.open(site.url, "_blank");
+          // Открываем с задержкой 5 секунд * номер сайта в очереди
+          openSiteWithDelay(site.url, 5000 * delayCounter);
           site.opened = true;
-          console.log(`Открыт сайт: ${site.url} в ${now.toTimeString().slice(0,5)}`);
+          delayCounter++;
         }
       });
+      
+      if (delayCounter > 0) {
+        console.log(`Запланировано открытие ${delayCounter} сайтов с интервалом 5 секунд`);
+      }
     }
 
     // ======= ЗАПУСК =======
@@ -83,160 +99,8 @@
 </head>
 <body>
   <h2>Автоматический запуск сайтов</h2>
-  <p>Сайты будут открываться по расписанию в указанном интервале. Это окно можно свернуть.</p>
+  <p>Сайты будут открываться по расписанию в указанном интервале.</p>
+  <p>⏱️ Между открытиями будет пауза 5 секунд.</p>
+  <p>Это окно можно свернуть.</p>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
