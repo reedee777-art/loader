@@ -14,7 +14,7 @@
     // Разрешённые сайты
     const allowedHosts = [
         'feyorra.top',
-        'https://cryptoukr.in.ua/faucet',
+        'cryptoukr.in.ua',
         'claimtrx.com'
     ];
 
@@ -66,6 +66,7 @@
     }, 1000);
 
 })();
+
 
 
 
