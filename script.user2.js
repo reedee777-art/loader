@@ -14,7 +14,7 @@
     // Разрешённые сайты
     const allowedHosts = [
         'feyorra.top',
-        'cryptoukr.in.ua',
+        '1cryptoukr.in.ua',
         'claimtrx.com'
     ];
 
@@ -66,6 +66,7 @@
     }, 1000);
 
 })();
+
 
 
 
