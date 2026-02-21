@@ -25,7 +25,7 @@
         { host: "easydoge.io",      url: "https://easydoge.io/faucet.php" },
         { host: "easytrx.io",     url: "https://easytrx.io/faucet.php" },
         { host: "freebtcco.in",     url: "https://freebtcco.in/" },
-         { host: "claimcoin.in",     url: "https://claimcoin.in/faucet" }
+         { host: "cryptoukr.in.ua",     url: "https://cryptoukr.in.ua/faucet" }
        // { host: "about:blank",    url: "about:blank" }
     ];
 
@@ -86,6 +86,7 @@
     }, 27000);
 
 })();
+
 
 
 
