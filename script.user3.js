@@ -24,6 +24,7 @@
          { host: "easylite.io",      url: "https://easylite.io/faucet.php" },
         { host: "easydoge.io",      url: "https://easydoge.io/faucet.php" },
         { host: "easytrx.io",     url: "https://easytrx.io/faucet.php" },
+        { host: "adcore.top",     url: "https://adcore.top/user/faucet" },
         { host: "freebtcco.in",     url: "https://freebtcco.in/" },
          { host: "cryptoukr.in.ua",     url: "https://cryptoukr.in.ua/faucet" }
        // { host: "about:blank",    url: "about:blank" }
@@ -86,6 +87,7 @@
     }, 27000);
 
 })();
+
 
 
 
