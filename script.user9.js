@@ -20,6 +20,9 @@
         'Only limit 40 claim!',
         'Only limit 41 claim!',
         'Daily claim limit reached',
+         'Only limit',
+          'back tomorrow',
+         'maximum daily claims',
         'claim limit',
         'Please come back tomorrow'
     ];
@@ -43,3 +46,4 @@
         }
     }
 })();
+
