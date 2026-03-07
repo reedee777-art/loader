@@ -1,1 +1,54 @@
+// ==UserScript==
+// @name         Multi Faucet Error Redirect Chain
+// @namespace    http://tampermonkey.net/
+// @version      1.2
+// @description  При ошибке переключает валюты на faucet сайтах
+// @author       ChatGPT
+// @match        https://vipcoinfaucet.com/*
+// @match        https://miniappfaucet.com/*
+// @match        https://linksfly.link/*
+// @match        https://gamerlee.com/*
+// @grant        none
+// @run-at       document-idle
+// ==/UserScript==
+
+(function() {
+    'use strict';
+
+    const chains = {
+        "vipcoinfaucet.com": ["BCH","LTC","TRX"],
+        "miniappfaucet.com": ["BCH","LTC","TRX"],
+        "linksfly.link": ["BTC","BCH","ETH","TRX","DOGE"],
+        "gamerlee.com": ["BCH","LTC","TRX"]
+    };
+
+    function checkForError() {
+
+        const text = document.body.innerText;
+        if (!text.includes('Failed!') && !text.includes('Invalid Claim')) return;
+
+        const host = window.location.hostname;
+        const chain = chains[host];
+        if (!chain) return;
+
+        const params = new URLSearchParams(window.location.search);
+        const current = params.get("currency");
+
+        let index = chain.indexOf(current);
+        if (index === -1) index = 0;
+
+        let next = chain[(index + 1) % chain.length];
+
+        const newUrl = `https://${host}/app/faucet?currency=${next}`;
+
+        if (window.location.href !== newUrl) {
+            window.location.href = newUrl;
+        }
+    }
+
+    checkForError();
+    setInterval(checkForError, 2000);
+
+})();
+
 
