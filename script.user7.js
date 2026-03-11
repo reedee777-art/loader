@@ -16,10 +16,10 @@
     'use strict';
 
     const chains = {
-        "vipcoinfaucet.com": ["BCH","LTC","TRX"],
-        "miniappfaucet.com": ["BCH","LTC","TRX"],
+        "vipcoinfaucet.com": ["BCH","ETH","LTC","TRX","DOGE","DASH","FEY"],
+        "miniappfaucet.com": ["BCH","ETH","LTC","TRX","DOGE","DASH","FEY"],
         "linksfly.link": ["BTC","BCH","ETH","TRX","DOGE"],
-        "gamerlee.com": ["BCH","LTC","TRX"]
+        "gamerlee.com": ["BCH","ETH","LTC","TRX","DOGE","DASH","FEY"]
     };
 
     function checkForError() {
@@ -50,5 +50,6 @@
     setInterval(checkForError, 2000);
 
 })();
+
 
 
