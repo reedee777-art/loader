@@ -5,7 +5,7 @@
 // @description  Remove ad-blocking logic from claim button
 // @author       You
 // @match        *://vipcoinfaucet.com/*
-// @match        *://miniappfaucet.com/*
+// @match        *://*/*
 // @grant        none
 // ==/UserScript==
 
