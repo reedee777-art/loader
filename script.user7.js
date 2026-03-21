@@ -16,10 +16,10 @@
     'use strict';
 
     const chains = {
-        "vipcoinfaucet.com": ["BCH","ETH","LTC","TRX","DOGE","DASH","FEY"],
-        "miniappfaucet.com": ["BCH","ETH","LTC","TRX","DOGE","DASH","FEY"],
-        "linksfly.link": ["BCH","ETH","LTC","TRX","DOGE","DASH","FEY"],
-        "gamerlee.com": ["BCH","ETH","LTC","TRX","DOGE","DASH","FEY"]
+        "vipcoinfaucet.com": ["BCH","ETH","LTC","TRX","DOGE","DASH","FEY","PEPE","DGB","BNB","SOL"],
+        "miniappfaucet.com": ["BCH","ETH","LTC","TRX","DOGE","DASH","FEY","PEPE","DGB","BNB","SOL"],
+        "linksfly.link": ["BCH","ETH","LTC","TRX","DOGE","DASH","FEY","PEPE","DGB","BNB","SOL"],
+        "gamerlee.com": ["BCH","ETH","LTC","TRX","DOGE","DASH","FEY","PEPE","DGB","BNB","SOL"]
     };
 
     function checkForError() {
