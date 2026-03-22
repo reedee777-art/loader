@@ -47,7 +47,7 @@
     }
 
     checkForError();
-    setInterval(checkForError, 2000);
+    setInterval(checkForError, 1200);
 
 })();
 
