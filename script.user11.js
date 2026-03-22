@@ -6,6 +6,7 @@
 // @author       Your Name
 // @match        https://earnsolana.xyz/dashboard
 // @match        https://freeltc.fun/dashboard
+// @match        https://earncryptowrs.in/dashboard
 // @match        https://cryptofuture.co.in/dashboard
 // @grant        none
 // @run-at       document-start
@@ -23,6 +24,7 @@
             const redirectRules = {
                 'https://earnsolana.xyz/dashboard': 'https://earnsolana.xyz/faucet/currency/sol',
                 'https://freeltc.fun/dashboard': 'https://freeltc.fun/faucet/currency/ltc',
+				  'https://earncryptowrs.in/dashboard': 'https://earncryptowrs.in/faucet/currency/ltc',
                 'https://cryptofuture.co.in/dashboard': 'https://cryptofuture.co.in/faucet/currency/LTC'
             };
 
