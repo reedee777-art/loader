@@ -5,6 +5,7 @@
 // @description  При ошибке переключает валюты на faucet сайтах
 // @author       ChatGPT
 // @match        https://vipcoinfaucet.com/*
+// @match        https://mrappswala.com/*
 // @match        https://miniappfaucet.com/*
 // @match        https://linksfly.link/*
 // @match        https://gamerlee.com/*
@@ -17,6 +18,7 @@
 
     const chains = {
         "vipcoinfaucet.com": ["BCH","ETH","LTC","TRX","DOGE","DASH","FEY","PEPE","DGB","BNB","SOL"],
+		        "mrappswala.com": ["BCH","ETH","LTC","TRX","DOGE","DASH","FEY","PEPE","DGB","BNB","SOL"],
         "miniappfaucet.com": ["BCH","ETH","LTC","TRX","DOGE","DASH","FEY","PEPE","DGB","BNB","SOL"],
         "linksfly.link": ["BCH","ETH","LTC","TRX","DOGE","DASH","FEY","PEPE","DGB","BNB","SOL"],
         "gamerlee.com": ["BCH","ETH","LTC","TRX","DOGE","DASH","FEY","PEPE","DGB","BNB","SOL"]
