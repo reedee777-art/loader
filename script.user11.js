@@ -24,7 +24,7 @@
             const redirectRules = {
                 'https://earnsolana.xyz/dashboard': 'https://earnsolana.xyz/faucet/currency/sol',
                 'https://freeltc.fun/dashboard': 'https://freeltc.fun/faucet/currency/ltc',
-				  'https://earncryptowrs.in/dashboard': 'https://earncryptowrs.in/faucet/currency/ltc',
+				  'https://earncryptowrs.in/dashboard': 'https://earncryptowrs.in/links/currency/ltc',
                 'https://cryptofuture.co.in/dashboard': 'https://cryptofuture.co.in/faucet/currency/LTC'
             };
 
