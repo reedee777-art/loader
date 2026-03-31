@@ -17,6 +17,6 @@
             // Заменяем /app/dashboard на /app/faucet?currency=LTC
             var newPath = window.location.pathname.replace('/app/dashboard', '/app/faucet') + '?currency=LTC';
             window.location.href = window.location.origin + newPath;
-        }, 17000);
+        }, 1000);
     }
 })();
