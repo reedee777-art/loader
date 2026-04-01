@@ -88,7 +88,7 @@
         // если текущее время в интервале и сайт еще не открыт
         if (currentMinutes >= startMinutes && currentMinutes <= endMinutes && !site.opened) {
           // Открываем с задержкой 5 секунд * номер сайта в очереди
-          openSiteWithDelay(site.url, 1000 * delayCounter);
+          openSiteWithDelay(site.url, 55000 * delayCounter);
           site.opened = true;
           delayCounter++;
         }
