@@ -20,8 +20,8 @@
         "vipcoinfaucet.com": ["BCH","ETH","LTC","USDT","ZEC","TON","FEY","TRX","DOGE","DASH","FEY","PEPE","DGB","BNB","SOL"],
 		        "mrappswala.com": ["BCH","LTC","DGB"],
         "miniappfaucet.com": ["BCH","ETH","LTC","USDT","ZEC","TON","FEY","TRX","DOGE","DASH","FEY","PEPE","DGB","BNB","SOL"],
-        "linksfly.link": ["BCH","ETH","LTC","USDT","ZEC","TON","FEY","TRX","DOGE","DASH","FEY","PEPE","DGB","BNB","SOL"],
-        "gamerlee.com": ["BCH","ETH","LTC","USDT","ZEC","TON","FEY","TRX","DOGE","DASH","FEY","PEPE","DGB","BNB","SOL"]
+        "linksfly.link": ["BCH","ETH","LTC","USDT","ZEC","TON","TRX","DOGE","DASH","FEY","PEPE","DGB","BNB","SOL"],
+        "gamerlee.com": ["BCH","ETH","LTC","USDT","ZEC","TON","TRX","DOGE","DASH","FEY","PEPE","DGB","BNB","SOL"]
     };
 
     function checkForError() {
