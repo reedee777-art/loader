@@ -18,10 +18,10 @@
 
     const chains = {
         "vipcoinfaucet.com": ["BCH","ETH","LTC","USDT","ZEC","TRX","DOGE","DASH","FEY","PEPE","DGB","BNB","SOL"],
-		        "mrappswala.com": ["BCH","ETH","LTC","USDT","ZEC","TON","TRX","DOGE","DASH","FEY","PEPE","DGB","BNB","SOL"],
-        "miniappfaucet.com": ["LTC","BCH","ETH","DGB","FEY","TRX","DOGE","DASH","FEY","PEPE","DGB","BNB","SOL"],
-        "linksfly.link": ["LTC","ETH","BCH","USDT","ZEC","TON","TRX","DOGE","DASH","FEY","PEPE","DGB","BNB","SOL"],
-        "gamerlee.com": ["BCH","ETH","LTC","USDT","ZEC","TON","TRX","DOGE","DASH","FEY","PEPE","DGB","BNB","SOL"]
+		        "mrappswala.com": ["BCH","ETH","LTC","USDT","ZEC","TON","TRX","DOGE","DASH","PEPE","DGB","BNB","SOL"],
+        "miniappfaucet.com": ["LTC","BCH","ETH","DGB","FEY","TRX","DOGE","DASH","PEPE","DGB","BNB","SOL"],
+        "linksfly.link": ["LTC","ETH","BCH","USDT","ZEC","TON","TRX","DOGE","DASH","PEPE","DGB","BNB","SOL"],
+        "gamerlee.com": ["BCH","ETH","LTC","USDT","ZEC","TON","TRX","DOGE","DASH","PEPE","DGB","BNB","SOL"]
     };
 
     function checkForError() {
