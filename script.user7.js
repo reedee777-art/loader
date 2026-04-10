@@ -18,7 +18,7 @@
 
     const chains = {
         "vipcoinfaucet.com": ["BCH","ETH","LTC","USDT","ZEC","TRX","DOGE","DASH","FEY","PEPE","DGB","BNB","SOL"],
-		        "mrappswala.com": ["BCH","ETH","LTC","USDT","ZEC","TON","TRX","DOGE","DASH","PEPE","DGB","BNB","SOL"],
+		        "mrappswala.com": ["LTC","DOGE","ETH","TON","ZEC","Trump","TRX","USDT","BNB","SOL","DGB","PEPE","DASH","BCH"],
         "miniappfaucet.com": ["LTC","BCH","ETH","DGB","FEY","TRX","DOGE","DASH","PEPE","DGB","BNB","SOL"],
         "linksfly.link": ["LTC","DOGE","ETH","TON","ZEC","Trump","TRX","USDT","BNB","SOL","DGB","PEPE","DASH","BCH"],
         "gamerlee.com": ["LTC","DOGE","ETH","TON","ZEC","Trump","TRX","USDT","BNB","SOL","DGB","PEPE","DASH","BCH"]
