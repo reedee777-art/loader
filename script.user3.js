@@ -31,7 +31,7 @@
         //{ host: "adcore.top",     url: "https://adcore.top/user/faucet" },
         { host: "freebtcco.in",     url: "https://freebtcco.in/" },
          // { host: "cryptoclicks.net",     url: "https://cryptoclicks.net/faucet" }
-          { host: "cryptoukr.in.ua",     url: "https://cryptoukr.in.ua/faucet" }
+          { host: "freebch.in",     url: "https://freebch.in" }
        // { host: "about:blank",    url: "about:blank" }
     ];
 
