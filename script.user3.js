@@ -15,7 +15,7 @@
   { host: "tonpick.game",     url: "https://tonpick.game/faucet.php" },
   { host: "dogepick.io",     url: "https://dogepick.io" },
           { host: "litepick.io",     url: "https://litepick.io" },
-          { host: "tronpick.io",     url: "https://tronpick.io/" },
+          { host: "suipick.io",     url: "https://suipick.io" },
         { host: "freebch.in",      url: "https://freebch.in" },
           { host: "freetoncoin.in",  url: "https://freetoncoin.in" },
         { host: "freebnb.in",      url: "https://freebnb.in" },
