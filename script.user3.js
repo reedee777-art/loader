@@ -11,12 +11,12 @@
     'use strict';
 
     const sites = [
-        { host: "tronpick.io",     url: "https://tronpick.io/" },
+        { host: "tronpick.io",     url: "https://tronpick.io/faucet.php" },
   { host: "tonpick.game",     url: "https://tonpick.game/faucet.php" },
-  { host: "dogepick.io",     url: "https://dogepick.io" },
-          { host: "litepick.io",     url: "https://litepick.io" },
-          { host: "suipick.io",     url: "https://suipick.io" },
-        { host: "freebch.in",      url: "https://freebch.in" },
+  { host: "dogepick.io",     url: "https://dogepick.io/faucet.php" },
+          { host: "litepick.io",     url: "https://litepick.io/faucet.php" },
+          { host: "suipick.io",     url: "https://suipick.io/faucet.php" },
+        { host: "freebch.in",      url: "https://freebch.in/faucet" },
           { host: "freetoncoin.in",  url: "https://freetoncoin.in" },
         { host: "freebnb.in",      url: "https://freebnb.in" },
           { host: "freetrump.in",    url: "https://freetrump.in" },
