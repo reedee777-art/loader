@@ -14,7 +14,7 @@
     // Разрешённые сайты
     const allowedHosts = [
         'feyorra.top',
-        'earnbitmoon.club',
+        //'earnbitmoon.club',
         'claimtrx.com'
     ];
 
@@ -26,7 +26,7 @@
     // Список сайтов (ТОЛЬКО ДОМЕНЫ)
     const faucetSites = [
         'claimtrx.com',
-        'earnbitmoon.club',
+        //'earnbitmoon.club',
         'feyorra.top'
     ];
 
@@ -42,7 +42,7 @@
         const nextHost = faucetSites[nextIndex];
 
         if (nextHost === 'claimtrx.com') return 'https://claimtrx.com/faucet';
-        if (nextHost === 'earnbitmoon.club') return 'https://earnbitmoon.club';
+       // if (nextHost === 'earnbitmoon.club') return 'https://earnbitmoon.club';
         if (nextHost === 'feyorra.top') return 'https://feyorra.top/faucet';
     }
 
