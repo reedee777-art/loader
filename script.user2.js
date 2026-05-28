@@ -1,7 +1,7 @@
-// ==UserScript==
+ // ==UserScript==
 // @name         Faucet Auto-Switcher323
 // @namespace    http://tampermonkey.net/
-// @version      1.1
+// @version      1.2
 // @description  Automatically switches between faucet sites every 2 minutes (site-filtered)
 // @author       You
 // @match        *://*/*
@@ -20,31 +20,39 @@
 
     // Проверка текущего сайта
     if (!allowedHosts.some(host => window.location.hostname.includes(host))) {
-        return; // не запускаем скрипт
+        return;
     }
 
-    // Список faucet URL для цикла
-    const faucetUrls = [
-         'https://claimtrx.com/faucet',
-         'https://earnbitmoon.club',
-          'https://feyorra.top/faucet'
-        //  'https://cryptofaucet.one/faucet'
+    // Список сайтов (ТОЛЬКО ДОМЕНЫ)
+    const faucetSites = [
+        'claimtrx.com',
+        'earnbitmoon.club',
+        'feyorra.top'
     ];
 
-    // Получаем следующий URL в цикле
-    function getNextUrl(currentUrl) {
-        const currentIndex = faucetUrls.indexOf(currentUrl);
-        const nextIndex = (currentIndex + 1) % faucetUrls.length;
-        return faucetUrls[nextIndex];
+    // Получаем следующий сайт
+    function getNextUrl() {
+        const currentHost = window.location.hostname;
+
+        const currentIndex = faucetSites.findIndex(h =>
+            currentHost.includes(h)
+        );
+
+        const nextIndex = (currentIndex + 1) % faucetSites.length;
+        const nextHost = faucetSites[nextIndex];
+
+        if (nextHost === 'claimtrx.com') return 'https://claimtrx.com/faucet';
+        if (nextHost === 'earnbitmoon.club') return 'https://earnbitmoon.club';
+        if (nextHost === 'feyorra.top') return 'https://feyorra.top/faucet';
     }
 
-    // Переключаемся на следующий сайт через 55 секунд
+    // Переключение через 55 секунд
     setTimeout(() => {
-        const nextUrl = getNextUrl(window.location.href);
+        const nextUrl = getNextUrl();
         window.location.href = nextUrl;
-    }, 59000);
+    }, 50000);
 
-    // Отображаем таймер обратного отсчёта
+    // Таймер
     const timerElement = document.createElement('div');
     timerElement.style.position = 'fixed';
     timerElement.style.bottom = '10px';
@@ -54,41 +62,18 @@
     timerElement.style.padding = '5px 10px';
     timerElement.style.borderRadius = '5px';
     timerElement.style.zIndex = '9999';
+
     document.body.appendChild(timerElement);
 
     let timeLeft = 90;
+
     const countdown = setInterval(() => {
         timeLeft--;
         timerElement.textContent = `Next site in: ${timeLeft} seconds`;
+
         if (timeLeft <= 0) {
             clearInterval(countdown);
         }
     }, 1000);
 
 })();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
