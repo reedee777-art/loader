@@ -14,7 +14,7 @@
     // Разрешённые сайты
     const allowedHosts = [
         'feyorra.top',
-        //'earnbitmoon.club',
+        'viefaucet.com',
         'claimtrx.com'
     ];
 
@@ -26,7 +26,7 @@
     // Список сайтов (ТОЛЬКО ДОМЕНЫ)
     const faucetSites = [
         'claimtrx.com',
-        //'earnbitmoon.club',
+        'viefaucet.com',
         'feyorra.top'
     ];
 
@@ -42,7 +42,7 @@
         const nextHost = faucetSites[nextIndex];
 
         if (nextHost === 'claimtrx.com') return 'https://claimtrx.com/faucet';
-       // if (nextHost === 'earnbitmoon.club') return 'https://earnbitmoon.club';
+        if (nextHost === 'viefaucet.com') return 'https://viefaucet.com/app/faucet';
         if (nextHost === 'feyorra.top') return 'https://feyorra.top/faucet';
     }
 
