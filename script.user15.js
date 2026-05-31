@@ -13,7 +13,7 @@
 
     // Разрешённые сайты
     const allowedHosts = [
-        'feyorra.top',
+        //'feyorra.top',
         'viefaucet.com',
         'claimtrx.com'
     ];
@@ -43,7 +43,7 @@
 
         if (nextHost === 'claimtrx.com') return 'https://claimtrx.com/faucet';
         if (nextHost === 'viefaucet.com') return 'https://viefaucet.com/app/faucet';
-        if (nextHost === 'feyorra.top') return 'https://feyorra.top/faucet';
+       // if (nextHost === 'feyorra.top') return 'https://feyorra.top/faucet';
     }
 
     // Переключение через 55 секунд
