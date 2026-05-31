@@ -25,9 +25,9 @@
 
     // Список сайтов (ТОЛЬКО ДОМЕНЫ)
     const faucetSites = [
-        'claimtrx.com',
         'viefaucet.com',
-        'feyorra.top'
+        'feyorra.top',
+        'claimtrx.com'
     ];
 
     // Получаем следующий сайт
