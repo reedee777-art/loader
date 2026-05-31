@@ -14,7 +14,7 @@
     // Разрешённые сайты
     const allowedHosts = [
         'feyorra.top',
-        'viefaucet.com',
+        //'viefaucet.com',
         'claimtrx.com'
     ];
 
@@ -25,7 +25,7 @@
 
     // Список сайтов (ТОЛЬКО ДОМЕНЫ)
     const faucetSites = [
-        'viefaucet.com',
+       // 'viefaucet.com',
         'feyorra.top',
         'claimtrx.com'
     ];
@@ -42,7 +42,7 @@
         const nextHost = faucetSites[nextIndex];
 
         if (nextHost === 'claimtrx.com') return 'https://claimtrx.com/faucet';
-        if (nextHost === 'viefaucet.com') return 'https://viefaucet.com/app/faucet';
+        //if (nextHost === 'viefaucet.com') return 'https://viefaucet.com/app/faucet';
         if (nextHost === 'feyorra.top') return 'https://feyorra.top/faucet';
     }
 
