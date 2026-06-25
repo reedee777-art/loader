@@ -42,7 +42,7 @@
         const nextHost = faucetSites[nextIndex];
 
         if (nextHost === 'cryptoukr.in.ua') return 'https://cryptoukr.in.ua/faucet';
-        if (nextHost === 'earnbitmoon.club') return 'https://earnbitmoon.club/';
+        if (nextHost === 'earnbitmoon.club') return 'https://earnbitmoon.club';
         if (nextHost === 'faucetpayz.com') return 'https://faucetpayz.com/faucet';
     }
 
