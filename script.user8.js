@@ -14,7 +14,7 @@
     // Разрешённые сайты
     const allowedHosts = [
         'faucetpayz.com',
-        //'www.evofaucet.com',
+        'earnbitmoon.club',
         'cryptoukr.in.ua'
     ];
 
@@ -25,7 +25,7 @@
 
     // Список сайтов (ТОЛЬКО ДОМЕНЫ)
     const faucetSites = [
-        //'www.evofaucet.com',
+        'earnbitmoon.club',
         'faucetpayz.com',
         'cryptoukr.in.ua'
     ];
@@ -42,7 +42,7 @@
         const nextHost = faucetSites[nextIndex];
 
         if (nextHost === 'cryptoukr.in.ua') return 'https://cryptoukr.in.ua/faucet';
-       // if (nextHost === 'www.evofaucet.com') return 'https://www.evofaucet.com/faucet';
+        if (nextHost === 'earnbitmoon.club') return 'https://earnbitmoon.club/';
         if (nextHost === 'faucetpayz.com') return 'https://faucetpayz.com/faucet';
     }
 
