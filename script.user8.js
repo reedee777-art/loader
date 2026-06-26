@@ -15,6 +15,7 @@
     const allowedHosts = [
         'faucetpayz.com',
         'earnbitmoon.club',
+             'freebits.xyz',
         'cryptoukr.in.ua'
     ];
 
@@ -26,6 +27,7 @@
     // Список сайтов (ТОЛЬКО ДОМЕНЫ)
     const faucetSites = [
         'earnbitmoon.club',
+             'freebits.xyz',
         'faucetpayz.com',
         'cryptoukr.in.ua'
     ];
@@ -43,6 +45,7 @@
 
         if (nextHost === 'cryptoukr.in.ua') return 'https://cryptoukr.in.ua/faucet';
         if (nextHost === 'earnbitmoon.club') return 'https://earnbitmoon.club';
+             if (nextHost === 'freebits.xyz') return 'https://freebits.xyz';
         if (nextHost === 'faucetpayz.com') return 'https://faucetpayz.com/faucet';
     }
 
