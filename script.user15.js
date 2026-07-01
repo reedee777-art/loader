@@ -1,5 +1,5 @@
  // ==UserScript==
-// @name         Faucet Auto-Switcher323
+// @name         aruble.net Auto-Switcher323
 // @namespace    http://tampermonkey.net/
 // @version      1.2
 // @description  Automatically switches between faucet sites every 2 minutes (site-filtered)
@@ -15,7 +15,9 @@
     const allowedHosts = [
         'feyorra.top',
         'freeltc.online',
-        'claimtrx.com'
+        'claimtrx.com',
+       'skyfreecoins.top',
+        'aruble.net'
     ];
 
     // Проверка текущего сайта
@@ -25,9 +27,11 @@
 
     // Список сайтов (ТОЛЬКО ДОМЕНЫ)
     const faucetSites = [
-        'freeltc.online',
         'feyorra.top',
-        'claimtrx.com'
+        'freeltc.online',
+        'claimtrx.com',
+       'skyfreecoins.top',
+        'aruble.net'
     ];
 
     // Получаем следующий сайт
@@ -41,6 +45,8 @@
         const nextIndex = (currentIndex + 1) % faucetSites.length;
         const nextHost = faucetSites[nextIndex];
 
+        if (nextHost === 'aruble.net') return 'https://aruble.net/faucet';
+              if (nextHost === 'skyfreecoins.top') return 'https://skyfreecoins.top/faucet';
         if (nextHost === 'claimtrx.com') return 'https://claimtrx.com/faucet';
         if (nextHost === 'freeltc.online') return 'https://freeltc.online/faucet';
         if (nextHost === 'feyorra.top') return 'https://feyorra.top/faucet';
@@ -50,7 +56,7 @@
     setTimeout(() => {
         const nextUrl = getNextUrl();
         window.location.href = nextUrl;
-    }, 50000);
+    }, 40000);
 
     // Таймер
     const timerElement = document.createElement('div');
@@ -77,4 +83,3 @@
     }, 1000);
 
 })();
-
