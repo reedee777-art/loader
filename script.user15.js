@@ -16,7 +16,7 @@
         'feyorra.top',
         'freeltc.online',
         'claimtrx.com',
-       'skyfreecoins.top',
+       'skyfreecoins.top'
        // 'aruble.net'
     ];
 
@@ -30,7 +30,7 @@
         'feyorra.top',
         'freeltc.online',
         'claimtrx.com',
-       'skyfreecoins.top',
+       'skyfreecoins.top'
       //  'aruble.net'
     ];
 
