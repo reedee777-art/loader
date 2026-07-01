@@ -17,7 +17,7 @@
         'freeltc.online',
         'claimtrx.com',
        'skyfreecoins.top',
-        'aruble.net'
+       // 'aruble.net'
     ];
 
     // Проверка текущего сайта
@@ -31,7 +31,7 @@
         'freeltc.online',
         'claimtrx.com',
        'skyfreecoins.top',
-        'aruble.net'
+      //  'aruble.net'
     ];
 
     // Получаем следующий сайт
@@ -45,7 +45,7 @@
         const nextIndex = (currentIndex + 1) % faucetSites.length;
         const nextHost = faucetSites[nextIndex];
 
-        if (nextHost === 'aruble.net') return 'https://aruble.net/faucet';
+       // if (nextHost === 'aruble.net') return 'https://aruble.net/faucet';
               if (nextHost === 'skyfreecoins.top') return 'https://skyfreecoins.top/faucet';
         if (nextHost === 'claimtrx.com') return 'https://claimtrx.com/faucet';
         if (nextHost === 'freeltc.online') return 'https://freeltc.online/faucet';
