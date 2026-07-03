@@ -53,7 +53,7 @@
     setTimeout(() => {
         const nextUrl = getNextUrl();
         window.location.href = nextUrl;
-    }, 50000);
+    }, 65000);
 
     // Таймер
     const timerElement = document.createElement('div');
