@@ -53,7 +53,7 @@
     setTimeout(() => {
         const nextUrl = getNextUrl();
         window.location.href = nextUrl;
-    }, 65000);
+    }, 55000);
 
     // Таймер
     const timerElement = document.createElement('div');
@@ -68,7 +68,7 @@
 
     document.body.appendChild(timerElement);
 
-    let timeLeft = 90;
+    let timeLeft = 55;
 
     const countdown = setInterval(() => {
         timeLeft--;
