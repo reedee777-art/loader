@@ -41,7 +41,7 @@
 
         let next = chain[(index + 1) % chain.length];
 
-        const newUrl = `https://${host}/app/faucet?currency=${next}`;
+        const newUrl = `https://${host}/faucet/currency/${next}`;
 
         if (window.location.href !== newUrl) {
             window.location.href = newUrl;
@@ -52,6 +52,5 @@
     setInterval(checkForError, 1200);
 
 })();
-
 
 
