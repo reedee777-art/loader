@@ -24,6 +24,7 @@
          'suspended until',
           'banned',
          'Only limit',
+          'blocked',
          'anti-fraud',
           'back tomorrow',
          'maximum daily claims',
