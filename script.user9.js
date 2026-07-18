@@ -22,7 +22,7 @@
         'Daily claim limit reached',
          'temporarily suspended',
          'suspended until',
-          'suspended',
+          'is banned',
          'Only limit',
           'back tomorrow',
          'maximum daily claims',
