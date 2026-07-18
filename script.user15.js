@@ -14,9 +14,9 @@
     // Разрешённые сайты
     const allowedHosts = [
         'feyorra.top',
-        'freeltc.online',
-        'claimtrx.com',
-       'skyfreecoins.top'
+       // 'freeltc.online',
+        'claimtrx.com'
+       //'skyfreecoins.top'
        // 'aruble.net'
     ];
 
@@ -28,9 +28,9 @@
     // Список сайтов (ТОЛЬКО ДОМЕНЫ)
     const faucetSites = [
         'feyorra.top',
-        'freeltc.online',
-        'claimtrx.com',
-       'skyfreecoins.top'
+       // 'freeltc.online',
+        'claimtrx.com'
+       //'skyfreecoins.top'
       //  'aruble.net'
     ];
 
@@ -46,9 +46,9 @@
         const nextHost = faucetSites[nextIndex];
 
        // if (nextHost === 'aruble.net') return 'https://aruble.net/faucet';
-              if (nextHost === 'skyfreecoins.top') return 'https://skyfreecoins.top/faucet';
+            //  if (nextHost === 'skyfreecoins.top') return 'https://skyfreecoins.top/faucet';
         if (nextHost === 'claimtrx.com') return 'https://claimtrx.com/faucet';
-        if (nextHost === 'freeltc.online') return 'https://freeltc.online/faucet';
+       // if (nextHost === 'freeltc.online') return 'https://freeltc.online/faucet';
         if (nextHost === 'feyorra.top') return 'https://feyorra.top/faucet';
     }
 
