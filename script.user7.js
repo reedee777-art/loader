@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         Multi Faucet Error Redirect Chain
 // @namespace    http://tampermonkey.net/
-// @version      1.4
-// @description  При ошибке переключает валюты на faucet сайтах
+// @version      1.5
+// @description  При ошибке переключает валюты на faucet сайтах + проверка процентов и клеймов
 // @author       ChatGPT
 // @match        https://vipcoinfaucet.com/*
 // @match        https://mrappswala.com/*
@@ -94,6 +94,78 @@
         }
     }
 
+    function getPercentageFromPage() {
+        // Ищем элемент с прогресс-баром
+        const progressBar = document.querySelector('.progress-bar');
+        if (progressBar) {
+            const style = progressBar.getAttribute('style') || '';
+            const match = style.match(/width:\s*(\d+)%/);
+            if (match) {
+                return parseInt(match[1]);
+            }
+        }
+
+        // Ищем текст с процентами
+        const text = document.body.innerText;
+        const percentMatch = text.match(/(\d+)%/);
+        if (percentMatch) {
+            return parseInt(percentMatch[1]);
+        }
+
+        return null;
+    }
+
+    function getClaimsData() {
+        // Ищем текст вида "23/30" или "0/100"
+        const text = document.body.innerText;
+        const claimsMatch = text.match(/(\d+)\/(\d+)/);
+        if (claimsMatch) {
+            const current = parseInt(claimsMatch[1]);
+            const total = parseInt(claimsMatch[2]);
+            return { current, total };
+        }
+
+        // Ищем в HTML структуре
+        const claimElements = document.querySelectorAll('h3, .card-body h3, .card h3');
+        for (let el of claimElements) {
+            const text = el.textContent.trim();
+            const match = text.match(/(\d+)\/(\d+)/);
+            if (match) {
+                return {
+                    current: parseInt(match[1]),
+                    total: parseInt(match[2])
+                };
+            }
+        }
+
+        return null;
+    }
+
+    function performRedirect(host, chain, currentCurrency, reason) {
+        let index = chain.indexOf(currentCurrency);
+        if (index === -1) index = 0;
+
+        let next = chain[(index + 1) % chain.length];
+
+        const now = Date.now();
+        if (redirectCount > MAX_REDIRECTS || (now - lastRedirectTime < MIN_REDIRECT_INTERVAL)) {
+            console.log('Too many redirects or too fast, waiting...');
+            return false;
+        }
+
+        redirectCount++;
+        lastRedirectTime = now;
+
+        const newUrl = buildNewUrl(host, next);
+        console.log(`${reason}: Redirecting from ${currentCurrency} to ${next} | URL: ${newUrl}`);
+
+        if (window.location.href !== newUrl) {
+            window.location.href = newUrl;
+            return true;
+        }
+        return false;
+    }
+
     function checkForError() {
         const host = window.location.hostname;
         const chain = chains[host];
@@ -113,59 +185,32 @@
             }
         }
 
+        // ===== НОВАЯ ПРОВЕРКА: процент =====
+        const percentage = getPercentageFromPage();
+        if (percentage !== null && percentage < 1) {
+            console.log(`Percentage is ${percentage}% (< 1%), switching currency...`);
+            performRedirect(host, chain, current, 'Low percentage (< 1%)');
+            return;
+        }
 
+        // ===== НОВАЯ ПРОВЕРКА: клеймы =====
+        const claims = getClaimsData();
+        if (claims && claims.current === 0 && claims.total > 0) {
+            console.log(`Claims: 0/${claims.total}, switching currency...`);
+            performRedirect(host, chain, current, 'Zero claims available (0/X)');
+            return;
+        }
 
         // Если ошибка на BCH - принудительно переключаем
         if (hasError && current === 'BCH') {
             console.log('BCH error detected, switching...');
-
-            // Находим индекс BCH и берем следующую валюту
-            let index = chain.indexOf('BCH');
-            if (index === -1) index = 0;
-
-            let next = chain[(index + 1) % chain.length];
-
-            // Проверяем защиту от зацикливания
-            const now = Date.now();
-            if (redirectCount > MAX_REDIRECTS || (now - lastRedirectTime < MIN_REDIRECT_INTERVAL)) {
-                console.log('Too many redirects or too fast, waiting...');
-                return;
-            }
-
-            redirectCount++;
-            lastRedirectTime = now;
-
-            const newUrl = buildNewUrl(host, next);
-            console.log(`Redirecting from BCH to ${next} | URL: ${newUrl}`);
-
-            if (window.location.href !== newUrl) {
-                window.location.href = newUrl;
-            }
+            performRedirect(host, chain, current, 'BCH error');
             return;
         }
 
         // Обычная обработка ошибок для других валют
         if (hasError) {
-            let index = chain.indexOf(current);
-            if (index === -1) index = 0;
-
-            let next = chain[(index + 1) % chain.length];
-
-            const now = Date.now();
-            if (redirectCount > MAX_REDIRECTS || (now - lastRedirectTime < MIN_REDIRECT_INTERVAL)) {
-                console.log('Too many redirects or too fast, waiting...');
-                return;
-            }
-
-            redirectCount++;
-            lastRedirectTime = now;
-
-            const newUrl = buildNewUrl(host, next);
-            console.log(`Redirecting from ${current} to ${next} | URL: ${newUrl}`);
-
-            if (window.location.href !== newUrl) {
-                window.location.href = newUrl;
-            }
+            performRedirect(host, chain, current, 'Error detected');
         } else {
             // Если ошибки нет - сбрасываем счетчик
             redirectCount = 0;
