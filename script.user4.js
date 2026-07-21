@@ -1,35 +1,35 @@
 // ==UserScript==
-// @name         ClaimX Auto Click (25 sec delay)
+// @name         ClaimX Auto Click (wait for button)
 // @namespace    http://tampermonkey.net/
-// @version      1.0
-// @description  Ждёт 25 секунд и нажимает кнопку Enter Faucet Portal на claimx.online
-// @author       You
+// @version      1.1
+// @description  Ждёт появления кнопки и нажимает через 25 сек
 // @match        https://claimx.online/*
-// @icon         https://www.google.com/s2/favicons?sz=64&domain=claimx.online
 // @grant        none
 // ==/UserScript==
 
 (function() {
     'use strict';
 
-    console.log('[Tampermonkey] ClaimX — ожидание 25 секунд перед кликом...');
+    let clicked = false;
 
-    setTimeout(function() {
-        // Ищем кнопку по тексту или по атрибутам
+    function waitForButton() {
+        if (clicked) return;
+
         const button = document.querySelector('button.btn.btn-primary.w-100.py-2.5.fw-bold.mb-3');
-        
-        // Альтернативный поиск по тексту, если селектор не сработал
-        const fallbackButton = Array.from(document.querySelectorAll('button')).find(
-            btn => btn.textContent.trim().includes('Enter Faucet Portal')
-        );
-
-        const targetButton = button || fallbackButton;
-
-        if (targetButton) {
-            targetButton.click();
-            console.log('[Tampermonkey] Кнопка "Enter Faucet Portal" нажата!');
+        if (button) {
+            console.log('[Tampermonkey] Кнопка найдена, ожидание 25 секунд...');
+            setTimeout(() => {
+                if (!clicked) {
+                    button.click();
+                    clicked = true;
+                    console.log('[Tampermonkey] Кнопка нажата!');
+                }
+            }, 25000);
         } else {
-            console.warn('[Tampermonkey] Кнопка не найдена. Возможно, страница ещё не загружена или изменился DOM.');
+            // Проверяем каждую секунду
+            setTimeout(waitForButton, 1000);
         }
-    }, 25000); // 25 000 мс = 25 секунд
+    }
+
+    waitForButton();
 })();
