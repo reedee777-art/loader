@@ -17,6 +17,6 @@
             // Заменяем /app/dashboard на /app/faucet?currency=LTC
             var newPath = window.location.pathname.replace('/app/dashboard', '/app/faucet') + '?currency=BTC';
             window.location.href = window.location.origin + newPath;
-        }, 1000);
+        }, 1100);
     }
 })();
