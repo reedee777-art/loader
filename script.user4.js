@@ -4,7 +4,7 @@
 // @version      1.0
 // @description  Ждёт 25 секунд и нажимает кнопку Enter Faucet Portal на claimx.online
 // @author       You
-// @match        https://claimx.online/
+// @match        https://claimx.online/*
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=claimx.online
 // @grant        none
 // ==/UserScript==
