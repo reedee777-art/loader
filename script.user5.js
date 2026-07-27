@@ -34,7 +34,7 @@
 
                         // Перенаправляем на BTC faucet
                         const currentUrl = window.location.href;
-                        const newUrl = currentUrl.replace('/links/currency/ltc', '/faucet/currency/btc');
+                        const newUrl = currentUrl.replace('/links/currency/ltc', '/faucet/currency/ltc');
                         window.location.href = newUrl;
                         return; // Выходим после редиректа
                     }
