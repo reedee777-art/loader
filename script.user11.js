@@ -8,6 +8,7 @@
 // @match        https://freeltc.fun/dashboard
 // @match        https://earncryptowrs.in/dashboard
 // @match        https://cryptofuture.co.in/dashboard
+// @match        https://hotfaucet.in/dashboard
 // @grant        none
 // @run-at       document-start
 // ==/UserScript==
