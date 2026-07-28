@@ -22,7 +22,6 @@
         'Daily claim limit reached',
          'temporarily suspended',
          'suspended until',
-          'banned',
          'Only limit',
           'been blacklisted',
           'blocked',
