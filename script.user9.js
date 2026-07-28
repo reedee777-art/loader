@@ -22,6 +22,7 @@
         'Daily claim limit reached',
          'temporarily suspended',
          'suspended until',
+         'temporarily suspended until',
          'permanently banned!',
          'Only limit',
           'been blacklisted',
@@ -35,7 +36,7 @@
     checkForError();
 
     // Проверяем каждые 2 секунды (на случай динамического появления сообщения)
-    setInterval(checkForError, 2000);
+    setInterval(checkForError, 500);
 
     function checkForError() {
         const pageText = document.body.innerText;
