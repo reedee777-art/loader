@@ -6,7 +6,7 @@
 // @author       YourName
 // @match        https://linksfly.link/faucet/currency/*/validate/4
 // @match        https://vipcoinfaucet.com/faucet/currency/*/validate/4
-// @match        https://gamerlee.com/links/currency/ltc/validate/4
+// @match        https://gamerlee.com/links/currency/ltc/*
 // @match        *://*/*/*/currency/*/validate/4
 // @match        *://*/*/*/*/validate/4
 // @grant        none
