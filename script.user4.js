@@ -21,7 +21,7 @@
     // Extract the base URL and currency from the current path
     // Pattern: https://domain.com/faucet/currency/XXXX/validate/4
     const urlParts = currentUrl.split('/');
-    const verifyIndex = urlParts.indexOf('verify');
+    const verifyIndex = urlParts.indexOf('validate');
 
     if (verifyIndex !== -1) {
         // Remove 'verify' from the path to get the target URL
