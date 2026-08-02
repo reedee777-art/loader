@@ -14,7 +14,7 @@
     // Разрешённые сайты
     const allowedHosts = [
         'faucetpayz.com',
-        'cointapper.io',
+        //'cointapper.io',
             // 'freebits.xyz',
         'cryptoukr.in.ua'
     ];
@@ -26,7 +26,7 @@
 
     // Список сайтов (ТОЛЬКО ДОМЕНЫ)
     const faucetSites = [
-        'cointapper.io',
+        //'cointapper.io',
             // 'freebits.xyz',
         'faucetpayz.com',
         'cryptoukr.in.ua'
@@ -44,7 +44,7 @@
         const nextHost = faucetSites[nextIndex];
 
         if (nextHost === 'cryptoukr.in.ua') return 'https://cryptoukr.in.ua/faucet';
-        if (nextHost === 'cointapper.io') return 'https://cointapper.io/faucet';
+       // if (nextHost === 'cointapper.io') return 'https://cointapper.io/faucet';
             // if (nextHost === 'freebits.xyz') return 'https://freebits.xyz';
         if (nextHost === 'faucetpayz.com') return 'https://faucetpayz.com/faucet';
     }
