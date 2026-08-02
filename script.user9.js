@@ -23,7 +23,7 @@
          'temporarily suspended',
          'suspended until',
          'temporarily suspended until',
-         'permanently banned!',
+         'permanently banned',
          'Only limit',
           'been blacklisted',
           'blocked',
