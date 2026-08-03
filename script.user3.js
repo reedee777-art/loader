@@ -19,9 +19,9 @@
     // Список ключевых слов для поиска кнопки
     const buttonKeywords = [
         'claim', 'collect', 'submit', 'create an account',
-        'reward', 'log in', 'verify captcha', 'start earning',
+        'reward', 'verify captcha', 'start earning',
         'verify', 'captcha', 'get reward!', 'unlock',
-        'continue', 'login', 'sign in', 'collect reward',
+        'continue', 'verify', 'sign in', 'collect reward',
         'verify captcha', 'claim now!'
     ];
 
