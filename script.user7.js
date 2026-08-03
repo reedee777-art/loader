@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Multi Faucet Error Redirect Chain
 // @namespace    http://tampermonkey.net/
-// @version      1.5
+// @version      1.7
 // @description  При ошибке переключает валюты на faucet сайтах + проверка процентов и клеймов
 // @author       ChatGPT
 // @match        https://vipcoinfaucet.com/*
@@ -67,10 +67,27 @@
         return null;
     }
 
+    function isZecCurrency(currency) {
+        // Проверяем любой вариант написания ZEC
+        return currency && currency.toUpperCase() === 'ZEC';
+    }
+
     function buildNewUrl(host, currency) {
         // Сохраняем текущий путь и параметры
         const currentPath = window.location.pathname;
         const currentParams = new URLSearchParams(window.location.search);
+
+        // === ПРОВЕРКА: если путь содержит /links/currency/ ===
+        if (currentPath.includes('/links/currency/')) {
+            // Для всех сайтов: если нашли ZEC (в любом регистре), перенаправляем на /faucet/currency/ltc
+            if (isZecCurrency(currency)) {
+                return `https://${host}/faucet/currency/ltc`;
+            }
+            
+            // Для остальных валют просто меняем в пути
+            const newPath = currentPath.replace(/\/currency\/[^\/]+/i, `/currency/${currency.toLowerCase()}`);
+            return `https://${host}${newPath}${window.location.search}`;
+        }
 
         // Если текущий путь содержит /faucet/currency/
         if (currentPath.includes('/faucet/currency/')) {
@@ -147,6 +164,13 @@
 
         let next = chain[(index + 1) % chain.length];
 
+        // Если текущая валюта ZEC (в любом регистре) и мы на странице /links/currency/ - сразу переключаем на LTC
+        const currentPath = window.location.pathname;
+        if (currentPath.includes('/links/currency/') && isZecCurrency(currentCurrency)) {
+            next = 'LTC';
+            console.log(`Special redirect: ${currentCurrency} -> ${next} on /links/currency/ page`);
+        }
+
         const now = Date.now();
         if (redirectCount > MAX_REDIRECTS || (now - lastRedirectTime < MIN_REDIRECT_INTERVAL)) {
             console.log('Too many redirects or too fast, waiting...');
@@ -175,6 +199,14 @@
         if (!current) return;
 
         const text = document.body.innerText;
+        const currentPath = window.location.pathname;
+
+        // === СПЕЦИАЛЬНАЯ ПРОВЕРКА: если на странице /links/currency/ и валюта ZEC (любой регистр) ===
+        if (currentPath.includes('/links/currency/') && isZecCurrency(current)) {
+            console.log(`Found ${current} on /links/currency/ page, redirecting to LTC...`);
+            performRedirect(host, chain, current, `${current} on /links/currency/ page`);
+            return;
+        }
 
         // Проверяем наличие ошибок
         let hasError = false;
@@ -185,7 +217,7 @@
             }
         }
 
-        // ===== НОВАЯ ПРОВЕРКА: процент =====
+        // ===== ПРОВЕРКА: процент =====
         const percentage = getPercentageFromPage();
         if (percentage !== null && percentage < 1) {
             console.log(`Percentage is ${percentage}% (< 1%), switching currency...`);
@@ -193,7 +225,7 @@
             return;
         }
 
-        // ===== НОВАЯ ПРОВЕРКА: клеймы =====
+        // ===== ПРОВЕРКА: клеймы =====
         const claims = getClaimsData();
         if (claims && claims.current === 0 && claims.total > 0) {
             console.log(`Claims: 0/${claims.total}, switching currency...`);
