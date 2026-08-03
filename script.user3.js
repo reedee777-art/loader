@@ -1,120 +1,72 @@
 // ==UserScript==
-// @name         Faucet Auto Switcher (25s click visible + 35s next)
+// @name         Universal Claim Button
 // @namespace    http://tampermonkey.net/
-// @version      1.9
-// @description  Через 25 сек нажимает только видимые кнопки Claim или X2 rewards, через 35 сек переходит на следующий сайт
-// @match        *://*/*
+// @version      1.2
+// @description  Clicks claim buttons when hCaptcha or reCAPTCHA is solved
+// @author       Your Name
+// @match        https://excoinbit.online/*
+// @match        https://mixtoshi.com/*
+// @match        https://coinvaganza.xyz/*
+// @match        https://mix-crypto.com/*
+// @match        https://mix-zero.xyz/*
+// @match        https://*/firewall
 // @grant        none
 // ==/UserScript==
 
 (function () {
     'use strict';
 
-    const sites = [
-       // { host: "tronpick.io",     url: "https://tronpick.io/faucet.php" },
- // { host: "tonpick.game",     url: "https://tonpick.game/faucet.php" },
- // { host: "dogepick.io",     url: "https://dogepick.io/faucet.php" },
-     //     { host: "litepick.io",     url: "https://litepick.io/faucet.php" },
-      //    { host: "suipick.io",     url: "https://suipick.io/faucet.php" },
-        { host: "freebch.in",      url: "https://freebch.in/faucet" },
-       //   { host: "freetoncoin.in",  url: "https://freetoncoin.in" },
-      //  { host: "freebnb.in",      url: "https://freebnb.in" },
-      //    { host: "freetrump.in",    url: "https://freetrump.in" },
-       //   { host: "usdpick.io",      url: "https://usdpick.io" },
-        //  { host: "freeshib.in",     url: "https://freeshib.in" },
-       //   { host: "freesui.in",      url: "https://freesui.in" },
-       //   { host: "freearb.in",      url: "https://freearb.in" },
-        //  { host: "freetron.in",     url: "https://freetron.in" },
-         //  { host: "easylite.io",      url: "https://easylite.io/faucet.php" },
-        //  { host: "easydoge.io",      url: "https://easydoge.io/faucet.php" },
-        //  { host: "easytrx.io",     url: "https://easytrx.io/faucet.php" },
-        //{ host: "adcore.top",     url: "https://adcore.top/user/faucet" },
-       // { host: "freebtcco.in",     url: "https://freebtcco.in/" },
-         // { host: "cryptoclicks.net",     url: "https://cryptoclicks.net/faucet" }
-          { host: "web.telegram.org",     url: "https://web.telegram.org/k/#@cryptofaucetzone_bot" }
-       // { host: "about:blank",    url: "about:blank" }
+    // Список ключевых слов для поиска кнопки
+    const buttonKeywords = [
+        'claim', 'collect', 'submit', 'create an account',
+        'reward', 'log in', 'verify captcha', 'start earning',
+        'verify', 'captcha', 'get reward!', 'unlock',
+        'continue', 'login', 'sign in', 'collect reward',
+        'verify captcha', 'claim now!'
     ];
 
-    const hostname = location.hostname.replace(/^www\./, '');
-    const currentIndex = sites.findIndex(s => s.host === hostname);
-    if (currentIndex === -1) return;
+    function clickTargetButton() {
+        const buttons = document.querySelectorAll(
+            'button, input[type="submit"], a.btn'
+        );
 
-    // Проверка видимости
-    function isVisible(el) {
-        if (!el) return false;
-        if (el.offsetParent === null) return false;
-        const r = el.getBoundingClientRect();
-        if (r.width === 0 && r.height === 0) return false;
-        const cs = window.getComputedStyle(el);
-        return !(cs.display === 'none' || cs.visibility === 'hidden' || parseFloat(cs.opacity) === 0);
-    }
+        const targetButtons = Array.from(buttons).filter(button => {
+            const buttonText = (
+                button.textContent ||
+                button.innerText ||
+                button.value ||
+                ''
+            ).trim().toLowerCase();
 
-    // Клик по всем видимым нужным кнопкам
-    function clickClaimButtons() {
-        const buttons = [];
-
-        // Кнопки Claim
-        document.querySelectorAll('button.inline-flex').forEach(btn => {
-            if (btn.textContent.trim().toLowerCase() === "claim" && isVisible(btn)) {
-                buttons.push(btn);
-            }
+            return buttonKeywords.some(keyword =>
+                buttonText.includes(keyword)
+            );
         });
 
-        // Кнопка Claim с id
-        const btnClaim = document.getElementById('process_claim_hourly_faucet');
-        if (btnClaim && btnClaim.textContent.trim().toLowerCase() === "claim" && isVisible(btnClaim)) {
-            buttons.push(btnClaim);
-        }
-
-        // Кнопка X2 rewards
-        const btnX2 = document.querySelector('#process_claim_hourly_faucet.process_btn');
-        if (btnX2 && btnX2.textContent.toLowerCase().includes("x2 rewards") && isVisible(btnX2)) {
-            buttons.push(btnX2);
-        }
-
-        // Кликаем
-        buttons.forEach(btn => {
-            btn.click();
-            console.log("Скрипт: нажата кнопка ->", btn.textContent.trim());
-        });
-    }
-
-    // Через 25 секунд — клик по видимым кнопкам
-    setTimeout(clickClaimButtons, 47000);
-
-    // Через 35 секунд — переход на следующий сайт
-    setTimeout(() => {
-        if (currentIndex + 1 < sites.length) {
-            location.href = sites[currentIndex + 1].url;
+        if (targetButtons.length > 0) {
+            console.log('Found claim button:', targetButtons[0]);
+            targetButtons[0].click();
         } else {
-            console.log("Скрипт: последний сайт — останавливаюсь.");
+            console.log('No claim buttons found.');
         }
-    }, 52000);
+    }
+
+    // Проверяем заполнение hCaptcha или reCAPTCHA
+    const interval = setInterval(() => {
+        const hcaptchaResponse = document.querySelector("[name='h-captcha-response']")?.value;
+        const captchaResponse = document.querySelector('#g-recaptcha-response')?.value;
+
+        if (
+            (hcaptchaResponse && hcaptchaResponse.trim() !== '') ||
+            (captchaResponse && captchaResponse.trim() !== '')
+        ) {
+            console.log('Captcha solved!');
+            clearInterval(interval);
+
+            setTimeout(() => {
+                clickTargetButton();
+            }, 1000);
+        }
+    }, 1000);
 
 })();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
