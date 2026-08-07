@@ -15,7 +15,7 @@
     const allowedHosts = [
         'feyorra.top',
        // 'freeltc.online',
-        'claimtrx.com'
+        'claimtrx.com',
        'earnbitsun.club'
        // 'aruble.net'
     ];
@@ -29,7 +29,7 @@
     const faucetSites = [
         'feyorra.top',
        // 'freeltc.online',
-        'claimtrx.com'
+        'claimtrx.com',
        'earnbitsun.club'
       //  'aruble.net'
     ];
