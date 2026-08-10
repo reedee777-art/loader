@@ -14,10 +14,10 @@
     // Разрешённые сайты
     const allowedHosts = [
         'feyorra.top',
-       // 'freeltc.online',
+        'freeltc.online',
         'claimtrx.com',
-       'earnbitsun.club'
-       // 'aruble.net'
+       'earnbitsun.club',
+        'aruble.net'
     ];
 
     // Проверка текущего сайта
