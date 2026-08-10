@@ -69,7 +69,7 @@
 
     function isZecCurrency(currency) {
         // Проверяем любой вариант написания ZEC
-        return currency && currency.toUpperCase() === 'ZEC';
+        return currency && currency.toUpperCase() === 'DASH';
     }
 
     function buildNewUrl(host, currency) {
