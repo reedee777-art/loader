@@ -28,10 +28,10 @@
     // Список сайтов (ТОЛЬКО ДОМЕНЫ)
     const faucetSites = [
         'feyorra.top',
-       // 'freeltc.online',
+        'freeltc.online',
         'claimtrx.com',
-       'earnbitsun.club'
-      //  'aruble.net'
+       'earnbitsun.club',
+        'aruble.net'
     ];
 
     // Получаем следующий сайт
@@ -45,10 +45,10 @@
         const nextIndex = (currentIndex + 1) % faucetSites.length;
         const nextHost = faucetSites[nextIndex];
 
-       // if (nextHost === 'aruble.net') return 'https://aruble.net/faucet';
+        if (nextHost === 'aruble.net') return 'https://aruble.net/faucet';
               if (nextHost === 'earnbitsun.club') return 'https://earnbitsun.club/faucet';
         if (nextHost === 'claimtrx.com') return 'https://claimtrx.com/faucet';
-       // if (nextHost === 'freeltc.online') return 'https://freeltc.online/faucet';
+        if (nextHost === 'freeltc.online') return 'https://freeltc.online/faucet';
         if (nextHost === 'feyorra.top') return 'https://feyorra.top/faucet';
     }
 
