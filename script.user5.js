@@ -11,6 +11,7 @@
     'use strict';
 
     const EXCLUDED_URLS = [
+         'https://reedee777-art.github.io/loader/loader5.html',
         'https://reedee777-art.github.io/loader/loader4a.html'
     ];
 
