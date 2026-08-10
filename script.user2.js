@@ -39,7 +39,7 @@
     setTimeout(clickClaimButton, 6000);
 
     // Устанавливаем интервал в 28 секунд (28000 мс)
-    setInterval(clickClaimButton, 28000);
+    setInterval(clickClaimButton, 8000);
 
     console.log('Скрипт автоматического сбора LTC запущен. Интервал: 28 секунд');
 })();
