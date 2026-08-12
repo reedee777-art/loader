@@ -12,7 +12,7 @@
 
     const EXCLUDED_URLS = [
          'https://reedee777-art.github.io/loader/loader5.html',
-         'https://faucetpay.io/*',
+         'https://faucetpay.io/exchange',
         'https://reedee777-art.github.io/loader/loader4a.html'
     ];
 
