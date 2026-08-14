@@ -16,7 +16,7 @@
         'feyorra.top',
         'freeltc.online',
         'claimtrx.com',
-      // 'earnbitsun.club',
+       'cryptoflare.net',
         'aruble.net'
     ];
 
@@ -30,7 +30,7 @@
         'feyorra.top',
         'freeltc.online',
         'claimtrx.com',
-      // 'earnbitsun.club',
+      'cryptoflare.net',
         'aruble.net'
     ];
 
@@ -46,7 +46,7 @@
         const nextHost = faucetSites[nextIndex];
 
         if (nextHost === 'aruble.net') return 'https://aruble.net/faucet';
-             // if (nextHost === 'earnbitsun.club') return 'https://earnbitsun.club/faucet';
+              if (nextHost === 'cryptoflare.net') return 'https://cryptoflare.net/faucet';
         if (nextHost === 'claimtrx.com') return 'https://claimtrx.com/faucet';
         if (nextHost === 'freeltc.online') return 'https://freeltc.online/faucet';
         if (nextHost === 'feyorra.top') return 'https://feyorra.top/faucet';
