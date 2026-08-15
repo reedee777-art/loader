@@ -1,15 +1,18 @@
 (function () {
     'use strict';
-
     if (window.location.hostname !== 'mix-crypto.com') {
         return;
     }
 
-    const ERROR_TEXT = 'Antibotlinks were not in correct order';
+    // Список текстов ошибок, при появлении которых нужно выполнять переход
+    const ERROR_TEXTS = [
+        'Antibotlinks were not in correct order',
+        'The faucet does not have sufficient funds for this transaction'
+    ];
+
     const LITECOIN_URL = 'https://mix-crypto.com/litecoin/';
     const HOME_URL = 'https://mix-crypto.com/';
     const STORAGE_KEY = 'mixCryptoReturnTo';
-
     const currentUrl = window.location.href.replace(/\/$/, '');
 
     // Нормализация текста: убираем лишние пробелы/переносы, приводим к нижнему регистру
@@ -17,26 +20,25 @@
         return text.replace(/\s+/g, ' ').trim().toLowerCase();
     }
 
+    const NORMALIZED_ERROR_TEXTS = ERROR_TEXTS.map(normalize);
+
     if (currentUrl === LITECOIN_URL.replace(/\/$/, '')) {
         let triggered = false;
 
         function checkForError() {
             if (triggered) return;
-
             const alerts = document.querySelectorAll('.form .alert.alert-danger');
             for (const alert of alerts) {
                 const text = normalize(alert.textContent);
-
-                // Строго проверяем именно нужную ошибку, а не любую другую (например "wait 1 minute")
-                if (text.includes(normalize(ERROR_TEXT))) {
+                // Строго проверяем именно нужные ошибки, а не любые другие (например "wait 1 minute")
+                const matchedError = NORMALIZED_ERROR_TEXTS.find(errText => text.includes(errText));
+                if (matchedError) {
                     triggered = true;
-                    console.log('[MixCrypto] Ошибка antibotlinks обнаружена, через 3 сек переходим на главную...');
-
+                    console.log('[MixCrypto] Обнаружена ошибка ("' + matchedError + '"), через 3 сек переходим на главную...');
                     setTimeout(() => {
                         sessionStorage.setItem(STORAGE_KEY, LITECOIN_URL);
                         window.location.href = HOME_URL;
                     }, 3000);
-
                     break;
                 }
             }
@@ -44,7 +46,6 @@
 
         const observer = new MutationObserver(checkForError);
         observer.observe(document.body, { childList: true, subtree: true });
-
         checkForError();
     }
 
