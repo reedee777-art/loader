@@ -10,6 +10,9 @@
         'The faucet does not have sufficient funds for this transaction'
     ];
 
+    // Ошибка на главной странице, при которой возврат на litecoin отменяется
+    const DAILY_LIMIT_ERROR_TEXT = 'Your daily claim limit has been reached';
+
     const LITECOIN_URL = 'https://mix-crypto.com/litecoin/';
     const HOME_URL = 'https://mix-crypto.com/';
     const STORAGE_KEY = 'mixCryptoReturnTo';
@@ -52,11 +55,43 @@
     if (currentUrl === HOME_URL.replace(/\/$/, '')) {
         const returnTo = sessionStorage.getItem(STORAGE_KEY);
         if (returnTo) {
-            sessionStorage.removeItem(STORAGE_KEY);
-            console.log('[MixCrypto] Возврат на litecoin через 1 сек...');
-            setTimeout(() => {
-                window.location.href = returnTo;
-            }, 1000);
+            let decided = false;
+
+            function proceed() {
+                if (decided) return;
+                decided = true;
+                observer.disconnect();
+
+                const alerts = document.querySelectorAll('.form .alert.alert-danger');
+                let dailyLimitReached = false;
+                for (const alert of alerts) {
+                    const text = normalize(alert.textContent);
+                    if (text.includes(normalize(DAILY_LIMIT_ERROR_TEXT))) {
+                        dailyLimitReached = true;
+                        break;
+                    }
+                }
+
+                sessionStorage.removeItem(STORAGE_KEY);
+
+                if (dailyLimitReached) {
+                    console.log('[MixCrypto] Достигнут дневной лимит, переходим на about:blank...');
+                    setTimeout(() => {
+                        window.location.href = 'about:blank';
+                    }, 1000);
+                } else {
+                    console.log('[MixCrypto] Возврат на litecoin через 1 сек...');
+                    setTimeout(() => {
+                        window.location.href = returnTo;
+                    }, 1000);
+                }
+            }
+
+            // Даём странице время отрисовать возможный алерт о дневном лимите,
+            // но не ждём дольше 1.5 сек, чтобы не задерживать обычный сценарий
+            const observer = new MutationObserver(proceed);
+            observer.observe(document.body, { childList: true, subtree: true });
+            setTimeout(proceed, 1500);
         }
     }
 })();
