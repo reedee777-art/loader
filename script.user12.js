@@ -4,6 +4,7 @@
 // @version      1.0
 // @description  Автопереход в зависимости от состояния авторизации на claimcrypto.in
 // @match        https://claimcrypto.in/*
+// @match        https://claimcrypto.in
 // @grant        none
 // @run-at       document-end
 // ==/UserScript==
