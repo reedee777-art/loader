@@ -16,7 +16,7 @@
         'feyorra.top',
         'freeltc.online',
         'claimtrx.com',
-       'cryptoflare.net',
+       //'cryptoflare.net',
         'aruble.net'
     ];
 
