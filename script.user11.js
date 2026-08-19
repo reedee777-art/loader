@@ -24,7 +24,7 @@
             // Правила перенаправления
             const redirectRules = {
                 'https://earnsolana.xyz/dashboard': 'https://earnsolana.xyz/faucet',
-                'https://hotfaucet.in/dashboard': 'https://hotfaucet.in/madfaucet/set_coin/SOL',
+                'https://hotfaucet.in/dashboard': 'https://hotfaucet.in/faucet/currency/ltc',
 				  'https://earncryptowrs.in/app/dashboard': 'https://earncryptowrs.in/app/faucet?currency=LTC',
                 'https://cryptofuture.co.in/dashboard': 'https://cryptofuture.co.in/faucet'
             };
