@@ -15,7 +15,7 @@
         // Ждём 1 секунду
         setTimeout(function() {
             // Перенаправляем на /links/currency/ltc
-            window.location.href = window.location.origin + '/faucet?currency=LTC';
+            window.location.href = window.location.origin + '/app/faucet?currency=LTC';
         }, 1000);
     }
 })();
