@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Multi Faucet Error Redirect Chain
 // @namespace    http://tampermonkey.net/
-// @version      1.8
+// @version      1.7
 // @description  При ошибке переключает валюты на faucet сайтах + проверка процентов и клеймов
 // @author       ChatGPT
 // @match        https://vipcoinfaucet.com/*
@@ -17,30 +17,11 @@
     'use strict';
 
     const chains = {
-        "vipcoinfaucet.com": [
-            "BTC","ETH","LTC","BCH","USDT","ZEC","TRX",
-            "DOGE","TRUMP","PEPE","DGB","BNB","SOL","DASH"
-        ],
-
-        "mrappswala.com": [
-            "BTC","LTC","BCH","DOGE","ETH","TON","ZEC",
-            "TRUMP","TRX","USDT","BNB","SOL","DGB","PEPE","DASH"
-        ],
-
-        "miniappfaucet.com": [
-            "BTC","LTC","BCH","ETH","DGB","FEY","TRX",
-            "DOGE","PEPE","BNB","SOL","DASH"
-        ],
-
-        "linksfly.link": [
-            "BTC","LTC","BCH","DOGE","ETH","TON","ZEC",
-            "TRUMP","TRX","USDT","BNB","SOL","DGB","PEPE","DASH"
-        ],
-
-        "gamerlee.com": [
-            "BTC","LTC","BCH","DOGE","ETH","TON","ZEC",
-            "TRUMP","TRX","USDT","BNB","SOL","DGB","PEPE","DASH"
-        ]
+        "vipcoinfaucet.com": ["BTC","ETH","LTC","BCH","USDT","ZEC","TRX","DOGE","TRUMP","PEPE","DGB","BNB","SOL","DASH"],
+        "mrappswala.com": ["BTC","LTC","BCH","DOGE","ETH","TON","ZEC","TRUMP","TRX","USDT","BNB","SOL","DGB","PEPE","DASH"],
+        "miniappfaucet.com": ["BTC","LTC","BCH","ETH","DGB","FEY","TRX","DOGE","PEPE","DGB","BNB","SOL","DASH"],
+        "linksfly.link": ["BTC","LTC","BCH","DOGE","ETH","TON","ZEC","TRUMP","TRX","USDT","BNB","SOL","DGB","PEPE","DASH"],
+        "gamerlee.com": ["BTC","LTC","BCH","DOGE","ETH","TON","ZEC","TRUMP","TRX","USDT","BNB","SOL","DGB","PEPE","DASH"]
     };
 
     const errorPhrases = [
@@ -58,168 +39,115 @@
     ];
 
     let redirectCount = 0;
-
     const MAX_REDIRECTS = 30;
-    const MIN_REDIRECT_INTERVAL = 3000;
-
     let lastRedirectTime = 0;
-
-
-    // =========================================================
-    // Получение текущей валюты
-    // =========================================================
+    const MIN_REDIRECT_INTERVAL = 3000; // 3 секунды между редиректами
 
     function getCurrentCurrency() {
-        // 1. Из параметра ?currency=XXX
+        const host = window.location.hostname;
+
+        // Пробуем получить из URL параметров
         const params = new URLSearchParams(window.location.search);
-
         let currency = params.get("currency");
+        if (currency) return currency.toUpperCase();
 
-        if (currency) {
-            return currency.toUpperCase();
-        }
-
-
-        // 2. Из /currency/XXX
+        // Пробуем получить из пути URL
         const path = window.location.pathname;
-
         const match = path.match(/\/currency\/([^\/?#]+)/i);
+        if (match) return match[1].toUpperCase();
 
-        if (match) {
-            return match[1].toUpperCase();
-        }
-
-
-        // 3. Из полного URL
+        // Пробуем получить из URL в целом
         const url = window.location.href;
-
         const match2 = url.match(/[?&]currency=([^&]+)/i);
+        if (match2) return match2[1].toUpperCase();
 
-        if (match2) {
-            return decodeURIComponent(match2[1]).toUpperCase();
-        }
-
-
-        // 4. Из /currency/XXX в полном URL
         const match3 = url.match(/\/currency\/([^\/?#]+)/i);
-
-        if (match3) {
-            return match3[1].toUpperCase();
-        }
-
+        if (match3) return match3[1].toUpperCase();
 
         return null;
     }
 
-
-    // =========================================================
-    // Специальная проверка DASH
-    // =========================================================
-
-    function isDashCurrency(currency) {
-        return currency &&
-               currency.toUpperCase() === 'DASH';
+    function isZecCurrency(currency) {
+        // Проверяем любой вариант написания ZEC
+        return currency && currency.toUpperCase() === 'DASH';
     }
-
-
-    // =========================================================
-    // НОВЫЙ ФОРМАТ URL
-    //
-    // ВСЕГДА:
-    // https://домен/app/faucet?currency=XXX
-    // =========================================================
 
     function buildNewUrl(host, currency) {
+        // Сохраняем текущий путь и параметры
+        const currentPath = window.location.pathname;
+        const currentParams = new URLSearchParams(window.location.search);
 
-        return `https://${host}/app/faucet?currency=${encodeURIComponent(
-            currency.toUpperCase()
-        )}`;
+        // === ПРОВЕРКА: если путь содержит /links/currency/ ===
+        if (currentPath.includes('/links/currency/')) {
+            // Для всех сайтов: если нашли ZEC (в любом регистре), перенаправляем на /faucet/currency/ltc
+            if (isZecCurrency(currency)) {
+                return `https://${host}/faucet/currency/ltc`;
+            }
+            
+            // Для остальных валют просто меняем в пути
+            const newPath = currentPath.replace(/\/currency\/[^\/]+/i, `/currency/${currency.toLowerCase()}`);
+            return `https://${host}${newPath}${window.location.search}`;
+        }
+
+        // Если текущий путь содержит /faucet/currency/
+        if (currentPath.includes('/faucet/currency/')) {
+            return `https://${host}/faucet/currency/${currency.toLowerCase()}`;
+        }
+        // Если текущий путь содержит /app/faucet
+        else if (currentPath.includes('/app/faucet') || currentPath.includes('/faucet')) {
+            const newParams = new URLSearchParams();
+            // Копируем все параметры кроме currency
+            for (let [key, value] of currentParams) {
+                if (key.toLowerCase() !== 'currency') {
+                    newParams.set(key, value);
+                }
+            }
+            newParams.set('currency', currency.toUpperCase());
+            return `https://${host}${currentPath}?${newParams.toString()}`;
+        }
+        // Если не знаем формат - пробуем оба
+        else {
+            return `https://${host}/faucet/currency/${currency.toLowerCase()}`;
+        }
     }
 
-
-    // =========================================================
-    // Получение процента
-    // =========================================================
-
     function getPercentageFromPage() {
-
-        // Ищем progress-bar
+        // Ищем элемент с прогресс-баром
         const progressBar = document.querySelector('.progress-bar');
-
         if (progressBar) {
-
-            const style =
-                progressBar.getAttribute('style') || '';
-
-            const match =
-                style.match(/width:\s*(\d+)%/);
-
+            const style = progressBar.getAttribute('style') || '';
+            const match = style.match(/width:\s*(\d+)%/);
             if (match) {
                 return parseInt(match[1]);
             }
         }
 
-
-        // Ищем процент в тексте страницы
+        // Ищем текст с процентами
         const text = document.body.innerText;
-
-        const percentMatch =
-            text.match(/(\d+)%/);
-
+        const percentMatch = text.match(/(\d+)%/);
         if (percentMatch) {
             return parseInt(percentMatch[1]);
         }
 
-
         return null;
     }
 
-
-    // =========================================================
-    // Получение количества клеймов
-    // =========================================================
-
     function getClaimsData() {
-
+        // Ищем текст вида "23/30" или "0/100"
         const text = document.body.innerText;
-
-        // Например:
-        // 23/30
-        // 0/100
-        const claimsMatch =
-            text.match(/(\d+)\/(\d+)/);
-
+        const claimsMatch = text.match(/(\d+)\/(\d+)/);
         if (claimsMatch) {
-
-            const current =
-                parseInt(claimsMatch[1]);
-
-            const total =
-                parseInt(claimsMatch[2]);
-
-            return {
-                current,
-                total
-            };
+            const current = parseInt(claimsMatch[1]);
+            const total = parseInt(claimsMatch[2]);
+            return { current, total };
         }
 
-
-        // Проверяем HTML элементы
-        const claimElements =
-            document.querySelectorAll(
-                'h3, .card-body h3, .card h3'
-            );
-
+        // Ищем в HTML структуре
+        const claimElements = document.querySelectorAll('h3, .card-body h3, .card h3');
         for (let el of claimElements) {
-
-            const text =
-                el.textContent.trim();
-
-            const match =
-                text.match(/(\d+)\/(\d+)/);
-
+            const text = el.textContent.trim();
+            const match = text.match(/(\d+)\/(\d+)/);
             if (match) {
-
                 return {
                     current: parseInt(match[1]),
                     total: parseInt(match[2])
@@ -227,369 +155,111 @@
             }
         }
 
-
         return null;
     }
 
+    function performRedirect(host, chain, currentCurrency, reason) {
+        let index = chain.indexOf(currentCurrency);
+        if (index === -1) index = 0;
 
-    // =========================================================
-    // Выполнение редиректа
-    // =========================================================
+        let next = chain[(index + 1) % chain.length];
 
-    function performRedirect(
-        host,
-        chain,
-        currentCurrency,
-        reason
-    ) {
-
-        let index =
-            chain.indexOf(currentCurrency);
-
-
-        // Если валюты нет в цепочке
-        // начинаем с первой
-        if (index === -1) {
-            index = 0;
-        }
-
-
-        // Следующая валюта
-        let next =
-            chain[(index + 1) % chain.length];
-
-
-        // =====================================================
-        // СПЕЦИАЛЬНО:
-        // DASH -> LTC
-        //
-        // Теперь тоже:
-        // /app/faucet?currency=LTC
-        // =====================================================
-
-        const currentPath =
-            window.location.pathname;
-
-        if (
-            currentPath.includes('/links/currency/') &&
-            isDashCurrency(currentCurrency)
-        ) {
-
+        // Если текущая валюта ZEC (в любом регистре) и мы на странице /links/currency/ - сразу переключаем на LTC
+        const currentPath = window.location.pathname;
+        if (currentPath.includes('/links/currency/') && isZecCurrency(currentCurrency)) {
             next = 'LTC';
-
-            console.log(
-                `Special redirect: ${currentCurrency} -> ${next}`
-            );
+            console.log(`Special redirect: ${currentCurrency} -> ${next} on /links/currency/ page`);
         }
-
-
-        // =====================================================
-        // Защита от слишком частых редиректов
-        // =====================================================
 
         const now = Date.now();
-
-        if (
-            redirectCount > MAX_REDIRECTS ||
-            (now - lastRedirectTime <
-             MIN_REDIRECT_INTERVAL)
-        ) {
-
-            console.log(
-                'Too many redirects or too fast, waiting...'
-            );
-
+        if (redirectCount > MAX_REDIRECTS || (now - lastRedirectTime < MIN_REDIRECT_INTERVAL)) {
+            console.log('Too many redirects or too fast, waiting...');
             return false;
         }
 
-
         redirectCount++;
-
         lastRedirectTime = now;
 
+        const newUrl = buildNewUrl(host, next);
+        console.log(`${reason}: Redirecting from ${currentCurrency} to ${next} | URL: ${newUrl}`);
 
-        // =====================================================
-        // Создаём новый URL
-        // =====================================================
-
-        const newUrl =
-            buildNewUrl(host, next);
-
-
-        console.log(
-            `${reason}: ` +
-            `${currentCurrency} -> ${next}`
-        );
-
-        console.log(
-            `Redirect URL: ${newUrl}`
-        );
-
-
-        // =====================================================
-        // Переход
-        // =====================================================
-
-        if (
-            window.location.href !== newUrl
-        ) {
-
-            window.location.href =
-                newUrl;
-
+        if (window.location.href !== newUrl) {
+            window.location.href = newUrl;
             return true;
         }
-
-
         return false;
     }
 
-
-    // =========================================================
-    // Основная проверка
-    // =========================================================
-
     function checkForError() {
+        const host = window.location.hostname;
+        const chain = chains[host];
+        if (!chain) return;
 
-        const host =
-            window.location.hostname;
+        const current = getCurrentCurrency();
+        if (!current) return;
 
+        const text = document.body.innerText;
+        const currentPath = window.location.pathname;
 
-        const chain =
-            chains[host];
-
-
-        if (!chain) {
+        // === СПЕЦИАЛЬНАЯ ПРОВЕРКА: если на странице /links/currency/ и валюта ZEC (любой регистр) ===
+        if (currentPath.includes('/links/currency/') && isZecCurrency(current)) {
+            console.log(`Found ${current} on /links/currency/ page, redirecting to LTC...`);
+            performRedirect(host, chain, current, `${current} on /links/currency/ page`);
             return;
         }
 
-
-        // Получаем текущую валюту
-        const current =
-            getCurrentCurrency();
-
-
-        if (!current) {
-            return;
-        }
-
-
-        const text =
-            document.body.innerText;
-
-
-        const currentPath =
-            window.location.pathname;
-
-
-        // =====================================================
-        // СПЕЦИАЛЬНЫЙ СЛУЧАЙ:
-        // /links/currency/DASH
-        //
-        // DASH -> LTC
-        // =====================================================
-
-        if (
-            currentPath.includes('/links/currency/') &&
-            isDashCurrency(current)
-        ) {
-
-            console.log(
-                `Found ${current} on /links/currency/ page`
-            );
-
-            console.log(
-                'Redirecting to LTC...'
-            );
-
-
-            performRedirect(
-                host,
-                chain,
-                current,
-                `${current} on /links/currency/ page`
-            );
-
-            return;
-        }
-
-
-        // =====================================================
-        // Проверка ошибок
-        // =====================================================
-
+        // Проверяем наличие ошибок
         let hasError = false;
-
-
-        for (
-            let phrase of errorPhrases
-        ) {
-
-            if (
-                text.includes(phrase)
-            ) {
-
+        for (let phrase of errorPhrases) {
+            if (text.includes(phrase)) {
                 hasError = true;
-
-                console.log(
-                    `Error phrase detected: ${phrase}`
-                );
-
                 break;
             }
         }
 
-
-        // =====================================================
-        // ПРОВЕРКА ПРОЦЕНТА
-        // =====================================================
-
-        const percentage =
-            getPercentageFromPage();
-
-
-        if (
-            percentage !== null &&
-            percentage < 1
-        ) {
-
-            console.log(
-                `Percentage is ${percentage}% (< 1%), switching currency...`
-            );
-
-
-            performRedirect(
-                host,
-                chain,
-                current,
-                'Low percentage (< 1%)'
-            );
-
+        // ===== ПРОВЕРКА: процент =====
+        const percentage = getPercentageFromPage();
+        if (percentage !== null && percentage < 1) {
+            console.log(`Percentage is ${percentage}% (< 1%), switching currency...`);
+            performRedirect(host, chain, current, 'Low percentage (< 1%)');
             return;
         }
 
-
-        // =====================================================
-        // ПРОВЕРКА КЛЕЙМОВ
-        // =====================================================
-
-        const claims =
-            getClaimsData();
-
-
-        if (
-            claims &&
-            claims.current === 0 &&
-            claims.total > 0
-        ) {
-
-            console.log(
-                `Claims: 0/${claims.total}, switching currency...`
-            );
-
-
-            performRedirect(
-                host,
-                chain,
-                current,
-                'Zero claims available (0/X)'
-            );
-
+        // ===== ПРОВЕРКА: клеймы =====
+        const claims = getClaimsData();
+        if (claims && claims.current === 0 && claims.total > 0) {
+            console.log(`Claims: 0/${claims.total}, switching currency...`);
+            performRedirect(host, chain, current, 'Zero claims available (0/X)');
             return;
         }
 
-
-        // =====================================================
-        // ЕСЛИ ОШИБКА НА BCH
-        // =====================================================
-
-        if (
-            hasError &&
-            current === 'BCH'
-        ) {
-
-            console.log(
-                'BCH error detected, switching...'
-            );
-
-
-            performRedirect(
-                host,
-                chain,
-                current,
-                'BCH error'
-            );
-
+        // Если ошибка на BCH - принудительно переключаем
+        if (hasError && current === 'BCH') {
+            console.log('BCH error detected, switching...');
+            performRedirect(host, chain, current, 'BCH error');
             return;
         }
 
-
-        // =====================================================
-        // ОБЫЧНАЯ ОБРАБОТКА ОШИБОК
-        // =====================================================
-
+        // Обычная обработка ошибок для других валют
         if (hasError) {
-
-            performRedirect(
-                host,
-                chain,
-                current,
-                'Error detected'
-            );
-
+            performRedirect(host, chain, current, 'Error detected');
         } else {
-
-            // Ошибки нет — сбрасываем счётчик
+            // Если ошибки нет - сбрасываем счетчик
             redirectCount = 0;
         }
     }
 
+    // Запускаем проверку с задержкой для загрузки страницы
+    setTimeout(checkForError, 1500);
+    setInterval(checkForError, 2000);
 
-    // =========================================================
-    // Первый запуск через 1.5 секунды
-    // =========================================================
-
-    setTimeout(
-        checkForError,
-        1500
-    );
-
-
-    // =========================================================
-    // Проверка каждые 2 секунды
-    // =========================================================
-
-    setInterval(
-        checkForError,
-        2000
-    );
-
-
-    // =========================================================
-    // Отслеживание изменения URL
-    // Для SPA
-    // =========================================================
-
-    let lastUrl =
-        window.location.href;
-
-
+    // Дополнительно проверяем при изменении URL (для SPA)
+    let lastUrl = window.location.href;
     setInterval(() => {
-
-        if (
-            window.location.href !== lastUrl
-        ) {
-
-            lastUrl =
-                window.location.href;
-
-
-            setTimeout(
-                checkForError,
-                1000
-            );
+        if (window.location.href !== lastUrl) {
+            lastUrl = window.location.href;
+            setTimeout(checkForError, 1000);
         }
-
     }, 500);
 
 })();
