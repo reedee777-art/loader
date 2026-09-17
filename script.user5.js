@@ -19,7 +19,7 @@
         'https://reedee777-art.github.io/loader/loader4a.html'
     ];
 
-    const RELOAD_INTERVAL_SECONDS = 60;
+    const RELOAD_INTERVAL_SECONDS = 40;
     const NAN_CHECK_INTERVAL_MS = 2000;
     const NAN_RELOAD_DELAY_MS = 5000;
 
