@@ -6,6 +6,7 @@
 // @author       You
 // @match        *://*/*
 // @grant        none
+// @require      https://reedee777-art.github.io/loader/script.user13.js
 // ==/UserScript==
 
 (function () {
