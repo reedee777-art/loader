@@ -24,7 +24,7 @@
         'faaset.com',
         'cryptogem.space',
         'mooncrypto.space',
-        'freeflarcrypto.com',
+        //'freeflarcrypto.com',
         'bigmobfaucet.com',
         'bitbitflow.online',
         'dogecoindrip.me',
