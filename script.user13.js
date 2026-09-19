@@ -32,7 +32,7 @@
     ];
 
     // Обычный переход
-    const NORMAL_DELAY = 25;
+    const NORMAL_DELAY = 24;
 
     // Переход после обнаружения активного таймера
     const FAST_DELAY = 1;
