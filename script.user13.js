@@ -27,7 +27,7 @@
         //'freeflarcrypto.com',
         'bigmobfaucet.com',
         //'bitbitflow.online',
-        'dogecoindrip.me',
+       // 'dogecoindrip.me',
         'tfaucet.com'
     ];
 
