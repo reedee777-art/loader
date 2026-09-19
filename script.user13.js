@@ -26,7 +26,7 @@
         'mooncrypto.space',
         //'freeflarcrypto.com',
         'bigmobfaucet.com',
-        'bitbitflow.online',
+        //'bitbitflow.online',
         'dogecoindrip.me',
         'tfaucet.com'
     ];
