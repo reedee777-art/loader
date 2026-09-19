@@ -73,8 +73,8 @@
         'mooncrypto.space':
             'https://mooncrypto.space/?r=xen44j8p',
 
-        'freeflarcrypto.com':
-            'https://freeflarcrypto.com/?r=cn76vfid',
+      //  'freeflarcrypto.com':
+         //   'https://freeflarcrypto.com/?r=cn76vfid',
 
         'bigmobfaucet.com':
             'https://bigmobfaucet.com/?r=9zv84qrr',
@@ -251,7 +251,7 @@
             setTimeout(() => {
 
                 switchSite(
-                    'normal 35 second timer'
+                    'normal 25 second timer'
                 );
 
             }, NORMAL_DELAY * 1000);
