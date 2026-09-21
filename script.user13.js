@@ -18,10 +18,10 @@
     // =========================================================
 
     const faucetSites = [
-       // 'rushfaucet.top',
+        'rushfaucet.top',
         'nextfaucet.com',
        // 'megafaucet.top',
-       // 'faaset.com',
+        'faaset.com',
         'cryptogem.space',
         'mooncrypto.space',
         //'freeflarcrypto.com',
