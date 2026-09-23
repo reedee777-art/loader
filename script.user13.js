@@ -23,7 +23,8 @@
        // 'megafaucet.top',
        // 'faaset.com',
         'mooncrypto.space',
-        'cryptogem.space',
+       // 'cryptogem.space',
+                'peperush.site',
         //'freeflarcrypto.com',
         'bigmobfaucet.com',
         //'bitbitflow.online',
@@ -67,9 +68,10 @@
         'faaset.com':
             'https://faaset.com/?r=4pascenh',
 
-        'cryptogem.space':
-            'https://cryptogem.space/?r=f3ayjt4b',
-
+       // 'cryptogem.space':
+           // 'https://cryptogem.space/?r=f3ayjt4b',
+        'peperush.site':
+            'https://peperush.site',
         'mooncrypto.space':
             'https://mooncrypto.space/?r=xen44j8p',
 
