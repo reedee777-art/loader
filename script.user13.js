@@ -26,10 +26,10 @@
        // 'cryptogem.space',
                // 'peperush.site',
         //'freeflarcrypto.com',
-        'bigmobfaucet.com',
+        'bigmobfaucet.com'
         //'bitbitflow.online',
        // 'dogecoindrip.me',
-        'tfaucet.com'
+        //'tfaucet.com'
     ];
 
     // Обычный переход
