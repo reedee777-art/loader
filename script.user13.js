@@ -20,11 +20,11 @@
     const faucetSites = [
         'rushfaucet.top',
         'nextfaucet.com',
-       // 'megafaucet.top',
+        'megafaucet.top',
        // 'faaset.com',
         'mooncrypto.space',
        // 'cryptogem.space',
-                'peperush.site',
+               // 'peperush.site',
         //'freeflarcrypto.com',
         'bigmobfaucet.com',
         //'bitbitflow.online',
