@@ -18,18 +18,18 @@
     // =========================================================
 
     const faucetSites = [
-        //'rushfaucet.top',
+        'rushfaucet.top',
         'nextfaucet.com',
         //'megafaucet.top',
        // 'faaset.com',
         'mooncrypto.space',
        // 'cryptogem.space',
-                'peperush.site',
+                //'peperush.site',
         //'freeflarcrypto.com',
-        'bigmobfaucet.com'
+        'bigmobfaucet.com',
         //'bitbitflow.online',
        // 'dogecoindrip.me',
-        //'tfaucet.com'
+        'tfaucet.com'
     ];
 
     // Обычный переход
