@@ -19,6 +19,7 @@
 
     const faucetSites = [
         //'rushfaucet.top',
+         'orthofaucet.com',       
         'nextfaucet.com',
         //'megafaucet.top',
        // 'faaset.com',
@@ -75,8 +76,8 @@
         'mooncrypto.space':
             'https://mooncrypto.space/?r=xen44j8p',
 
-      //  'freeflarcrypto.com':
-         //   'https://freeflarcrypto.com/?r=cn76vfid',
+        'orthofaucet.com':
+            'https://orthofaucet.com/',
 
         'bigmobfaucet.com':
             'https://bigmobfaucet.com/?r=9zv84qrr',
