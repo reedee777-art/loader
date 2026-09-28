@@ -24,6 +24,7 @@
         //'megafaucet.top',
        // 'faaset.com',
         'mooncrypto.space',
+        'pkfaucet.top',        
        // 'cryptogem.space',
         // 'dmcrypto.site',
         //'freeflarcrypto.com',
@@ -69,8 +70,8 @@
         'faaset.com':
             'https://faaset.com/?r=4pascenh',
 
-       // 'cryptogem.space':
-           // 'https://cryptogem.space/?r=f3ayjt4b',
+        'pkfaucet.top':
+            'https://pkfaucet.top/?r=vznc96ex',
         'dmcrypto.site':
             'https://dmcrypto.site/?r=6ruphfyk',
         'mooncrypto.space':
