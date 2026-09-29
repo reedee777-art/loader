@@ -19,8 +19,9 @@
 
     const faucetSites = [
         //'rushfaucet.top',
-         'orthofaucet.com',       
+         'orthofaucet.com',  
         //'nextfaucet.com',
+        'luckfaucet.online',
         'mycryptocoin.click',
         //'megafaucet.top',
        // 'faaset.com',
@@ -65,9 +66,10 @@
 
         'mycryptocoin.click':
             'https://mycryptocoin.click/?r=ty36rnj2',
+        'luckfaucet.online':
+            'https://luckfaucet.online/',
         'nextfaucet.com':
             'https://nextfaucet.com/?r=eghujqes',
-
         'megafaucet.top':
             'https://megafaucet.top/?r=mcamx474',
         'pocketfaucet.website':
