@@ -21,6 +21,7 @@
         //'rushfaucet.top',
         // 'orthofaucet.com',       
         //'nextfaucet.com',
+        'mycryptocoin.click',
         //'megafaucet.top',
        // 'faaset.com',
         'mooncrypto.space',
@@ -62,6 +63,8 @@
         'rushfaucet.top':
             'https://rushfaucet.top/?r=ukfhvmza',
 
+        'mycryptocoin.click':
+            'https://mycryptocoin.click/?r=ty36rnj2',
         'nextfaucet.com':
             'https://nextfaucet.com/?r=eghujqes',
 
