@@ -1,97 +1,182 @@
+// ==UserScript==
+// @name         FaucetPay — Auto Send LTC to cifer
+// @namespace    https://faucetpay.io/
+// @version      1.2
+// @description  LTC → cifer → MAX → Send
+// @match        *://faucetpay.io/*
+// @match        *://*.faucetpay.io/*
+// @grant        none
+// @run-at       document-idle
+// ==/UserScript==
+
 (function () {
     'use strict';
-    if (window.location.hostname !== 'mix-crypto.com') {
-        return;
+
+    const RECIPIENT = 'cifer';
+    const log  = (...a) => console.log('%c[FP-Auto]', 'color:#5b8def;font-weight:bold', ...a);
+    const warn = (...a) => console.warn('%c[FP-Auto]', 'color:#e0a020;font-weight:bold', ...a);
+    const sleep = (ms) => new Promise(r => setTimeout(r, ms));
+
+    const waitFor = (fn, { timeout = 20000, interval = 200, label = '?' } = {}) =>
+        new Promise((resolve, reject) => {
+            const start = Date.now();
+            const tick = () => {
+                let res = null;
+                try { res = fn(); } catch (e) {}
+                if (res) { log(`✓ найдено: ${label}`); return resolve(res); }
+                if (Date.now() - start > timeout) return reject(new Error(`Timeout: ${label}`));
+                setTimeout(tick, interval);
+            };
+            tick();
+        });
+
+    function setNativeValue(el, value) {
+        const desc = Object.getOwnPropertyDescriptor(Object.getPrototypeOf(el), 'value');
+        desc && desc.set ? desc.set.call(el, value) : (el.value = value);
+        el.dispatchEvent(new Event('input',  { bubbles: true }));
+        el.dispatchEvent(new Event('change', { bubbles: true }));
     }
 
-    // Список текстов ошибок, при появлении которых нужно выполнять переход
-    const ERROR_TEXTS = [
-        'Antibotlinks were not in correct order',
-        'The faucet does not have sufficient funds for this transaction'
-    ];
-
-    // Ошибка на главной странице, при которой возврат на litecoin отменяется
-    const DAILY_LIMIT_ERROR_TEXT = 'Your daily claim limit has been reached';
-
-    const LITECOIN_URL = 'https://mix-crypto.com/litecoin/';
-    const HOME_URL = 'https://mix-crypto.com/';
-    const STORAGE_KEY = 'mixCryptoReturnTo';
-    const currentUrl = window.location.href.replace(/\/$/, '');
-
-    // Нормализация текста: убираем лишние пробелы/переносы, приводим к нижнему регистру
-    function normalize(text) {
-        return text.replace(/\s+/g, ' ').trim().toLowerCase();
+    function realClick(el) {
+        const o = { bubbles: true, cancelable: true, view: window, button: 0 };
+        el.dispatchEvent(new PointerEvent('pointerdown', { ...o, pointerId: 1 }));
+        el.dispatchEvent(new MouseEvent('mousedown', o));
+        el.dispatchEvent(new PointerEvent('pointerup',   { ...o, pointerId: 1 }));
+        el.dispatchEvent(new MouseEvent('mouseup',   o));
+        el.dispatchEvent(new MouseEvent('click',     o));
     }
 
-    const NORMALIZED_ERROR_TEXTS = ERROR_TEXTS.map(normalize);
+    const isVisible = (el) => {
+        if (!el) return false;
+        if (el.closest('[aria-hidden="true"]')) return false;
+        if (el.closest('[hidden]')) return false;
+        const r = el.getBoundingClientRect();
+        return r.width > 0 && r.height > 0;
+    };
 
-    if (currentUrl === LITECOIN_URL.replace(/\/$/, '')) {
-        let triggered = false;
+    // --- Шаги ---
 
-        function checkForError() {
-            if (triggered) return;
-            const alerts = document.querySelectorAll('.form .alert.alert-danger');
-            for (const alert of alerts) {
-                const text = normalize(alert.textContent);
-                // Строго проверяем именно нужные ошибки, а не любые другие (например "wait 1 minute")
-                const matchedError = NORMALIZED_ERROR_TEXTS.find(errText => text.includes(errText));
-                if (matchedError) {
-                    triggered = true;
-                    console.log('[MixCrypto] Обнаружена ошибка ("' + matchedError + '"), через 3 сек переходим на главную...');
-                    setTimeout(() => {
-                        sessionStorage.setItem(STORAGE_KEY, LITECOIN_URL);
-                        window.location.href = HOME_URL;
-                    }, 3000);
-                    break;
-                }
+    async function waitForForm() {
+        await waitFor(
+            () => document.querySelector('input[placeholder="username or email"]'),
+            { label: 'поле Recipient' }
+        );
+    }
+
+    // Кнопка монеты на форме = та, у которой внутри <img src="/coins/...">
+    async function selectLTC() {
+        const coinBtn = await waitFor(() => {
+            for (const b of document.querySelectorAll('button[aria-haspopup="listbox"]')) {
+                if (b.getAttribute('role') === 'menuitem') continue;    // пункт меню юзера
+                if (b.querySelector('img[src^="/coins/"]')) return b;   // ← наша кнопка
             }
+            return null;
+        }, { label: 'кнопка выбора монеты (форма)' });
+
+        const cur = (coinBtn.textContent || '').toLowerCase();
+        if (/litecoin|(^|\s)ltc(\s|$)/.test(cur) && !cur.includes('btc')) {
+            log('LTC уже выбран');
+            return;
         }
 
-        const observer = new MutationObserver(checkForError);
-        observer.observe(document.body, { childList: true, subtree: true });
-        checkForError();
-    }
+        log('Открываем список монет…');
+        realClick(coinBtn);
 
-    if (currentUrl === HOME_URL.replace(/\/$/, '')) {
-        const returnTo = sessionStorage.getItem(STORAGE_KEY);
-        if (returnTo) {
-            let decided = false;
-
-            function proceed() {
-                if (decided) return;
-                decided = true;
-                observer.disconnect();
-
-                const alerts = document.querySelectorAll('.form .alert.alert-danger');
-                let dailyLimitReached = false;
-                for (const alert of alerts) {
-                    const text = normalize(alert.textContent);
-                    if (text.includes(normalize(DAILY_LIMIT_ERROR_TEXT))) {
-                        dailyLimitReached = true;
-                        break;
-                    }
-                }
-
-                sessionStorage.removeItem(STORAGE_KEY);
-
-                if (dailyLimitReached) {
-                    console.log('[MixCrypto] Достигнут дневной лимит, переходим на about:blank...');
-                    setTimeout(() => {
-                        window.location.href = 'about:blank';
-                    }, 1000);
-                } else {
-                    console.log('[MixCrypto] Возврат на litecoin через 1 сек...');
-                    setTimeout(() => {
-                        window.location.href = returnTo;
-                    }, 1000);
+        // Ждём именно ВИДИМУЮ опцию Litecoin
+        const ltcOption = await waitFor(() => {
+            const scopes = document.querySelectorAll('[role="listbox"]');
+            for (const lb of scopes) {
+                if (lb.closest('[aria-hidden="true"]')) continue;
+                for (const o of lb.querySelectorAll('[role="option"]')) {
+                    if (!isVisible(o)) continue;
+                    const t = (o.textContent || '').toLowerCase();
+                    if (t.includes('litecoin')) return o;
                 }
             }
+            // фолбэк — любые видимые option на странице
+            for (const o of document.querySelectorAll('[role="option"]')) {
+                if (!isVisible(o)) continue;
+                const t = (o.textContent || '').toLowerCase();
+                if (t.includes('litecoin')) return o;
+            }
+            return null;
+        }, { label: 'видимая опция Litecoin' });
 
-            // Даём странице время отрисовать возможный алерт о дневном лимите,
-            // но не ждём дольше 1.5 сек, чтобы не задерживать обычный сценарий
-            const observer = new MutationObserver(proceed);
-            observer.observe(document.body, { childList: true, subtree: true });
-            setTimeout(proceed, 1500);
+        realClick(ltcOption);
+        log('LTC выбран');
+        await sleep(500);
+    }
+
+    async function fillRecipient() {
+        const input = await waitFor(
+            () => document.querySelector('input[placeholder="username or email"]'),
+            { label: 'поле Recipient (повтор)' }
+        );
+        input.focus();
+        setNativeValue(input, RECIPIENT);
+        input.blur();
+        log('Введён получатель:', RECIPIENT, '| value =', input.value);
+    }
+
+    async function clickMax() {
+        const maxBtn = await waitFor(() => {
+            for (const b of document.querySelectorAll('button')) {
+                if (b.textContent.trim() === 'MAX' && !b.disabled && isVisible(b)) return b;
+            }
+            return null;
+        }, { label: 'кнопка MAX' });
+        realClick(maxBtn);
+        log('MAX нажат');
+    }
+
+    async function clickSend() {
+        const sendBtn = await waitFor(() => {
+            for (const b of document.querySelectorAll('button[type="submit"]')) {
+                if (/send/i.test(b.textContent) && !b.disabled) return b;
+            }
+            return null;
+        }, { timeout: 25000, label: 'активная кнопка Send' });
+        realClick(sendBtn);
+        log('Send нажат ✅');
+    }
+
+    async function run() {
+        // Закрыть любые открытые меню на старте
+        document.body.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
+        await sleep(200);
+
+        if (!location.pathname.startsWith('/wallet/send')) {
+            log('Ждём перехода на /wallet/send…');
+            await waitFor(() => location.pathname.startsWith('/wallet/send'),
+                { timeout: 60000, label: 'URL /wallet/send' });
+        }
+
+        try {
+            await waitForForm();
+            await selectLTC();
+            log('Пауза 2 сек…');
+            await sleep(2000);
+            await fillRecipient();
+            await sleep(300);
+            await clickMax();
+            log('Пауза 1 сек…');
+            await sleep(1000);
+            await clickSend();
+        } catch (e) {
+            warn('Ошибка:', e.message);
         }
     }
+
+    let lastPath = location.pathname;
+    setInterval(() => {
+        if (location.pathname !== lastPath) {
+            lastPath = location.pathname;
+            if (location.pathname.startsWith('/wallet/send')) {
+                log('Переход на /wallet/send');
+                run();
+            }
+        }
+    }, 500);
+
+    run();
 })();
