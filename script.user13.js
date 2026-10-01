@@ -20,10 +20,11 @@
     const faucetSites = [
         //'rushfaucet.top',
          'orthofaucet.com',  
-        //'nextfaucet.com',
+        'nextfaucet.com',
         'luckfaucet.online',
         'mycryptocoin.click',
         //'megafaucet.top',
+        'heavenltc.site',
        // 'faaset.com',
         'mooncrypto.space',
         'pkfaucet.top',        
@@ -70,6 +71,8 @@
             'https://luckfaucet.online/',
         'nextfaucet.com':
             'https://nextfaucet.com/?r=eghujqes',
+                'heavenltc.site':
+            'https://heavenltc.site/',
         'megafaucet.top':
             'https://megafaucet.top/?r=mcamx474',
         'pocketfaucet.website':
