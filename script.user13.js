@@ -25,7 +25,7 @@
       'crypto-faucet.site',
        // 'mycryptocoin.click',
         //'megafaucet.top',
-        'heavenltc.site',
+       // 'heavenltc.site',
        // 'faaset.com',
        // 'mooncrypto.space',
         'pkfaucet.top',        
