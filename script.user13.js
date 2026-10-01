@@ -22,20 +22,21 @@
          'orthofaucet.com',  
         'nextfaucet.com',
         'luckfaucet.online',
+      'crypto-faucet.site',
        // 'mycryptocoin.click',
         //'megafaucet.top',
         'heavenltc.site',
        // 'faaset.com',
-        'mooncrypto.space',
+       // 'mooncrypto.space',
         'pkfaucet.top',        
          'pocketfaucet.website',              
        // 'cryptogem.space',
         // 'dmcrypto.site',
         //'freeflarcrypto.com',
-        'bigmobfaucet.com'
+        'bigmobfaucet.com',
         //'bitbitflow.online',
        // 'dogecoindrip.me',
-        //'tfaucet.com'
+        'tfaucet.com'
     ];
 
     // Обычный переход
@@ -65,7 +66,9 @@
         'rushfaucet.top':
             'https://rushfaucet.top/?r=ukfhvmza',
 
-        'mycryptocoin.click':
+        'crypto-faucet.site':
+            'https://crypto-faucet.site/?r=g3rczpj9',
+                'mycryptocoin.click':
             'https://mycryptocoin.click/?r=ty36rnj2',
         'luckfaucet.online':
             'https://luckfaucet.online/',
