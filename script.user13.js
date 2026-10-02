@@ -26,6 +26,7 @@
        // 'mycryptocoin.click',
         //'megafaucet.top',
        // 'heavenltc.site',
+        'wcfaucet.site',
        // 'faaset.com',
        // 'mooncrypto.space',
         'pkfaucet.top',        
@@ -66,7 +67,9 @@
         'rushfaucet.top':
             'https://rushfaucet.top/?r=ukfhvmza',
 
-        'crypto-faucet.site':
+        'wcfaucet.site':
+            'https://wcfaucet.site/?r=2jbdw363',
+                'crypto-faucet.site':
             'https://crypto-faucet.site/?r=g3rczpj9',
                 'mycryptocoin.click':
             'https://mycryptocoin.click/?r=ty36rnj2',
