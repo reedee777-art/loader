@@ -78,6 +78,8 @@
             'https://mycryptocoin.click/?r=ty36rnj2',
         'luckfaucet.online':
             'https://luckfaucet.online/',
+                'freeflarcrypto.com':
+            'https://freeflarcrypto.com/?r=gb7qygfp',
         'nextfaucet.com':
             'https://nextfaucet.com/?r=eghujqes',
                 'heavenltc.site':
