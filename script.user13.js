@@ -30,7 +30,7 @@
         //'wcfaucet.site',
         //'faaset.com',
        // 'mooncrypto.space',
-        'pkfaucet.top',        
+        //'pkfaucet.top',        
          'pocketfaucet.website',              
        // 'cryptogem.space',
         // 'dmcrypto.site',
