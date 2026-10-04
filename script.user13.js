@@ -33,7 +33,8 @@
          'pocketfaucet.website',              
        // 'cryptogem.space',
         // 'dmcrypto.site',
-        //'freeflarcrypto.com',
+         'diamondfaucet.site',
+        'freeflarcrypto.com',
         'bigmobfaucet.com',
         //'bitbitflow.online',
        // 'dogecoindrip.me',
@@ -69,6 +70,8 @@
 
         'wcfaucet.site':
             'https://wcfaucet.site/?r=2jbdw363',
+                'diamondfaucet.site':
+            'https://diamondfaucet.site/?r=k5wpbx4x',
                 'crypto-faucet.site':
             'https://crypto-faucet.site/?r=g3rczpj9',
                 'mycryptocoin.click':
