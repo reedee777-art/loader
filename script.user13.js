@@ -27,7 +27,7 @@
         //'megafaucet.top',
        // 'heavenltc.site',
         'wcfaucet.site',
-       // 'faaset.com',
+        'faaset.com',
        // 'mooncrypto.space',
         'pkfaucet.top',        
          'pocketfaucet.website',              
