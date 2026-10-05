@@ -21,7 +21,7 @@
         //'rushfaucet.top',
         // 'orthofaucet.com',  
         'nextfaucet.com',
-        //'luckfaucet.online',
+        'luckfaucet.online',
       'diamondfaucet.site',
       'crypto-faucet.site',
        // 'mycryptocoin.click',
@@ -30,15 +30,15 @@
         'wcfaucet.site',
         //'faaset.com',
        // 'mooncrypto.space',
-        //'pkfaucet.top',        
+        'pkfaucet.top',        
          'pocketfaucet.website',              
        // 'cryptogem.space',
         // 'dmcrypto.site',
         'freeflarcrypto.com',
-        'bigmobfaucet.com'
+        'bigmobfaucet.com',
         //'bitbitflow.online',
        // 'dogecoindrip.me',
-      // 'tfaucet.com'
+       'tfaucet.com'
     ];
 
     // Обычный переход
