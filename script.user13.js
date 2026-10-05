@@ -34,7 +34,7 @@
          'pocketfaucet.website',              
        // 'cryptogem.space',
         // 'dmcrypto.site',
-        'freeflarcrypto.com',
+       // 'freeflarcrypto.com',
         'bigmobfaucet.com',
         //'bitbitflow.online',
        // 'dogecoindrip.me',
