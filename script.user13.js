@@ -22,7 +22,7 @@
         // 'orthofaucet.com',  
         'nextfaucet.com',
         'luckfaucet.online',
-      'diamondfaucet.site',
+     // 'diamondfaucet.site',
       'crypto-faucet.site',
        // 'mycryptocoin.click',
         //'megafaucet.top',
