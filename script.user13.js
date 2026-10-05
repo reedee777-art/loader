@@ -774,71 +774,38 @@
     // UNTIL CLAIM
     // =========================================================
 
-    function checkUntilClaim() {
+     function checkUntilClaim() {
+        // Ищем только текстовые узлы с "until claim" — без обхода всего DOM
+        const candidates = document.querySelectorAll(
+            'small, span, p, div, b, strong, em, h1,h2,h3,h4,h5,h6, label'
+        );
 
-        const elements =
-            document.querySelectorAll('*');
+        for (const el of candidates) {
+            // Пропускаем большие контейнеры — "until claim" всегда короткий
+            const t = (el.textContent || '').trim();
+            if (t.length > 40) continue;
+            if (!/^until\s+claim$/i.test(t)) continue;
 
-        for (const element of elements) {
+            const parent = el.parentElement;
+            if (!parent) continue;
 
-            if (
-                element.tagName === 'SCRIPT' ||
-                element.tagName === 'STYLE'
-            ) {
-                continue;
-            }
+            // Ищем таймер не только в h1..h6 — расширили набор
+            const timerEl =
+                parent.querySelector('h1,h2,h3,h4,h5,h6,b,strong,span,div');
+            if (!timerEl) continue;
 
-            if (
-                !/^until\s+claim$/i.test(
-                    element.textContent.trim()
-                )
-            ) {
-                continue;
-            }
-
-            const parent =
-                element.parentElement;
-
-            if (!parent) {
-                continue;
-            }
-
-            const timerElement =
-                parent.querySelector(
-                    'h1,h2,h3,h4,h5,h6'
-                );
-
-            if (!timerElement) {
-                continue;
-            }
-
-            const text =
-                timerElement.textContent.trim();
-
-            const match =
-                text.match(
-                    /^(\d+)\s*m\s+(\d+)\s*s$/i
-                );
-
-            if (!match) {
-                continue;
-            }
+            const text = (timerEl.textContent || '').trim();
+            const match = text.match(/^(\d+)\s*m\s+(\d+)\s*s$/i);
+            if (!match) continue;
 
             const total =
                 parseInt(match[1], 10) * 60 +
                 parseInt(match[2], 10);
 
-            if (total > 0) {
-
-                return (
-                    `Until claim: ${text}`
-                );
-            }
+            if (total > 0) return `Until claim: ${text}`;
         }
-
         return false;
     }
-
 
     // =========================================================
     // ПАРСИНГ СУММЫ
@@ -1069,24 +1036,63 @@
 
 
     // =========================================================
-    // MUTATION OBSERVER
+    // MUTATION OBSERVER (+ iframe + shadow DOM)
     // =========================================================
 
-    const observer =
-        new MutationObserver(() => {
+    function observeDocument(doc) {
+        if (!doc || doc.__faucetObserved) return;
+        doc.__faucetObserved = true;
 
-            checkForActiveTimer();
+        try {
+            observer.observe(doc, {
+                childList: true,
+                subtree: true,
+                characterData: true
+            });
+        } catch (e) {}
 
-        });
+        try {
+            doc.querySelectorAll('iframe').forEach(f => {
+                try {
+                    if (f.contentDocument) observeDocument(f.contentDocument);
+                } catch (e) {}
+                f.addEventListener('load', () => {
+                    try { observeDocument(f.contentDocument); } catch (e) {}
+                });
+            });
+        } catch (e) {}
+    }
 
-    observer.observe(
-        document.documentElement,
-        {
-            childList: true,
-            subtree: true,
-            characterData: true
-        }
-    );
+    // Ловим все документы, куда может попасть таймер
+    function scanAllDocs() {
+        observeDocument(document);
+        try {
+            document.querySelectorAll('iframe').forEach(f => {
+                try {
+                    if (f.contentDocument) observeDocument(f.contentDocument);
+                } catch (e) {}
+            });
+        } catch (e) {}
+    }
+
+    // Hook на attachShadow, чтобы наблюдать и shadow-корни
+    (function hookShadow() {
+        const orig = Element.prototype.attachShadow;
+        if (!orig || orig.__hooked) return;
+        const patched = function (init) {
+            const sr = orig.call(this, init);
+            try {
+                observer.observe(sr, {
+                    childList: true,
+                    subtree: true,
+                    characterData: true
+                });
+            } catch (e) {}
+            return sr;
+        };
+        patched.__hooked = true;
+        Element.prototype.attachShadow = patched;
+    })();
 
 
     // =========================================================
