@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Unified Faucet Auto-Switcher27898
 // @namespace    http://tampermonkey.net/
-// @version      7.4
+// @version      7.5
 // @description  Unified faucet switcher with active countdown detection + balance check
 // @author       You
 // @match        *://*/*
@@ -19,34 +19,30 @@
 
     const faucetSites = [
         //'rushfaucet.top',
-        // 'orthofaucet.com',  
+        // 'orthofaucet.com',
         'nextfaucet.com',
         'luckfaucet.online',
-     // 'diamondfaucet.site',
-      'crypto-faucet.site',
-       // 'mycryptocoin.click',
+        // 'diamondfaucet.site',
+        'crypto-faucet.site',
+        // 'mycryptocoin.click',
         //'megafaucet.top',
-       // 'heavenltc.site',
-       // 'wcfaucet.site',
+        // 'heavenltc.site',
+        // 'wcfaucet.site',
         //'faaset.com',
-       // 'mooncrypto.space',
-        'pkfaucet.top',        
-         'pocketfaucet.website',              
-       // 'cryptogem.space',
+        // 'mooncrypto.space',
+        'pkfaucet.top',
+        'pocketfaucet.website',
+        // 'cryptogem.space',
         // 'dmcrypto.site',
         //'freeflarcrypto.com',
-              // 'tfaucet.com',
+        // 'tfaucet.com',
         'bigmobfaucet.com'
         //'bitbitflow.online',
-       // 'dogecoindrip.me',
-
+        //'dogecoindrip.me',
     ];
 
-    // Обычный переход
     const NORMAL_DELAY = 24;
-
-    // Переход после обнаружения активного таймера
-    const FAST_DELAY = 1;
+    const FAST_DELAY   = 1;
 
 
     // =========================================================
@@ -65,55 +61,26 @@
     // =========================================================
 
     const siteUrls = {
-
-        'rushfaucet.top':
-            'https://rushfaucet.top/?r=ukfhvmza',
-
-        'wcfaucet.site':
-            'https://wcfaucet.site/?r=2jbdw363',
-                'diamondfaucet.site':
-            'https://diamondfaucet.site/?r=k5wpbx4x',
-                'crypto-faucet.site':
-            'https://crypto-faucet.site/?r=g3rczpj9',
-                'mycryptocoin.click':
-            'https://mycryptocoin.click/?r=ty36rnj2',
-        'luckfaucet.online':
-            'https://luckfaucet.online/',
-                'freeflarcrypto.com':
-            'https://freeflarcrypto.com/?r=gb7qygfp',
-        'nextfaucet.com':
-            'https://nextfaucet.com/?r=eghujqes',
-                'heavenltc.site':
-            'https://heavenltc.site/',
-        'megafaucet.top':
-            'https://megafaucet.top/?r=mcamx474',
-        'pocketfaucet.website':
-            'https://pocketfaucet.website/?r=g9ybxafz',        
-
-        'faaset.com':
-            'https://faaset.com/?r=4pascenh',
-
-        'pkfaucet.top':
-            'https://pkfaucet.top/?r=vznc96ex',
-        'dmcrypto.site':
-            'https://dmcrypto.site/?r=6ruphfyk',
-        'mooncrypto.space':
-            'https://mooncrypto.space/?r=xen44j8p',
-
-        'orthofaucet.com':
-            'https://orthofaucet.com/',
-
-        'bigmobfaucet.com':
-            'https://bigmobfaucet.com/?r=9zv84qrr',
-
-        'bitbitflow.online':
-            'https://bitbitflow.online/?r=anrr6r47',
-
-        'tfaucet.com':
-            'https://tfaucet.com/?r=vfneik6y',
-
-        'dogecoindrip.me':
-            'https://dogecoindrip.me/?r=5mea3dtk'
+        'rushfaucet.top':           'https://rushfaucet.top/?r=ukfhvmza',
+        'wcfaucet.site':            'https://wcfaucet.site/?r=2jbdw363',
+        'diamondfaucet.site':       'https://diamondfaucet.site/?r=k5wpbx4x',
+        'crypto-faucet.site':       'https://crypto-faucet.site/?r=g3rczpj9',
+        'mycryptocoin.click':       'https://mycryptocoin.click/?r=ty36rnj2',
+        'luckfaucet.online':        'https://luckfaucet.online/',
+        'freeflarcrypto.com':       'https://freeflarcrypto.com/?r=gb7qygfp',
+        'nextfaucet.com':           'https://nextfaucet.com/?r=eghujqes',
+        'heavenltc.site':           'https://heavenltc.site/',
+        'megafaucet.top':           'https://megafaucet.top/?r=mcamx474',
+        'pocketfaucet.website':     'https://pocketfaucet.website/?r=g9ybxafz',
+        'faaset.com':               'https://faaset.com/?r=4pascenh',
+        'pkfaucet.top':             'https://pkfaucet.top/?r=vznc96ex',
+        'dmcrypto.site':            'https://dmcrypto.site/?r=6ruphfyk',
+        'mooncrypto.space':         'https://mooncrypto.space/?r=xen44j8p',
+        'orthofaucet.com':          'https://orthofaucet.com/',
+        'bigmobfaucet.com':         'https://bigmobfaucet.com/?r=9zv84qrr',
+        'bitbitflow.online':        'https://bitbitflow.online/?r=anrr6r47',
+        'tfaucet.com':              'https://tfaucet.com/?r=vfneik6y',
+        'dogecoindrip.me':          'https://dogecoindrip.me/?r=5mea3dtk'
     };
 
 
@@ -122,21 +89,14 @@
     // =========================================================
 
     function getNextUrl() {
+        const currentIndex = faucetSites.findIndex(site =>
+            hostname.includes(site)
+        );
 
-        const currentIndex =
-            faucetSites.findIndex(site =>
-                hostname.includes(site)
-            );
+        if (currentIndex === -1) return null;
 
-        if (currentIndex === -1) {
-            return null;
-        }
-
-        const nextIndex =
-            (currentIndex + 1) % faucetSites.length;
-
-        const nextHost =
-            faucetSites[nextIndex];
+        const nextIndex = (currentIndex + 1) % faucetSites.length;
+        const nextHost  = faucetSites[nextIndex];
 
         return siteUrls[nextHost] || null;
     }
@@ -146,8 +106,7 @@
     // ИНДИКАТОР
     // =========================================================
 
-    const indicator =
-        document.createElement('div');
+    const indicator = document.createElement('div');
 
     indicator.style.cssText = `
         position: fixed;
@@ -169,12 +128,9 @@
     // СОСТОЯНИЕ
     // =========================================================
 
-    let switched = false;
-
-    let switchTimeout = null;
-
+    let switched          = false;
+    let switchTimeout     = null;
     let countdownInterval = null;
-
     let fastSwitchStarted = false;
 
 
@@ -183,186 +139,121 @@
     // =========================================================
 
     function switchSite(reason) {
-
-        if (switched) {
-            return;
-        }
-
+        if (switched) return;
         switched = true;
 
-        if (switchTimeout) {
-            clearTimeout(switchTimeout);
-            switchTimeout = null;
-        }
+        if (switchTimeout)     { clearTimeout(switchTimeout);   switchTimeout = null; }
+        if (countdownInterval) { clearInterval(countdownInterval); countdownInterval = null; }
 
-        if (countdownInterval) {
-            clearInterval(countdownInterval);
-            countdownInterval = null;
-        }
-
-        const nextUrl =
-            getNextUrl();
+        const nextUrl = getNextUrl();
 
         if (!nextUrl) {
-
-            console.log(
-                '[Auto-Switcher] Next URL not found'
-            );
-
+            console.log('[Auto-Switcher] Next URL not found');
             return;
         }
 
-        console.log(
-            '[Auto-Switcher] SWITCH:',
-            reason,
-            '→',
-            nextUrl
-        );
-
-        indicator.textContent =
-            'Switching...';
-
-        window.location.href =
-            nextUrl;
+        console.log('[Auto-Switcher] SWITCH:', reason, '→', nextUrl);
+        indicator.textContent = 'Switching...';
+        window.location.href = nextUrl;
     }
 
 
     // =========================================================
-    // ОБЫЧНЫЙ ПЕРЕХОД
+    // ОБЫЧНЫЙ ТАЙМЕР
     // =========================================================
 
     function startNormalTimer() {
+        if (switched || switchTimeout) return;
 
-        if (
-            switched ||
-            switchTimeout
-        ) {
-            return;
-        }
+        let left = NORMAL_DELAY;
+        indicator.textContent = `Next site in: ${left}s`;
 
-        let left =
-            NORMAL_DELAY;
+        countdownInterval = setInterval(() => {
+            if (switched || fastSwitchStarted) {
+                clearInterval(countdownInterval);
+                countdownInterval = null;
+                return;
+            }
+            left--;
+            if (left > 0) {
+                indicator.textContent = `Next site in: ${left}s`;
+            }
+        }, 1000);
 
-        indicator.textContent =
-            `Next site in: ${left}s`;
-
-        countdownInterval =
-            setInterval(() => {
-
-                if (
-                    switched ||
-                    fastSwitchStarted
-                ) {
-
-                    clearInterval(
-                        countdownInterval
-                    );
-
-                    countdownInterval =
-                        null;
-
-                    return;
-                }
-
-                left--;
-
-                if (left > 0) {
-
-                    indicator.textContent =
-                        `Next site in: ${left}s`;
-                }
-
-            }, 1000);
-
-        switchTimeout =
-            setTimeout(() => {
-
-                switchSite(
-                    'normal 25 second timer'
-                );
-
-            }, NORMAL_DELAY * 1000);
+        switchTimeout = setTimeout(() => {
+            switchSite('normal 25 second timer');
+        }, NORMAL_DELAY * 1000);
     }
 
 
     // =========================================================
-    // БЫСТРЫЙ ПЕРЕХОД
+    // БЫСТРЫЙ ТАЙМЕР
     // =========================================================
 
     function startFastTimer(reason) {
+        if (fastSwitchStarted || switched) return;
+        fastSwitchStarted = true;
 
-        if (
-            fastSwitchStarted ||
-            switched
-        ) {
-            return;
+        if (switchTimeout)     { clearTimeout(switchTimeout);     switchTimeout = null; }
+        if (countdownInterval) { clearInterval(countdownInterval); countdownInterval = null; }
+
+        let left = FAST_DELAY;
+        indicator.textContent = `Timer found! Switching in: ${left}s`;
+        console.log('[Auto-Switcher] ACTIVE TIMER:', reason);
+
+        countdownInterval = setInterval(() => {
+            if (switched) {
+                clearInterval(countdownInterval);
+                return;
+            }
+            left--;
+            if (left > 0) {
+                indicator.textContent = `Timer found! Switching in: ${left}s`;
+            }
+        }, 1000);
+
+        switchTimeout = setTimeout(() => {
+            switchSite('active timer: ' + reason);
+        }, FAST_DELAY * 1000);
+    }
+
+
+    // =========================================================
+    // УНИВЕРСАЛЬНЫЙ ПАРСЕР ТЕКСТА ТАЙМЕРА
+    // Поддерживает: HH:MM:SS, MM:SS, "9m 40s", "9m", "40s",
+    // "9 minutes 40 seconds", "9 min 40 sec", NBSP.
+    // =========================================================
+
+    function parseTimerText(raw) {
+        if (!raw) return null;
+
+        const text = String(raw).replace(/\u00A0/g, ' ').trim();
+        if (!text) return null;
+
+        // HH:MM:SS или MM:SS
+        let m = text.match(/(\d+)\s*:\s*(\d{1,2})\s*:\s*(\d{1,2})/);
+        if (m) {
+            return parseInt(m[1], 10) * 3600 +
+                   parseInt(m[2], 10) * 60 +
+                   parseInt(m[3], 10);
         }
 
-        fastSwitchStarted =
-            true;
-
-        // Отменяем обычный таймер
-        if (switchTimeout) {
-
-            clearTimeout(
-                switchTimeout
-            );
-
-            switchTimeout =
-                null;
+        m = text.match(/(\d+)\s*:\s*(\d{1,2})/);
+        if (m) {
+            return parseInt(m[1], 10) * 60 + parseInt(m[2], 10);
         }
 
-        if (countdownInterval) {
+        // минуты + секунды словами/сокращениями
+        let total = 0;
+        let found = false;
 
-            clearInterval(
-                countdownInterval
-            );
+        let mm = text.match(/(\d+)\s*(?:m|min|minute|minutes)(?!\w)/i);
+        if (mm) { total += parseInt(mm[1], 10) * 60; found = true; }
 
-            countdownInterval =
-                null;
-        }
+        let ss = text.match(/(\d+)\s*(?:s|sec|second|seconds)(?!\w)/i);
+        if (ss) { total += parseInt(ss[1], 10); found = true; }
 
-        let left =
-            FAST_DELAY;
-
-        indicator.textContent =
-            `Timer found! Switching in: ${left}s`;
-
-        console.log(
-            '[Auto-Switcher] ACTIVE TIMER:',
-            reason
-        );
-
-        countdownInterval =
-            setInterval(() => {
-
-                if (switched) {
-
-                    clearInterval(
-                        countdownInterval
-                    );
-
-                    return;
-                }
-
-                left--;
-
-                if (left > 0) {
-
-                    indicator.textContent =
-                        `Timer found! Switching in: ${left}s`;
-                }
-
-            }, 1000);
-
-        switchTimeout =
-            setTimeout(() => {
-
-                switchSite(
-                    'active timer: ' + reason
-                );
-
-            }, FAST_DELAY * 1000);
+        return found ? total : null;
     }
 
 
@@ -371,61 +262,24 @@
     // =========================================================
 
     function getMinuteSecond() {
+        const minuteEl = document.querySelector('#minute');
+        const secondEl = document.querySelector('#second');
 
-        const minuteEl =
-            document.querySelector(
-                '#minute'
-            );
+        if (!minuteEl || !secondEl) return null;
 
-        const secondEl =
-            document.querySelector(
-                '#second'
-            );
+        const minutes = parseInt(minuteEl.textContent.replace(/\u00A0/g, ' ').trim(), 10);
+        const seconds = parseInt(secondEl.textContent.replace(/\u00A0/g, ' ').trim(), 10);
 
-        if (
-            !minuteEl ||
-            !secondEl
-        ) {
-            return null;
-        }
+        if (Number.isNaN(minutes) || Number.isNaN(seconds)) return null;
 
-        const minutes =
-            parseInt(
-                minuteEl.textContent.trim(),
-                10
-            );
-
-        const seconds =
-            parseInt(
-                secondEl.textContent.trim(),
-                10
-            );
-
-        if (
-            Number.isNaN(minutes) ||
-            Number.isNaN(seconds)
-        ) {
-            return null;
-        }
-
-        const total =
-            minutes * 60 +
-            seconds;
-
-        if (total <= 0) {
-            return null;
-        }
+        const total = minutes * 60 + seconds;
+        if (total <= 0) return null;
 
         return {
-
-            minutes: minutes,
-
-            seconds: seconds,
-
-            total: total,
-
-            text:
-                `${minutes}:${String(seconds).padStart(2, '0')}`
+            minutes,
+            seconds,
+            total,
+            text: `${minutes}:${String(seconds).padStart(2, '0')}`
         };
     }
 
@@ -435,73 +289,27 @@
     // =========================================================
 
     function checkMinuteSecondTimer() {
+        const timer = getMinuteSecond();
+        if (!timer) return false;
 
-        const timer =
-            getMinuteSecond();
+        const minuteEl = document.querySelector('#minute');
+        if (!minuteEl) return false;
 
-        if (!timer) {
-            return false;
-        }
+        let container = minuteEl.parentElement;
 
-        const minuteEl =
-            document.querySelector(
-                '#minute'
-            );
+        for (let i = 0; i < 8 && container; i++) {
+            const text = container.textContent || '';
+            const html = container.innerHTML || '';
 
-        if (!minuteEl) {
-            return false;
-        }
-
-        let container =
-            minuteEl.parentElement;
-
-        for (
-            let i = 0;
-            i < 8 && container;
-            i++
-        ) {
-
-            const text =
-                container.textContent || '';
-
-            const html =
-                container.innerHTML || '';
-
-            if (
-                /wait\s+for\s+claim/i.test(
-                    text
-                )
-            ) {
-
-                return (
-                    `Wait For Claim: ${timer.text}`
-                );
-            }
-
-            if (
-                /time\s+left/i.test(
-                    text
-                )
-            ) {
-
-                return (
-                    `Time Left: ${timer.text}`
-                );
-            }
-
-            if (
-                /stopwatch/i.test(html) ||
+            if (/wait\s+for\s+claim/i.test(text)) return `Wait For Claim: ${timer.text}`;
+            if (/time\s+left/i.test(text))       return `Time Left: ${timer.text}`;
+            if (/stopwatch/i.test(html) ||
                 /fa-stopwatch/i.test(html) ||
-                /bxs-stopwatch/i.test(html)
-            ) {
-
-                return (
-                    `Stopwatch timer: ${timer.text}`
-                );
+                /bxs-stopwatch/i.test(html)) {
+                return `Stopwatch timer: ${timer.text}`;
             }
 
-            container =
-                container.parentElement;
+            container = container.parentElement;
         }
 
         return false;
@@ -513,103 +321,20 @@
     // =========================================================
 
     function checkCooldownTimer() {
+        const timerElement = document.querySelector('#timer');
+        if (!timerElement) return false;
 
-        const timerElement =
-            document.querySelector(
-                '#timer'
-            );
+        const text = timerElement.textContent.replace(/\u00A0/g, ' ').trim();
+        const totalSeconds = parseTimerText(text);
 
-        if (!timerElement) {
-            return false;
-        }
+        if (!totalSeconds || totalSeconds <= 0) return false;
 
-        const text =
-            timerElement.textContent.trim();
-
-        let totalSeconds =
-            0;
-
-        let match =
-            text.match(
-                /^(\d+):(\d{2})$/
-            );
-
-        if (match) {
-
-            totalSeconds =
-                parseInt(match[1], 10) * 60 +
-                parseInt(match[2], 10);
-        }
-
-        if (totalSeconds === 0) {
-
-            match =
-                text.match(
-                    /^(\d+)\s*m\s*(\d+)\s*s$/i
-                );
-
-            if (match) {
-
-                totalSeconds =
-                    parseInt(match[1], 10) * 60 +
-                    parseInt(match[2], 10);
-            }
-        }
-
-        if (totalSeconds === 0) {
-
-            match =
-                text.match(
-                    /^(\d+)\s*m$/i
-                );
-
-            if (match) {
-
-                totalSeconds =
-                    parseInt(match[1], 10) * 60;
-            }
-        }
-
-        if (totalSeconds === 0) {
-
-            match =
-                text.match(
-                    /^(\d+)\s*s$/i
-                );
-
-            if (match) {
-
-                totalSeconds =
-                    parseInt(match[1], 10);
-            }
-        }
-
-        if (totalSeconds <= 0) {
-            return false;
-        }
-
-        const article =
-            timerElement.closest(
-                'article'
-            );
-
+        const article = timerElement.closest('article');
         if (article) {
-
-            const articleText =
-                article.textContent;
-
-            if (
-                /cooldown/i.test(
-                    articleText
-                ) ||
-                /time\s+until\s+your\s+next/i.test(
-                    articleText
-                )
-            ) {
-
-                return (
-                    `Cooldown: ${text}`
-                );
+            const articleText = article.textContent;
+            if (/cooldown/i.test(articleText) ||
+                /time\s+until\s+your\s+next/i.test(articleText)) {
+                return `Cooldown: ${text}`;
             }
         }
 
@@ -618,56 +343,18 @@
 
 
     // =========================================================
-    // НОВЫЙ #cooldown-value
+    // #cooldown-value
     // =========================================================
 
     function checkCooldownValueTimer() {
+        const element = document.querySelector('#cooldown-value');
+        if (!element) return false;
 
-        const element =
-            document.querySelector(
-                '#cooldown-value'
-            );
+        const text = element.textContent.replace(/\u00A0/g, ' ').trim();
+        const total = parseTimerText(text);
 
-        if (!element) {
-            return false;
-        }
-
-        const text =
-            element.textContent.trim();
-
-        // Формат MM:SS
-        const match =
-            text.match(
-                /^(\d+):(\d{2})$/
-            );
-
-        if (!match) {
-            return false;
-        }
-
-        const minutes =
-            parseInt(
-                match[1],
-                10
-            );
-
-        const seconds =
-            parseInt(
-                match[2],
-                10
-            );
-
-        const total =
-            minutes * 60 +
-            seconds;
-
-        if (total <= 0) {
-            return false;
-        }
-
-        return (
-            `Cooldown #cooldown-value: ${text}`
-        );
+        if (!total || total <= 0) return false;
+        return `Cooldown #cooldown-value: ${text}`;
     }
 
 
@@ -676,39 +363,14 @@
     // =========================================================
 
     function checkTimerDigits() {
+        const element = document.querySelector('#timerDigits');
+        if (!element) return false;
 
-        const element =
-            document.querySelector(
-                '#timerDigits'
-            );
+        const text = element.textContent.replace(/\u00A0/g, ' ').trim();
+        const total = parseTimerText(text);
 
-        if (!element) {
-            return false;
-        }
-
-        const text =
-            element.textContent.trim();
-
-        const match =
-            text.match(
-                /^(\d+):(\d{2})$/
-            );
-
-        if (!match) {
-            return false;
-        }
-
-        const total =
-            parseInt(match[1], 10) * 60 +
-            parseInt(match[2], 10);
-
-        if (total <= 0) {
-            return false;
-        }
-
-        return (
-            `timerDigits: ${text}`
-        );
+        if (!total || total <= 0) return false;
+        return `timerDigits: ${text}`;
     }
 
 
@@ -717,57 +379,14 @@
     // =========================================================
 
     function checkClock() {
+        const element = document.querySelector('#clock');
+        if (!element) return false;
 
-        const element =
-            document.querySelector(
-                '#clock'
-            );
+        const text = element.textContent.replace(/\u00A0/g, ' ').trim();
+        const total = parseTimerText(text);
 
-        if (!element) {
-            return false;
-        }
-
-        const text =
-            element.textContent.trim();
-
-        let total =
-            0;
-
-        const minute =
-            text.match(
-                /(\d+)\s*minute/i
-            );
-
-        const second =
-            text.match(
-                /(\d+)\s*second/i
-            );
-
-        if (minute) {
-
-            total +=
-                parseInt(
-                    minute[1],
-                    10
-                ) * 60;
-        }
-
-        if (second) {
-
-            total +=
-                parseInt(
-                    second[1],
-                    10
-                );
-        }
-
-        if (total <= 0) {
-            return false;
-        }
-
-        return (
-            `clock: ${text}`
-        );
+        if (!total || total <= 0) return false;
+        return `clock: ${text}`;
     }
 
 
@@ -775,38 +394,31 @@
     // UNTIL CLAIM
     // =========================================================
 
-     function checkUntilClaim() {
-        // Ищем только текстовые узлы с "until claim" — без обхода всего DOM
+    function checkUntilClaim() {
         const candidates = document.querySelectorAll(
             'small, span, p, div, b, strong, em, h1,h2,h3,h4,h5,h6, label'
         );
 
         for (const el of candidates) {
-            // Пропускаем большие контейнеры — "until claim" всегда короткий
-            const t = (el.textContent || '').trim();
+            const t = (el.textContent || '').replace(/\u00A0/g, ' ').trim();
             if (t.length > 40) continue;
             if (!/^until\s+claim$/i.test(t)) continue;
 
             const parent = el.parentElement;
             if (!parent) continue;
 
-            // Ищем таймер не только в h1..h6 — расширили набор
-            const timerEl =
-                parent.querySelector('h1,h2,h3,h4,h5,h6,b,strong,span,div');
+            const timerEl = parent.querySelector('h1,h2,h3,h4,h5,h6,b,strong,span,div');
             if (!timerEl) continue;
 
-            const text = (timerEl.textContent || '').trim();
-            const match = text.match(/^(\d+)\s*m\s+(\d+)\s*s$/i);
-            if (!match) continue;
+            const text = (timerEl.textContent || '').replace(/\u00A0/g, ' ').trim();
+            const total = parseTimerText(text);
 
-            const total =
-                parseInt(match[1], 10) * 60 +
-                parseInt(match[2], 10);
-
-            if (total > 0) return `Until claim: ${text}`;
+            if (total && total > 0) return `Until claim: ${text}`;
         }
+
         return false;
     }
+
 
     // =========================================================
     // ПАРСИНГ СУММЫ
@@ -815,16 +427,11 @@
     function parseAmount(text) {
         if (!text) return null;
 
-        const clean = text.trim();
-
-        const match = clean.match(
-            /([0-9][0-9.,]*)\s*([A-Za-z]{2,10})?/
-        );
-
+        const clean = String(text).replace(/\u00A0/g, ' ').trim();
+        const match = clean.match(/([0-9][0-9.,]*)\s*([A-Za-z]{2,10})?/);
         if (!match) return null;
 
         let numStr = match[1].replace(/[.,]+$/, '');
-
         if (numStr.includes(',') && numStr.includes('.')) {
             numStr = numStr.replace(/,/g, '');
         } else if (numStr.includes(',')) {
@@ -832,11 +439,10 @@
         }
 
         const amount = parseFloat(numStr);
-
         if (!Number.isFinite(amount)) return null;
 
         return {
-            amount: amount,
+            amount,
             currency: (match[2] || '').toUpperCase(),
             text: clean
         };
@@ -856,12 +462,12 @@
 
             if (!labelEl || !valueEl) continue;
 
-            const label = labelEl.textContent.trim();
+            const label = labelEl.textContent.replace(/\u00A0/g, ' ').trim();
 
             if (labelRegex.test(label)) {
                 return {
-                    label: label,
-                    value: valueEl.textContent.trim(),
+                    label,
+                    value: valueEl.textContent.replace(/\u00A0/g, ' ').trim(),
                     element: valueEl
                 };
             }
@@ -878,56 +484,36 @@
     function checkBalanceVsClaim() {
         if (switched) return true;
 
-        let balanceInfo = getPebbleValueByLabel(
-            /available\s+to\s+pay\s+out/i
-        );
+        let balanceInfo = getPebbleValueByLabel(/available\s+to\s+pay\s+out/i);
 
         if (!balanceInfo) {
             const balanceEl = document.querySelector('#faucet-balance');
-
             if (balanceEl) {
                 balanceInfo = {
                     label: 'Available to pay out',
-                    value: balanceEl.textContent.trim(),
+                    value: balanceEl.textContent.replace(/\u00A0/g, ' ').trim(),
                     element: balanceEl
                 };
             }
         }
 
-        const claimInfo = getPebbleValueByLabel(
-            /every\s+claim\s+pays/i
-        );
+        const claimInfo = getPebbleValueByLabel(/every\s+claim\s+pays/i);
 
         if (!balanceInfo || !claimInfo) return false;
 
         const balance = parseAmount(balanceInfo.value);
-        const claim = parseAmount(claimInfo.value);
+        const claim   = parseAmount(claimInfo.value);
 
         if (!balance || !claim) return false;
 
-        // Если валюты разные — не сравниваем
-        if (
-            balance.currency &&
-            claim.currency &&
-            balance.currency !== claim.currency
-        ) {
-            console.log(
-                '[Auto-Switcher] Currency mismatch:',
-                balance.currency,
-                claim.currency
-            );
+        if (balance.currency && claim.currency && balance.currency !== claim.currency) {
+            console.log('[Auto-Switcher] Currency mismatch:', balance.currency, claim.currency);
             return false;
         }
 
         if (claim.amount > balance.amount) {
-            const reason =
-                `claim ${claim.text} > balance ${balance.text}`;
-
-            console.log(
-                '[Auto-Switcher] BALANCE CHECK:',
-                reason
-            );
-
+            const reason = `claim ${claim.text} > balance ${balance.text}`;
+            console.log('[Auto-Switcher] BALANCE CHECK:', reason);
             switchSite(reason);
             return true;
         }
@@ -937,109 +523,149 @@
 
 
     // =========================================================
-    // ОБЩАЯ ПРОВЕРКА ОСТАЛЬНЫХ ТАЙМЕРОВ
+    // УНИВЕРСАЛЬНАЯ ПРОВЕРКА #countdown
+    // Все элементы: #countdown, .countdown, [role="timer"], [data-next]
+    // Все форматы: HH:MM:SS, MM:SS, "9m 40s"
+    // Fallback: #claim-status.is-wait, disabled claim + data-interval
     // =========================================================
 
-    function checkForActiveTimer() {
+    function checkCountdownElement() {
+        if (switched || fastSwitchStarted) return false;
 
-        if (switched) {
-            return;
-        }
+        // 1) Ищем все возможные счётчики
+        const nodes = document.querySelectorAll(
+            '#countdown, .countdown, [role="timer"], [data-next]'
+        );
 
-        // Сначала проверяем баланс:
-        // если клейм больше баланса — сразу на следующий сайт
-        if (checkBalanceVsClaim()) {
-            return;
-        }
+        for (const element of nodes) {
 
-        if (fastSwitchStarted) {
-            return;
-        }
+            let remaining = null;
+            let source    = '';
 
-        // 0. #cooldown-value
-        let detected =
-            checkCooldownValueTimer();
+            // data-next
+            const dataNext = element.getAttribute('data-next') || '';
+            if (dataNext) {
+                const target = new Date(dataNext).getTime();
+                if (!Number.isNaN(target)) {
+                    const diff = Math.floor((target - Date.now()) / 1000);
+                    if (diff > 0) {
+                        remaining = diff;
+                        source = `data-next=${dataNext}`;
+                    }
+                }
+            }
 
-        if (detected) {
+            // fallback — текст
+            if (remaining === null) {
+                const rawText = element.textContent || '';
+                const parsed  = parseTimerText(rawText);
+                if (parsed && parsed > 0) {
+                    remaining = parsed;
+                    source = `text="${rawText.replace(/\u00A0/g, ' ').trim()}"`;
+                }
+            }
 
-            startFastTimer(
-                detected
+            if (remaining === null) continue;
+
+            console.log(
+                '[Auto-Switcher] countdown:',
+                source,
+                '| remaining:', remaining
             );
 
-            return;
+            startFastTimer(`countdown active (${remaining}s) [${source}]`);
+            return true;
         }
 
-        // 1. COOLDOWN #timer
-        detected =
-            checkCooldownTimer();
-
-        if (detected) {
-
-            startFastTimer(
-                detected
-            );
-
-            return;
+        // 2) Fallback: статус "Cooling down"
+        const statusEl = document.querySelector(
+            '#claim-status, .carn-status, [class*="status"][class*="wait"]'
+        );
+        if (statusEl) {
+            const t = statusEl.textContent.replace(/\u00A0/g, ' ').trim();
+            if (/cool(ing)?\s*down/i.test(t)) {
+                console.log('[Auto-Switcher] claim-status:', t);
+                startFastTimer(`claim-status: ${t}`);
+                return true;
+            }
         }
 
-        // 2. #minute + #second
-        detected =
-            checkMinuteSecondTimer();
-
-        if (detected) {
-
-            startFastTimer(
-                detected
-            );
-
-            return;
+        // 3) Fallback: disabled claim + data-interval
+        const form = document.querySelector(
+            'form[data-interval], form#claim-form, form.carn-claim-form'
+        );
+        if (form) {
+            const btn = form.querySelector('button[type="submit"], .carn-btn-primary');
+            if (btn && btn.disabled) {
+                const interval = parseInt(form.getAttribute('data-interval') || '0', 10);
+                if (interval > 0) {
+                    console.log('[Auto-Switcher] disabled claim, data-interval=', interval);
+                    startFastTimer(`disabled claim (data-interval=${interval})`);
+                    return true;
+                }
+            }
         }
 
-        // 3. timerDigits
-        detected =
-            checkTimerDigits();
-
-        if (detected) {
-
-            startFastTimer(
-                detected
-            );
-
-            return;
-        }
-
-        // 4. clock
-        detected =
-            checkClock();
-
-        if (detected) {
-
-            startFastTimer(
-                detected
-            );
-
-            return;
-        }
-
-        // 5. Until claim
-        detected =
-            checkUntilClaim();
-
-        if (detected) {
-
-            startFastTimer(
-                detected
-            );
-
-            return;
-        }
+        return false;
     }
 
 
     // =========================================================
-    // MUTATION OBSERVER (+ iframe + shadow DOM)
+    // ОБЩАЯ ПРОВЕРКА ВСЕХ ТАЙМЕРОВ
     // =========================================================
 
+    function checkForActiveTimer() {
+        if (switched) return;
+
+        // ↓↓↓ Сначала #countdown — самый частый случай ↓↓↓
+        if (checkCountdownElement()) return;
+
+        if (switched || fastSwitchStarted) return;
+
+        // Баланс < клейма → сразу дальше
+        if (checkBalanceVsClaim()) return;
+
+        if (fastSwitchStarted) return;
+
+        let detected;
+
+        // 1. #cooldown-value
+        detected = checkCooldownValueTimer();
+        if (detected) { startFastTimer(detected); return; }
+
+        // 2. #timer (cooldown)
+        detected = checkCooldownTimer();
+        if (detected) { startFastTimer(detected); return; }
+
+        // 3. #minute + #second
+        detected = checkMinuteSecondTimer();
+        if (detected) { startFastTimer(detected); return; }
+
+        // 4. #timerDigits
+        detected = checkTimerDigits();
+        if (detected) { startFastTimer(detected); return; }
+
+        // 5. #clock
+        detected = checkClock();
+        if (detected) { startFastTimer(detected); return; }
+
+        // 6. Until claim
+        detected = checkUntilClaim();
+        if (detected) { startFastTimer(detected); return; }
+    }
+
+
+    // =========================================================
+    // MUTATION OBSERVER (общий)
+    // =========================================================
+
+    const observer = new MutationObserver(() => {
+        if (switched) return;
+        checkForActiveTimer();
+    });
+
+
+    // Наблюдение за документом + вложенными iframe
     function observeDocument(doc) {
         if (!doc || doc.__faucetObserved) return;
         doc.__faucetObserved = true;
@@ -1064,7 +690,6 @@
         } catch (e) {}
     }
 
-    // Ловим все документы, куда может попасть таймер
     function scanAllDocs() {
         observeDocument(document);
         try {
@@ -1076,10 +701,11 @@
         } catch (e) {}
     }
 
-    // Hook на attachShadow, чтобы наблюдать и shadow-корни
+    // Hook attachShadow — наблюдаем и за Shadow DOM
     (function hookShadow() {
         const orig = Element.prototype.attachShadow;
         if (!orig || orig.__hooked) return;
+
         const patched = function (init) {
             const sr = orig.call(this, init);
             try {
@@ -1097,179 +723,60 @@
 
 
     // =========================================================
-    // ПЕРВИЧНАЯ ПРОВЕРКА
+    // ПЕРВИЧНЫЙ ЗАПУСК
     // =========================================================
 
+    scanAllDocs();
     checkForActiveTimer();
 
-
-    // =========================================================
-    // ЕСЛИ АКТИВНОГО ТАЙМЕРА НЕТ
-    // =========================================================
-
     if (!fastSwitchStarted && !switched) {
-
         startNormalTimer();
     }
 
 
     // =========================================================
-    // ПРОВЕРКА #countdown
-    // data-next + текстовой таймер
+    // РЕЗЕРВНЫЕ ИНТЕРВАЛЫ
     // =========================================================
 
-    function checkCountdownElement() {
-
-        if (
-            switched ||
-            fastSwitchStarted
-        ) {
+    // Полный пересмотр таймеров каждые 500 мс
+    const backupChecker = setInterval(() => {
+        if (switched) {
+            clearInterval(backupChecker);
             return;
         }
+        checkForActiveTimer();
+    }, 500);
 
-        const element =
-            document.querySelector(
-                '#countdown'
-            );
-
-        if (!element) {
+    // Отдельная быстрая проверка #countdown — на случай,
+    // если данные обновляются без мутаций DOM
+    const countdownChecker = setInterval(() => {
+        if (switched) {
+            clearInterval(countdownChecker);
             return;
         }
+        checkCountdownElement();
+    }, 500);
 
-        const dataNext =
-            element.getAttribute(
-                'data-next'
-            ) || '';
-
-        const text =
-            element.textContent.trim();
-
-        let remaining = null;
+    // Периодический переобход iframe (могут появляться новые)
+    setInterval(scanAllDocs, 2000);
 
 
-        // 1. Проверка data-next
-        if (dataNext) {
+    // =========================================================
+    // ПОВТОРНЫЕ ПРОВЕРКИ НА СОБЫТИЯ
+    // =========================================================
 
-            const target =
-                new Date(
-                    dataNext
-                ).getTime();
-
-            if (!Number.isNaN(target)) {
-
-                remaining =
-                    Math.floor(
-                        (target - Date.now()) / 1000
-                    );
-            }
-        }
-
-
-        // 2. Если data-next пустой/истёк —
-        // читаем текст:
-        // Next claim in 00:45
-
-        if (
-            remaining === null ||
-            remaining <= 0
-        ) {
-
-            const match =
-                text.match(
-                    /next\s+claim\s+in\s+(\d+):(\d{2})/i
-                );
-
-            if (match) {
-
-                remaining =
-                    parseInt(
-                        match[1],
-                        10
-                    ) * 60 +
-                    parseInt(
-                        match[2],
-                        10
-                    );
-            }
-        }
-
-
-        if (remaining === null) {
-            return;
-        }
-
-
-        console.log(
-            '[Auto-Switcher] #countdown:',
-            text,
-            '| data-next:',
-            dataNext,
-            '| remaining:',
-            remaining
-        );
-
-
-        // Таймер активен
-        if (remaining > 0) {
-
-            startFastTimer(
-                `#countdown active (${remaining}s remaining)`
-            );
-        }
+    function recheckAll() {
+        try { scanAllDocs(); }            catch (e) {}
+        try { checkForActiveTimer(); }    catch (e) {}
+        try { checkCountdownElement(); }  catch (e) {}
     }
 
+    window.addEventListener('load', recheckAll);
+    window.addEventListener('pageshow', recheckAll);
+    window.addEventListener('focus', recheckAll);
 
-    // Проверка #countdown каждую секунду
-    setInterval(() => {
-
-        checkCountdownElement();
-
-    }, 1000);
-
-
-    // =========================================================
-    // OBSERVER ДЛЯ #countdown
-    // =========================================================
-
-    const countdownObserver =
-        new MutationObserver(() => {
-
-            checkCountdownElement();
-
-        });
-
-    countdownObserver.observe(
-        document.documentElement,
-        {
-            childList: true,
-            subtree: true,
-            characterData: true,
-            attributes: true,
-            attributeFilter: [
-                'data-next'
-            ]
-        }
-    );
-
-
-    // =========================================================
-    // РЕЗЕРВНАЯ ПРОВЕРКА ОСТАЛЬНЫХ ТАЙМЕРОВ
-    // =========================================================
-
-    const backupChecker =
-        setInterval(() => {
-
-            if (switched) {
-
-                clearInterval(
-                    backupChecker
-                );
-
-                return;
-            }
-
-            checkForActiveTimer();
-
-        }, 500);
+    document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'visible') recheckAll();
+    });
 
 })();
