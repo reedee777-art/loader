@@ -35,10 +35,11 @@
        // 'cryptogem.space',
         // 'dmcrypto.site',
         //'freeflarcrypto.com',
-        'bigmobfaucet.com',
+               'tfaucet.com',
+        'bigmobfaucet.com'
         //'bitbitflow.online',
        // 'dogecoindrip.me',
-       'tfaucet.com'
+
     ];
 
     // Обычный переход
