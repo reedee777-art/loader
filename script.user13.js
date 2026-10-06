@@ -34,11 +34,11 @@
          'pocketfaucet.website',              
        // 'cryptogem.space',
         // 'dmcrypto.site',
-       // 'freeflarcrypto.com',
-        'bigmobfaucet.com'
+        'freeflarcrypto.com',
+        'bigmobfaucet.com',
         //'bitbitflow.online',
        // 'dogecoindrip.me',
-       //'tfaucet.com'
+       'tfaucet.com'
     ];
 
     // Обычный переход
