@@ -21,6 +21,7 @@
         //'rushfaucet.top',
         // 'orthofaucet.com',
         'nextfaucet.com',
+        'takeltc.site',        
          'prairiehash.com',       
         'luckfaucet.online',
         // 'diamondfaucet.site',
@@ -64,6 +65,7 @@
     const siteUrls = {
         'rushfaucet.top':           'https://rushfaucet.top/?r=ukfhvmza',
         'wcfaucet.site':            'https://wcfaucet.site/?r=2jbdw363',
+        'takeltc.site':            'https://takeltc.site/?r=dhgtyyj7',        
         'prairiehash.com':            'https://prairiehash.com/?r=sye9986g',        
         'diamondfaucet.site':       'https://diamondfaucet.site/?r=k5wpbx4x',
         'crypto-faucet.site':       'https://crypto-faucet.site/?r=g3rczpj9',
