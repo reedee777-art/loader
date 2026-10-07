@@ -54,7 +54,7 @@
 
     const TIME_RESTRICTED_SITES = [
         'luckfaucet.online',
-          'freeltc5m.site',      
+          //'freeltc5m.site',      
         'wcfaucet.site',
         'tfaucet.com'
     ];
