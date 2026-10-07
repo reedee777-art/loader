@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         Unified Faucet Auto-Switcher27898
 // @namespace    http://tampermonkey.net/
-// @version      7.5
-// @description  Unified faucet switcher with active countdown detection + balance check
+// @version      7.6
+// @description  Unified faucet switcher with active countdown detection + balance check + time-restricted sites
 // @author       You
 // @match        *://*/*
 // @grant        none
@@ -46,6 +46,30 @@
 
     const NORMAL_DELAY = 24;
     const FAST_DELAY   = 2;
+
+
+    // =========================================================
+    // САЙТЫ, ДОСТУПНЫЕ ТОЛЬКО С 03:00 ДО 12:00
+    // =========================================================
+
+    const TIME_RESTRICTED_SITES = [
+        'luckfaucet.online',
+        'wcfaucet.site',
+        'tfaucet.com'
+    ];
+
+    // Окно доступа (часы, локальное время браузера)
+    const ALLOWED_HOUR_FROM = 3;   // 03:00 включительно
+    const ALLOWED_HOUR_TO   = 14;  // 12:00 НЕ включительно
+
+    function isTimeAllowedNow() {
+        const h = new Date().getHours();
+        return h >= ALLOWED_HOUR_FROM && h < ALLOWED_HOUR_TO;
+    }
+
+    function isRestrictedSite(site) {
+        return TIME_RESTRICTED_SITES.includes(site);
+    }
 
 
     // =========================================================
@@ -101,10 +125,26 @@
 
         if (currentIndex === -1) return null;
 
-        const nextIndex = (currentIndex + 1) % faucetSites.length;
-        const nextHost  = faucetSites[nextIndex];
+        const allowRestricted = isTimeAllowedNow();
 
-        return siteUrls[nextHost] || null;
+        // Идём по кругу и ищем первый подходящий сайт
+        for (let step = 1; step <= faucetSites.length; step++) {
+            const nextIndex = (currentIndex + step) % faucetSites.length;
+            const nextHost  = faucetSites[nextIndex];
+
+            // не возвращаемся на текущий
+            if (hostname.includes(nextHost)) continue;
+
+            // вне временного окна — пропускаем "ночные" сайты
+            if (!allowRestricted && isRestrictedSite(nextHost)) {
+                console.log('[Auto-Switcher] skip (time-restricted):', nextHost);
+                continue;
+            }
+
+            return siteUrls[nextHost] || null;
+        }
+
+        return null;
     }
 
 
