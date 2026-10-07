@@ -32,7 +32,7 @@
         // 'heavenltc.site',
          'wcfaucet.site',
         //'faaset.com',
-         //'mooncrypto.space',
+         'mooncrypto.space',
        // 'pkfaucet.top',
         'pocketfaucet.website',
         // 'cryptogem.space',
@@ -54,6 +54,7 @@
 
     const TIME_RESTRICTED_SITES = [
         'luckfaucet.online',
+          'freeltc5m.site',      
         'wcfaucet.site',
         'tfaucet.com'
     ];
