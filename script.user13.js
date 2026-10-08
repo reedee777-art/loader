@@ -24,7 +24,7 @@
              'earnon.site',
         'pocketfaucet.website',        
         //'takeltc.site',        
-         'prairiehash.com',       
+         //'prairiehash.com',       
         //'luckfaucet.online',
         //'easyfaucet.io',        
         // 'diamondfaucet.site',
