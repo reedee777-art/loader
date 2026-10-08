@@ -34,7 +34,7 @@
         // 'heavenltc.site',
          'wcfaucet.site',
         //'faaset.com',
-         'mooncrypto.space',
+        // 'mooncrypto.space',
         'pkfaucet.top',
         // 'cryptogem.space',
         // 'dmcrypto.site',
