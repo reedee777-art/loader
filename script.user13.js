@@ -25,7 +25,7 @@
         //'takeltc.site',        
          'prairiehash.com',       
         //'luckfaucet.online',
-        'easyfaucet.io',        
+        //'easyfaucet.io',        
         // 'diamondfaucet.site',
         'crypto-faucet.site',
         // 'mycryptocoin.click',
