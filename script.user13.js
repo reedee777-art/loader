@@ -21,6 +21,7 @@
         //'rushfaucet.top',
         // 'orthofaucet.com',
         'nextfaucet.com',
+             'earnon.site',
         'pocketfaucet.website',        
         //'takeltc.site',        
          'prairiehash.com',       
@@ -91,6 +92,7 @@
     const siteUrls = {
         'rushfaucet.top':           'https://rushfaucet.top/?r=ukfhvmza',
         'wcfaucet.site':            'https://wcfaucet.site/?r=2jbdw363',
+        'earnon.site':            'https://earnon.site/?r=5djd7bp7',        
         'easyfaucet.io':            'https://easyfaucet.io/?r=47meweqv',        
         'takeltc.site':            'https://takeltc.site/?r=dhgtyyj7',        
         'prairiehash.com':            'https://prairiehash.com/?r=sye9986g',        
