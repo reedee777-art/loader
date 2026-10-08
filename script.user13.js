@@ -25,7 +25,7 @@
         //'takeltc.site',        
          'prairiehash.com',       
         //'luckfaucet.online',
-        //'freeltc5m.site',        
+        'easyfaucet.io',        
         // 'diamondfaucet.site',
         'crypto-faucet.site',
         // 'mycryptocoin.click',
@@ -91,7 +91,7 @@
     const siteUrls = {
         'rushfaucet.top':           'https://rushfaucet.top/?r=ukfhvmza',
         'wcfaucet.site':            'https://wcfaucet.site/?r=2jbdw363',
-        'freeltc5m.site':            'https://freeltc5m.site/',        
+        'easyfaucet.io':            'https://easyfaucet.io/?r=47meweqv',        
         'takeltc.site':            'https://takeltc.site/?r=dhgtyyj7',        
         'prairiehash.com':            'https://prairiehash.com/?r=sye9986g',        
         'diamondfaucet.site':       'https://diamondfaucet.site/?r=k5wpbx4x',
