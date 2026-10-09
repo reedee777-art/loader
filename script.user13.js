@@ -22,20 +22,20 @@
         // 'orthofaucet.com',
         'nextfaucet.com',
              'earnon.site',
-        'pocketfaucet.website',        
+        'pocketfaucet.website',   
+          'crypto-faucet.site',
         //'takeltc.site',        
          //'prairiehash.com',       
         //'luckfaucet.online',
         //'easyfaucet.io',        
         // 'diamondfaucet.site',
-        'crypto-faucet.site',
         // 'mycryptocoin.click',
         //'megafaucet.top',
         // 'heavenltc.site',
          'wcfaucet.site',
         //'faaset.com',
         // 'mooncrypto.space',
-        'pkfaucet.top',
+        //'pkfaucet.top',
         // 'cryptogem.space',
         // 'dmcrypto.site',
         //'freeflarcrypto.com',
@@ -62,7 +62,7 @@
 
     // Окно доступа (часы, локальное время браузера)
     const ALLOWED_HOUR_FROM = 3;   // 03:00 включительно
-    const ALLOWED_HOUR_TO   = 14;  // 12:00 НЕ включительно
+    const ALLOWED_HOUR_TO   = 12;  // 12:00 НЕ включительно
 
     function isTimeAllowedNow() {
         const h = new Date().getHours();
