@@ -24,7 +24,7 @@
              'earnon.site',
         'zerpayz.com',
         'patti.click',        
-        //'pocketfaucet.website',   
+        'pocketfaucet.website',   
                 //'pkfaucet.top',
         //'takeltc.site',        
          //'prairiehash.com',       
