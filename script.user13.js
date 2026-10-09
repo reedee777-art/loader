@@ -22,8 +22,8 @@
         // 'orthofaucet.com',
         'nextfaucet.com',
              'earnon.site',
-        'pocketfaucet.website',   
-          'crypto-faucet.site',
+        //'pocketfaucet.website',   
+                //'pkfaucet.top',
         //'takeltc.site',        
          //'prairiehash.com',       
         //'luckfaucet.online',
@@ -35,12 +35,12 @@
          'wcfaucet.site',
         //'faaset.com',
         // 'mooncrypto.space',
-        //'pkfaucet.top',
         // 'cryptogem.space',
         // 'dmcrypto.site',
         //'freeflarcrypto.com',
          'tfaucet.com',
-        'bigmobfaucet.com'
+       // 'bigmobfaucet.com',
+          'crypto-faucet.site'     
         //'bitbitflow.online',
         //'dogecoindrip.me',
     ];
