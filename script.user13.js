@@ -20,7 +20,7 @@
     const faucetSites = [
         //'rushfaucet.top',
         // 'orthofaucet.com',
-       // 'nextfaucet.com',
+        'nextfaucet.com',
              'earnon.site',
         'zerpayz.com',
         'patti.click',        
@@ -36,7 +36,7 @@
         // 'heavenltc.site',
          'wcfaucet.site',
         //'faaset.com',
-        // 'mooncrypto.space',
+         'mooncrypto.space',
         // 'cryptogem.space',
         // 'dmcrypto.site',
         //'freeflarcrypto.com',
@@ -57,6 +57,8 @@
 
     const TIME_RESTRICTED_SITES = [
         'luckfaucet.online',
+		 'zerpayz.com',
+        'patti.click', 
           //'freeltc5m.site',      
         'wcfaucet.site',
         'tfaucet.com'
