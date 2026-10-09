@@ -20,7 +20,7 @@
     const faucetSites = [
         //'rushfaucet.top',
         // 'orthofaucet.com',
-        'nextfaucet.com',
+       // 'nextfaucet.com',
              'earnon.site',
         //'pocketfaucet.website',   
                 //'pkfaucet.top',
