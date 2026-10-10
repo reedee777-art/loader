@@ -41,8 +41,8 @@
         // 'dmcrypto.site',
         //'freeflarcrypto.com',
          'tfaucet.com',
-        'bigmobfaucet.com',
-          'crypto-faucet.site'     
+        'bigmobfaucet.com'
+         // 'crypto-faucet.site'     
         //'bitbitflow.online',
         //'dogecoindrip.me',
     ];
