@@ -31,7 +31,7 @@
         //'luckfaucet.online',
         //'easyfaucet.io',        
         // 'diamondfaucet.site',
-        // 'mycryptocoin.click',
+         'mycryptocoin.click',
         //'megafaucet.top',
         // 'heavenltc.site',
         // 'wcfaucet.site',
