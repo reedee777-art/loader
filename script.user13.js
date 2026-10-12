@@ -49,7 +49,7 @@
     ];
 
     const NORMAL_DELAY = 24;
-    const FAST_DELAY   = 6;
+    const FAST_DELAY   = 2;
 
 
     // =========================================================
