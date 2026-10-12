@@ -435,17 +435,23 @@
     // #clock
     // =========================================================
 
-    function checkClock() {
-        const element = document.querySelector('#clock');
-        if (!element) return false;
+function checkClock() {
+    const element = document.querySelector('#clock');
+    if (!element) return false;
 
-        const text = element.textContent.replace(/\u00A0/g, ' ').trim();
-        const total = parseTimerText(text);
+    const text = element.textContent.replace(/\u00A0/g, ' ').trim();
 
-        if (!total || total <= 0) return false;
-        return `clock: ${text}`;
-    }
+    // #clock часто используется как "текущее время" (UTC/GMT) — не таймер
+    if (/\b(UTC|GMT)\b/i.test(text)) return false;
 
+    // Дополнительно: если это просто HH:MM:SS без подписи cooldown/wait — игнор
+    // (раскомментируйте, если ещё где-то ловит)
+    // if (/^\d{1,2}:\d{2}:\d{2}$/.test(text)) return false;
+
+    const total = parseTimerText(text);
+    if (!total || total <= 0) return false;
+    return `clock: ${text}`;
+}
 
     // =========================================================
     // UNTIL CLAIM
