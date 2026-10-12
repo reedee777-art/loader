@@ -22,7 +22,6 @@
         // 'orthofaucet.com',
         //'nextfaucet.com',
 		'instafaucet4gamers.xyz',
-		https://instafaucet4gamers.xyz/?r=bgaa9uh8
             // 'earnon.site',
        // 'zerpayz.com',
        // 'patti.click',        
