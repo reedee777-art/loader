@@ -21,6 +21,8 @@
         //'rushfaucet.top',
         // 'orthofaucet.com',
         //'nextfaucet.com',
+		'instafaucet4gamers.xyz',
+		https://instafaucet4gamers.xyz/?r=bgaa9uh8
             // 'earnon.site',
        // 'zerpayz.com',
        // 'patti.click',        
@@ -101,6 +103,7 @@
         'takeltc.site':            'https://takeltc.site/?r=dhgtyyj7',     
         'zerpayz.com':            'https://zerpayz.com/#claim',
 		'patti.click':            'https://patti.click/',        
+        'instafaucet4gamers.xyz':            'https://instafaucet4gamers.xyz/?r=bgaa9uh8',		
         'prairiehash.com':            'https://prairiehash.com/?r=sye9986g',        
         'diamondfaucet.site':       'https://diamondfaucet.site/?r=k5wpbx4x',
         'crypto-faucet.site':       'https://crypto-faucet.site/?r=g3rczpj9',
