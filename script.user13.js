@@ -30,7 +30,7 @@
                 //'pkfaucet.top',
         //'takeltc.site',        
          //'prairiehash.com',       
-        //'luckfaucet.online',
+        'luckfaucet.online',
         //'easyfaucet.io',        
         // 'diamondfaucet.site',
          //'mycryptocoin.click',
