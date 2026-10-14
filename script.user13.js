@@ -22,7 +22,7 @@
         // 'orthofaucet.com',
         //'nextfaucet.com',
 		'instafaucet4gamers.xyz',
-		       // 'cryptosugar.site',
+		        'cryptosugar.site',
             // 'earnon.site',
        // 'zerpayz.com',
        // 'patti.click',        
@@ -676,11 +676,34 @@ function checkClock() {
 
 
     // =========================================================
+    // +++ ДОБАВЛЕНО: ПРОВЕРКА СТРАНИЦЫ /claim ДЛЯ CRYPTOSUGAR +++
+    // При заходе на https://cryptosugar.site/claim
+    // запускаем быстрый таймер (2 секунды) и уходим на след. сайт
+    // =========================================================
+
+    function checkCryptoSugarClaimPage() {
+        if (switched || fastSwitchStarted) return false;
+
+        if (hostname.includes('cryptosugar.site') &&
+            window.location.pathname.startsWith('/claim')) {
+            console.log('[Auto-Switcher] CryptoSugar /claim page detected → fast switch');
+            startFastTimer('cryptosugar.site/claim page');
+            return true;
+        }
+
+        return false;
+    }
+
+
+    // =========================================================
     // ОБЩАЯ ПРОВЕРКА ВСЕХ ТАЙМЕРОВ
     // =========================================================
 
     function checkForActiveTimer() {
         if (switched) return;
+
+        // +++ ДОБАВЛЕНО: спец. проверка страницы /claim для cryptosugar +++
+        if (checkCryptoSugarClaimPage()) return;
 
         // ↓↓↓ Сначала #countdown — самый частый случай ↓↓↓
         if (checkCountdownElement()) return;
