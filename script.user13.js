@@ -58,7 +58,7 @@
     // =========================================================
 
     const TIME_RESTRICTED_SITES = [
-        'luckfaucet.online',
+       // 'luckfaucet.online',
 		 'zerpayz.com',
         'patti.click', 
           //'freeltc5m.site',      
