@@ -22,7 +22,7 @@
         // 'orthofaucet.com',
         //'nextfaucet.com',
 		'instafaucet4gamers.xyz',
-		        'cryptosugar.site',
+		       // 'cryptosugar.site',
             // 'earnon.site',
        // 'zerpayz.com',
        // 'patti.click',        
