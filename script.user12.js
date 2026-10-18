@@ -2,7 +2,7 @@
 // @name         FaucetPay Auto Swap → LTC (≥ $0.01, авто)
 // @namespace    https://faucetpay.io/
 // @version      3.1
-// @description  Авто-обмен всех монет ≥ $0.01 (кроме LTC и BTC) на LTC через 4с
+// @description  Авто-обмен всех монет ≥ $0.01 (кроме SOL и BTC) на LTC через 4с
 // @match        https://faucetpay.io/*
 // @match        https://*.faucetpay.io/*
 // @grant        none
@@ -13,8 +13,8 @@
   'use strict';
 
   const MIN_USD      = 0.01;
-  const FROM_EXCLUDE = ['LTC', 'BTC'];   // ← BTC исключён
-  const TO_COIN      = 'LTC';
+  const FROM_EXCLUDE = ['SOL', 'BTC'];   // ← BTC исключён
+  const TO_COIN      = 'SOL';
   const AUTO_DELAY   = 4000;             // ← авто-старт через 4 секунды
 
   const sleep = ms => new Promise(r => setTimeout(r, ms));
