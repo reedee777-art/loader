@@ -25,7 +25,7 @@
 		        'cryptosugar.site',
             // 'earnon.site',
        // 'zerpayz.com',
-       // 'patti.click',        
+        'patti.click',        
        // 'pocketfaucet.website',   
                 //'pkfaucet.top',
         //'takeltc.site',        
