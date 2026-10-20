@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         FaucetPay Auto Login & Authorize
 // @namespace    http://tampermonkey.net/
-// @version      2.0
-// @description  Автоклик Sign in with FaucetPay и Authorize
+// @version      2.1
+// @description  Автоклик Sign in with FaucetPay и Authorize (без клика по «Reward levels»)
 // @match        *://*/*
 // @grant        none
 // ==/UserScript==
@@ -13,10 +13,23 @@
     let loginScheduled = false;
     let authScheduled = false;
 
+    // Кнопки, которые НЕ нужно нажимать (например, внутри блока Reward levels)
+    const EXCLUDED_SELECTORS = [
+        'section.level-card',
+        'section.level-signed-out',
+        '.level-card'
+    ];
+
+    function isExcluded(el) {
+        return EXCLUDED_SELECTORS.some(sel => el.closest(sel));
+    }
+
     function findLogin() {
-        return document.querySelector(
-            'a.button.button-primary[href="/auth/login"]'
-        );
+        return [...document.querySelectorAll('a.button.button-primary[href="/auth/login"]')]
+            .find(a =>
+                !isExcluded(a) &&
+                a.textContent.trim() !== 'Sign in to start earning levels'
+            );
     }
 
     function findAuthorize() {
@@ -33,7 +46,7 @@
             console.log('[Auto] Login найден → ждём 3 сек');
 
             setTimeout(() => {
-                if (document.body.contains(btn)) {
+                if (document.body.contains(btn) && !isExcluded(btn)) {
                     btn.click();
                     console.log('[Auto] Login нажат');
                 }
@@ -62,9 +75,7 @@
                     return;
                 }
 
-                // Обычный клик
                 btn.click();
-
                 console.log('[Auto] Authorize нажат');
                 authScheduled = false;
 
@@ -77,7 +88,6 @@
         clickAuthorize();
     }
 
-    // Отслеживание динамически появляющихся элементов
     const observer = new MutationObserver(check);
     observer.observe(document.documentElement, {
         childList: true,
