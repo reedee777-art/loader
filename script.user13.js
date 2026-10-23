@@ -61,6 +61,7 @@
        // 'luckfaucet.online',
 		 'zerpayz.com',
         'patti.click', 
+        'luckfaucet.online',
           //'freeltc5m.site',      
         'wcfaucet.site',
         'tfaucet.com'
