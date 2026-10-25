@@ -21,7 +21,7 @@
         //'rushfaucet.top',
         // 'orthofaucet.com',
         //'nextfaucet.com',
-		'instafaucet4gamers.xyz',
+		//'instafaucet4gamers.xyz',
 		       // 'cryptosugar.site',
             // 'earnon.site',
        // 'zerpayz.com',
