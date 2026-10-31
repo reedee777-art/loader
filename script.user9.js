@@ -10,14 +10,14 @@
 // @run-at       document-idle
 // ==/UserScript==
 
-(function() {
-    'use strict';
+//(function() {
+  //  'use strict';
 
-    const targetUrl = 'about:blank';
+  //  const targetUrl = 'about:blank';
 
     // 🔹 Фразы, при которых будет редирект
-    const triggerPhrases = [
-        'Only limit 40 claim!',
+  //  const triggerPhrases = [
+  //      'Only limit 40 claim!',
         'Only limit 41 claim!',
         'Daily claim limit reached',
          'temporarily suspended',
