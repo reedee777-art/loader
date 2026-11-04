@@ -69,7 +69,7 @@
 
     // Окно доступа (часы, локальное время браузера)
     const ALLOWED_HOUR_FROM = 3;   // 03:00 включительно
-    const ALLOWED_HOUR_TO   = 10;  // 12:00 НЕ включительно
+    const ALLOWED_HOUR_TO   = 15;  // 12:00 НЕ включительно
 
     function isTimeAllowedNow() {
         const h = new Date().getHours();
